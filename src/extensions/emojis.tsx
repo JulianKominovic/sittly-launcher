@@ -1,9 +1,8 @@
 import { BaseModule } from "./base";
 import * as unicodeEmoji from "unicode-emoji";
+const emojis = unicodeEmoji.getEmojis();
 import { copyToClipboard, pasteToCurrentWindow } from "../services/clipboard";
 import { BsClipboard } from "react-icons/bs";
-
-const emojis = unicodeEmoji.getEmojis();
 
 export const emojiModule = new BaseModule(
   "Emojis",

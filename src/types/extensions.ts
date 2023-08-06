@@ -1,33 +1,12 @@
-import React from "react";
+import React, { ReactNode } from "react";
+import { ListItem } from "../ui/shadcn/ui/own_command";
 
-export interface AuxActions {
-  title: string;
-  onClick: () => void;
-  description?: string;
-  icon?: React.ReactNode;
-}
-
-export interface ModuleItem {
-  title: string;
+export type ExtensionPage = {
+  route: `/${string}`;
+  component: ReactNode | Element | (() => React.JSX.Element);
+  name: string;
   description: string;
-  icon: React.ReactNode;
-  actionName: string;
-  onClick: () => void;
-  auxActions?: AuxActions[];
-}
+  icon: ReactNode | Element;
+};
 
-export interface ModulePage {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  items?: ModuleItem[];
-  component?: React.ReactNode;
-}
-
-export interface Module {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  items?: ModuleItem[];
-  pages?: ModulePage[];
-}
+export type ExtensionItems = () => ListItem[];

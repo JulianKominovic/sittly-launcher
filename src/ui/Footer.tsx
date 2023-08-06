@@ -11,23 +11,6 @@ import {
 import * as Popover from "@radix-ui/react-popover";
 import Kbd from "./Kbd";
 import clsx from "clsx";
-const STATE = {
-  tasks: [
-    {
-      title: "Saving post...",
-      status: "IN_PROGRESS",
-    },
-
-    {
-      title: "Failed to save post",
-      status: "FAILED",
-    },
-    {
-      title: "Post saved",
-      status: "SUCCESS",
-    },
-  ],
-};
 
 const calculateAsyncTasksUtils = (
   tasks: { title: string; status: "FAILED" | "SUCCESS" | "IN_PROGRESS" }[]
@@ -80,9 +63,9 @@ const RenderFooterStatus = () => {
   const { musicState } = useServices((state) => ({
     musicState: state.music,
   }));
-  const asyncTaskUtils = calculateAsyncTasksUtils(STATE.tasks as any);
+  const asyncTaskUtils = calculateAsyncTasksUtils([]);
 
-  if (STATE.tasks) {
+  if (false) {
     return (
       <div className="flex items-center gap-2">
         <BsDot
@@ -143,8 +126,8 @@ export default function ({ commandRefInput }) {
   return (
     <footer
       className={clsx(
-        calculateAsyncTasksUtils(STATE.tasks as any).background,
-        calculateAsyncTasksUtils(STATE.tasks as any).border,
+        calculateAsyncTasksUtils([]).background,
+        calculateAsyncTasksUtils([]).border,
         "flex items-center justify-between h-10 px-2 text-sm border-t text-slate-600 bg-gradient-to-r from-green-50 to-yellow-50"
       )}
     >

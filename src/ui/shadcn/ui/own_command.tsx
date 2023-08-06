@@ -23,6 +23,16 @@ import { AuxActions } from "../../../types/extensions";
 import { useServices } from "../../../services";
 import { LightningBoltIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import {
+  useLocation,
+  useMatch,
+  useNavigate,
+  useNavigation,
+  useNavigationType,
+} from "react-router-dom";
+import { BsBack, BsSkipBackward } from "react-icons/bs";
+import { IoMdArrowBack } from "react-icons/io";
+import { SkipBack } from "lucide-react";
 
 function filterItems<T extends ListItem>(items: T[], search: string) {
   return items.filter((item) => {
@@ -354,20 +364,34 @@ const Input = forwardRef(
     ref
   ) => {
     const { search, setSearch, setCurrentItemIndex } = useContext(ListContext);
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
     return (
-      <input
-        ref={ref as any}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setCurrentItemIndex(0);
-        }}
-        value={search}
-        className={cn(
-          "flex h-11 w-full bg-transparent py-2 px-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-b",
-          className
+      <div className="flex items-center gap-2">
+        {pathname !== "/" && (
+          <button
+            className="flex items-center justify-center px-2 py-1 mx-2 rounded-full bg-neutral-200 text-neutral-foreground"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            <IoMdArrowBack />
+          </button>
         )}
-        {...props}
-      />
+        <input
+          ref={ref as any}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentItemIndex(0);
+          }}
+          value={search}
+          className={cn(
+            "flex h-11 w-full bg-transparent py-2 px-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-b",
+            className
+          )}
+          {...props}
+        />
+      </div>
     );
   }
 );
