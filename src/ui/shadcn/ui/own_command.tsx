@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { cn, textContent } from "../../../lib/utils";
+import { cn, eventIsFromContextMenu, textContent } from "../../../lib/utils";
 import {
   Virtuoso,
   VirtuosoGrid,
@@ -146,16 +146,11 @@ const List = ({
     return filteredItems.length === 0 ? noResultItems : filteredItems;
   }, [items, search]);
 
-  const contextMenuIsOpen = useServices((state) => state.contextMenuIsOpen);
+  const isContextMenuOpen = useServices((state) => state.isContextMenuOpen);
   const keyDownCallback = (e: KeyboardEvent) => {
     // Ignore all events from the context menu
-    if (
-      (e.target as HTMLInputElement).attributes.getNamedItem(
-        "data-is-context-menu"
-      )
-    )
-      return;
-    if (contextMenuIsOpen) return;
+    if (eventIsFromContextMenu(e)) return;
+    if (isContextMenuOpen) return;
     let nextIndex: number = currentItemIndex;
 
     if (e.code === "ArrowUp") {
@@ -228,17 +223,12 @@ const Grid = ({
       areFallbackItems: filteredItems.length === 0,
     };
   }, [items, search]);
-  const contextMenuIsOpen = useServices((state) => state.contextMenuIsOpen);
+  const isContextMenuOpen = useServices((state) => state.isContextMenuOpen);
 
   const keyDownCallback = (e: KeyboardEvent) => {
     // Ignore all events from the context menu
-    if (
-      (e.target as HTMLInputElement).attributes.getNamedItem(
-        "data-is-context-menu"
-      )
-    )
-      return;
-    if (contextMenuIsOpen) return;
+    if (eventIsFromContextMenu(e)) return;
+    if (isContextMenuOpen) return;
     let nextIndex: number = currentItemIndex;
 
     if (e.code === "ArrowUp") {
@@ -423,10 +413,10 @@ const Input = forwardRef(
     const navigate = useNavigate();
 
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 border-b">
         {pathname !== "/" && (
           <button
-            className="flex items-center justify-center px-2 py-1 mx-2 rounded-lg bg-neutral-200 text-neutral-foreground"
+            className="flex items-center justify-center px-2 py-1 ml-2 bg-transparent rounded-lg hover:bg-neutral-200 text-neutral-foreground"
             onClick={() => {
               navigate(-1);
             }}
@@ -442,7 +432,7 @@ const Input = forwardRef(
           }}
           value={search}
           className={cn(
-            "flex h-11 w-full bg-transparent py-2 px-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-b",
+            "flex h-11 w-full bg-transparent py-2 px-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 ",
             className
           )}
           {...props}

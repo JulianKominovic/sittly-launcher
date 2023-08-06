@@ -1,9 +1,8 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsDot, BsMusicNote } from "react-icons/bs";
 import { useServices } from "../services";
 import {
   Command,
-  CommandDialog,
   CommandInput,
   CommandItem,
   CommandList,
@@ -93,11 +92,11 @@ const RenderFooterStatus = () => {
 };
 
 export default function ({ commandRefInput }) {
-  const { contexMenuOptions, contextMenuIsOpen, setContextMenuIsOpen } =
+  const { contexMenuOptions, isContextMenuOpen, setContextMenuIsOpen } =
     useServices((state) => ({
       contexMenuOptions: state.contextMenuOptions,
       setContextMenuIsOpen: state.setContextMenuIsOpen,
-      contextMenuIsOpen: state.contextMenuIsOpen,
+      isContextMenuOpen: state.isContextMenuOpen,
     }));
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const setContextMenuVisibility = (bool: boolean) => {
@@ -106,7 +105,7 @@ export default function ({ commandRefInput }) {
   };
   const toggleContextMenuVisibility = () => {
     setShowMoreOptions((prev) => !prev);
-    setContextMenuIsOpen(!contextMenuIsOpen);
+    setContextMenuIsOpen(!isContextMenuOpen);
   };
 
   useEffect(() => {
@@ -121,7 +120,7 @@ export default function ({ commandRefInput }) {
     return () => {
       window.removeEventListener("keydown", callback);
     };
-  }, [contexMenuOptions, contextMenuIsOpen, setContextMenuIsOpen]);
+  }, [contexMenuOptions, isContextMenuOpen, setContextMenuIsOpen]);
 
   return (
     <footer

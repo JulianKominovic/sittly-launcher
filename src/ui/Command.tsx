@@ -1,11 +1,4 @@
-import { IconJarLogoIcon } from "@radix-ui/react-icons";
-import { appWindow } from "@tauri-apps/api/window";
-import React, { forwardRef, memo, useState } from "react";
-import modules from "../extensions";
-import { emojiModule } from "../extensions/emojis";
-
-import { cn } from "../lib/utils";
-import { useServices } from "../services";
+import React, { forwardRef } from "react";
 
 import { SittlyCommand } from "./shadcn/ui/own_command";
 

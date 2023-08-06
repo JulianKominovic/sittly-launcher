@@ -41,3 +41,9 @@ export function textContent(elem: React.ReactElement | string): string {
   }
   return textContent(children);
 }
+
+export const eventIsFromContextMenu = (event: KeyboardEvent) => {
+  return (event.target as HTMLInputElement).attributes.getNamedItem(
+    "data-is-context-menu"
+  );
+};

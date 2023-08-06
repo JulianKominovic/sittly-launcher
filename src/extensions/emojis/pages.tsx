@@ -21,6 +21,7 @@ const Pages: ExtensionPage[] = [
                 onClick() {
                   pasteToCurrentWindow(emoji.emoji);
                 },
+                filteringText: emoji.description,
                 customChildren: <>{emoji.emoji}</>,
               };
             })}

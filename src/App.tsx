@@ -11,27 +11,44 @@ import {
   mapExtensionsItems,
   mapExtensionsPages,
 } from "./extensions/extension-assembly";
+import { eventIsFromContextMenu } from "./lib/utils";
+import { appWindow } from "@tauri-apps/api/window";
 
 const EventsRegister = () => {
-  const { setMusic, setInitialContextMenuOptions } = useServices((state) => ({
-    setMusic: state.setMusic,
-    setInitialContextMenuOptions: state.setInitialContextMenuOptions,
-  }));
-  const { goBack } = useRouter();
+  const { setMusic, setInitialContextMenuOptions, isContextMenuOpen } =
+    useServices((state) => ({
+      setMusic: state.setMusic,
+      setInitialContextMenuOptions: state.setInitialContextMenuOptions,
+      isContextMenuOpen: state.isContextMenuOpen,
+    }));
+  const { goBack, location } = useRouter();
 
   const handleKeydown = (e: KeyboardEvent) => {
     if (e.code === "Escape") {
+      if (eventIsFromContextMenu(e)) return;
+      if (isContextMenuOpen) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      if (location.pathname === "/") return appWindow.hide();
       goBack();
     }
   };
   const initialContextMenuOptions = mapExtensionsContextMenuItems();
   useEffect(() => {
+    window.addEventListener("keydown", handleKeydown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  }, [handleKeydown]);
+  useEffect(() => {
     const unlisten = registerMusicListener(setMusic);
     setInitialContextMenuOptions(initialContextMenuOptions);
-    window.addEventListener("keydown", handleKeydown);
+
     return () => {
       unlisten.then((unlisten) => unlisten());
-      window.removeEventListener("keydown", handleKeydown);
     };
   }, []);
   return null;

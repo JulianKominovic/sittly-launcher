@@ -22,6 +22,14 @@ First version of the UI, with all the components needed to build a launcher.
   - [x] Global context menu open flag
   - [x] Context menu items
 - [ ] Buttons
+- [ ] Input fields
+  - [ ] Select fields
+  - [ ] Input text
+  - [ ] Checkbox
+  - [ ] Radio
+  - [ ] Switch
+  - [ ] Slider
+  - [ ] Color picker
 - [ ] Links
 - [ ] Layouts
 
@@ -35,7 +43,7 @@ Until v4, this extensions will be kept private in the same repository, but in th
 
 - [ ] Extensions modeling
   - [ ] Metadata
-  - [ ] No results items
+  - [x] No results items
   - [x] Global context menu actions
   - [x] Pages (needs routing)
   - [x] Main actions (index screen)

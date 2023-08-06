@@ -10,7 +10,7 @@ type ContextTypes = {
   setMusic: (music: MusicServiceReturn) => void;
   contextMenuOptions: ListItem[];
   setContextMenuOptions: (contextMenuOptions: ListItem[]) => void;
-  contextMenuIsOpen: boolean;
+  isContextMenuOpen: boolean;
   /**
    * @IMPORTANT Internal use only. Do not use this function.
    */
@@ -42,9 +42,9 @@ const useServices = create<ContextTypes>((set, get) => ({
       contextMenuOptions:
         get().initialContextMenuOptions.concat(contextMenuOptions),
     }),
-  contextMenuIsOpen: false,
-  setContextMenuIsOpen: (contextMenuIsOpen: boolean) =>
-    set({ contextMenuIsOpen }),
+  isContextMenuOpen: false,
+  setContextMenuIsOpen: (isContextMenuOpen: boolean) =>
+    set({ isContextMenuOpen }),
   searchbarText: "",
   setSearchbarText: (searchbarText: string) => set({ searchbarText }),
   setInitialContextMenuOptions: (initialContextMenuOptions: any) =>
