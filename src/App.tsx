@@ -6,21 +6,11 @@ import { useServices } from "./services";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ListItem, SittlyCommand } from "./ui/shadcn/ui/own_command";
 import { useRouter } from "./services/router";
-
-const {
-  pages: assemblyPages,
-  items: assemblyItems,
-  contextMenuItems: assemblyContextMenuItems,
-} = await import("./extensions/extension-assembly");
-const awaitedPages = await Promise.all(assemblyPages);
-const mappedPages = awaitedPages.flatMap((page) => {
-  return page.default.map((page) => {
-    return page;
-  });
-});
-
-const awaitedItems = await Promise.all(assemblyItems);
-const awaitedContextMenuItems = await Promise.all(assemblyContextMenuItems);
+import {
+  mapExtensionsContextMenuItems,
+  mapExtensionsItems,
+  mapExtensionsPages,
+} from "./extensions/extension-assembly";
 
 const EventsRegister = () => {
   const { setMusic, setInitialContextMenuOptions } = useServices((state) => ({
@@ -34,11 +24,7 @@ const EventsRegister = () => {
       goBack();
     }
   };
-  const initialContextMenuOptions = awaitedContextMenuItems.flatMap((item) => {
-    return item.default().map((item) => {
-      return item;
-    });
-  });
+  const initialContextMenuOptions = mapExtensionsContextMenuItems();
   useEffect(() => {
     const unlisten = registerMusicListener(setMusic);
     setInitialContextMenuOptions(initialContextMenuOptions);
@@ -55,12 +41,8 @@ const App = () => {
   const commandRefInput = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   console.log("RENDER MAIN");
-
-  const mappedItems = awaitedItems.flatMap((item) => {
-    return item.default().map((item) => {
-      return item;
-    });
-  });
+  const mappedPages = mapExtensionsPages();
+  const mappedItems = mapExtensionsItems();
   const indexItems: ListItem[] = mappedPages
     .map((page) => {
       return {
@@ -78,10 +60,21 @@ const App = () => {
     <div className="flex flex-col h-full overflow-hidden">
       <Command ref={commandRefInput}>
         <Routes>
-          <Route path="/" element={<SittlyCommand.List items={indexItems} />} />
+          <Route
+            path="/"
+            element={
+              <SittlyCommand.List id="index-commands" items={indexItems} />
+            }
+          />
           {mappedPages.map((page) => {
-            //@ts-expect-error I don't know how to fix this
-            return <Route path={page.route} element={<page.component />} />;
+            return (
+              <Route
+                key={page.route}
+                path={page.route}
+                //@ts-expect-error I don't know how to fix this
+                element={<page.component />}
+              />
+            );
           })}
         </Routes>
       </Command>

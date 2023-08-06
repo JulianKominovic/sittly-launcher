@@ -14,6 +14,7 @@ const Pages: ExtensionPage[] = [
       return (
         <SittlyCommand.Root>
           <SittlyCommand.Grid
+            id="emojis-page-list"
             columns={4}
             items={emojis.map((emoji) => {
               return {

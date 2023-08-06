@@ -10,4 +10,5 @@ export type ExtensionPage = {
 };
 
 export type ExtensionItems = () => ListItem[];
+export type ExtensionNoResultItems = () => ListItem[];
 export type ExtensionContextMenuItems = () => ListItem[];

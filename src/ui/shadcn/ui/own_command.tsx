@@ -20,6 +20,7 @@ import { LightningBoltIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
+import { mapExtensionsNoResultItems } from "../../../extensions/extension-assembly";
 
 /**
  * Filtering priority goes from cheapest to most expensive computation wise
@@ -127,61 +128,65 @@ const Root = ({
 
 const List = ({
   items = [],
+  id,
 }: {
   items: ListItem[];
+  /**
+   *  You must provide an id to prevent unexpected behavior when the list is re-rendered
+   */
+  id: string;
 } & React.HTMLProps<HTMLDivElement>) => {
   const ref = useRef<VirtuosoHandle>(null);
   const _search = useServices((state) => state.searchbarText);
   const search = useDeferredValue(_search);
   const { setCurrentItemIndex, currentItemIndex } = useContext(ListContext);
-  const filteredItems = useMemo(
-    () => filterItems(items, search),
-    [items, search]
-  );
+  const noResultItems = mapExtensionsNoResultItems();
+  const filteredItems = useMemo(() => {
+    const filteredItems = filterItems(items, search);
+    return filteredItems.length === 0 ? noResultItems : filteredItems;
+  }, [items, search]);
+
   const contextMenuIsOpen = useServices((state) => state.contextMenuIsOpen);
-  const keyDownCallback = React.useCallback(
-    (e: KeyboardEvent) => {
-      // Ignore all events from the context menu
-      if (
-        (e.target as HTMLInputElement).attributes.getNamedItem(
-          "data-is-context-menu"
-        )
+  const keyDownCallback = (e: KeyboardEvent) => {
+    // Ignore all events from the context menu
+    if (
+      (e.target as HTMLInputElement).attributes.getNamedItem(
+        "data-is-context-menu"
       )
-        return;
-      if (contextMenuIsOpen) return;
-      let nextIndex: number = currentItemIndex;
+    )
+      return;
+    if (contextMenuIsOpen) return;
+    let nextIndex: number = currentItemIndex;
 
-      if (e.code === "ArrowUp") {
-        nextIndex = Math.max(0, currentItemIndex - 1);
-      }
-      if (e.code === "ArrowDown") {
-        nextIndex = Math.min(filteredItems.length - 1, currentItemIndex + 1);
-      }
-      if (e.code === "Enter") {
-        filteredItems[currentItemIndex]?.onClick?.();
-      }
+    if (e.code === "ArrowUp") {
+      nextIndex = Math.max(0, currentItemIndex - 1);
+    }
+    if (e.code === "ArrowDown") {
+      nextIndex = Math.min(filteredItems.length - 1, currentItemIndex + 1);
+    }
+    if (e.code === "Enter") {
+      filteredItems[currentItemIndex]?.onClick?.();
+    }
 
-      if (nextIndex !== null) {
-        ref.current?.scrollIntoView({
-          index: nextIndex,
-          behavior: "auto",
-        });
-        setCurrentItemIndex(nextIndex);
-      }
-    },
-    [currentItemIndex, ref, setCurrentItemIndex, contextMenuIsOpen]
-  );
-
+    if (nextIndex !== null) {
+      ref.current?.scrollIntoView({
+        index: nextIndex,
+        behavior: "auto",
+      });
+      setCurrentItemIndex(nextIndex);
+    }
+  };
   useEffect(() => {
     document.addEventListener("keydown", keyDownCallback);
     return () => {
       document.removeEventListener("keydown", keyDownCallback);
     };
-  }, [currentItemIndex, contextMenuIsOpen]);
+  }, [keyDownCallback]);
 
   return (
     <Virtuoso
-      className="mx-2"
+      key={id}
+      className="mx-2 my-2"
       ref={ref}
       data={filteredItems}
       itemContent={(index, item) => {
@@ -202,94 +207,106 @@ const List = ({
 const Grid = ({
   items = [],
   columns = 4,
+  id,
 }: {
   items: ListItem[];
   columns: number;
+  /**
+   * You must provide an id to prevent unexpected behavior when the list is re-rendered
+   * */
+  id: string;
 } & React.HTMLProps<HTMLDivElement>) => {
   const ref = useRef<VirtuosoGridHandle>(null);
   const _search = useServices((state) => state.searchbarText);
   const search = useDeferredValue(_search);
   const { setCurrentItemIndex, currentItemIndex } = useContext(ListContext);
-  const filteredItems = useMemo(
-    () => filterItems(items, search),
-    [items, search]
-  );
+  const noResultItems = mapExtensionsNoResultItems();
+  const { areFallbackItems, filteredItems } = useMemo(() => {
+    const filteredItems = filterItems(items, search);
+    return {
+      filteredItems: filteredItems.length === 0 ? noResultItems : filteredItems,
+      areFallbackItems: filteredItems.length === 0,
+    };
+  }, [items, search]);
   const contextMenuIsOpen = useServices((state) => state.contextMenuIsOpen);
 
-  const keyDownCallback = React.useCallback(
-    (e: KeyboardEvent) => {
-      // Ignore all events from the context menu
-      if (
-        (e.target as HTMLInputElement).attributes.getNamedItem(
-          "data-is-context-menu"
-        )
+  const keyDownCallback = (e: KeyboardEvent) => {
+    // Ignore all events from the context menu
+    if (
+      (e.target as HTMLInputElement).attributes.getNamedItem(
+        "data-is-context-menu"
       )
-        return;
-      if (contextMenuIsOpen) return;
-      let nextIndex: number = currentItemIndex;
+    )
+      return;
+    if (contextMenuIsOpen) return;
+    let nextIndex: number = currentItemIndex;
 
-      if (e.code === "ArrowUp") {
-        nextIndex = Math.max(0, currentItemIndex - columns);
-      }
-      if (e.code === "ArrowDown") {
-        nextIndex = Math.min(
-          filteredItems.length - 1,
-          currentItemIndex + columns
-        );
-      }
-      if (e.code === "ArrowLeft") {
-        nextIndex = Math.max(0, currentItemIndex - 1);
-      }
-      if (e.code === "ArrowRight") {
-        nextIndex = Math.min(filteredItems.length - 1, currentItemIndex + 1);
-      }
-      if (e.code === "Enter") {
-        filteredItems[currentItemIndex]?.onClick?.();
-      }
+    if (e.code === "ArrowUp") {
+      nextIndex = Math.max(0, currentItemIndex - columns);
+    }
+    if (e.code === "ArrowDown") {
+      nextIndex = Math.min(
+        filteredItems.length - 1,
+        currentItemIndex + columns
+      );
+    }
+    if (e.code === "ArrowLeft") {
+      nextIndex = Math.max(0, currentItemIndex - 1);
+    }
+    if (e.code === "ArrowRight") {
+      nextIndex = Math.min(filteredItems.length - 1, currentItemIndex + 1);
+    }
+    if (e.code === "Enter") {
+      filteredItems[currentItemIndex]?.onClick?.();
+    }
 
-      if (nextIndex !== null) {
-        ref.current?.scrollToIndex({
-          index: nextIndex,
-          behavior: "auto",
-          align: "center",
-        });
-        setCurrentItemIndex(nextIndex);
-      }
-    },
-    [currentItemIndex, ref, setCurrentItemIndex, columns, contextMenuIsOpen]
-  );
+    ref.current?.scrollToIndex({
+      index: nextIndex,
+      behavior: "auto",
+      align: "center",
+    });
+    setCurrentItemIndex(nextIndex);
+  };
 
   useEffect(() => {
     document.addEventListener("keydown", keyDownCallback);
     return () => {
       document.removeEventListener("keydown", keyDownCallback);
     };
-  }, [currentItemIndex, contextMenuIsOpen]);
+  }, [keyDownCallback]);
   return (
     <VirtuosoGrid
-      className="mx-2"
+      key={id}
+      className="mx-2 my-2"
       ref={ref}
       data={filteredItems}
       components={{
-        List: forwardRef((props, ref) => (
-          <main
-            ref={ref}
-            {...props}
-            style={{
-              ...props.style,
-              display: "grid",
-              gridTemplateColumns: `repeat(${columns}, 1fr)`,
-            }}
-          />
-        )),
+        List: forwardRef((props, ref) =>
+          areFallbackItems ? (
+            <div {...props} ref={ref} />
+          ) : (
+            <main
+              ref={ref}
+              {...props}
+              style={{
+                ...props.style,
+                display: "grid",
+                gridTemplateColumns: `repeat(${columns}, 1fr)`,
+              }}
+            />
+          )
+        ),
       }}
       itemContent={(index, item) => {
         return (
           <Item
             {...item}
             //@ts-expect-error private prop
-            displayType="GRID"
-            className={clsx("aspect-square h-auto", item.className)}
+            displayType={areFallbackItems ? "LIST" : "GRID"}
+            className={clsx(
+              areFallbackItems ? "" : "aspect-square h-auto",
+              item.className
+            )}
             key={item.title + index}
             index={index}
           />
