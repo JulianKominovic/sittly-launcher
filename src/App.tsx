@@ -15,18 +15,24 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import { pages } from "./extensions/extension-assembly";
 import { ListItem, SittlyCommand } from "./ui/shadcn/ui/own_command";
-import { IconJarLogoIcon } from "@radix-ui/react-icons";
 
 const EventsRegister = () => {
   const { setMusic } = useServices((state) => ({
     setMusic: state.setMusic,
   }));
+  const navigate = useNavigate();
+  const goBack = (e: KeyboardEvent) => {
+    if (e.code === "Escape") {
+      navigate(-1);
+    }
+  };
   useEffect(() => {
     const unlisten = registerMusicListener(setMusic);
+    window.addEventListener("keydown", goBack);
     return () => {
       unlisten.then((unlisten) => unlisten());
+      window.removeEventListener("keydown", goBack);
     };
   }, []);
   return null;

@@ -366,6 +366,7 @@ const Input = forwardRef(
     const { search, setSearch, setCurrentItemIndex } = useContext(ListContext);
     const { pathname } = useLocation();
     const navigate = useNavigate();
+
     return (
       <div className="flex items-center gap-2">
         {pathname !== "/" && (

@@ -37,15 +37,15 @@ Until v4, this extensions will be kept private in the same repository, but in th
   - [ ] Metadata
   - [ ] Commands
   - [ ] Global context menu actions
-  - [ ] Pages (needs routing)
-  - [ ] Main actions (index screen)
+  - [x] Pages (needs routing)
+  - [x] Main actions (index screen)
   - [ ] Readme
-- [ ] Navigation
-  - [ ] Routing
-  - [ ] Back button
+- [x] Navigation
+  - [x] Routing
+  - [x] Back button
   - [ ] Forward button
   - [ ] Home button
-  - [ ] Keyboards events
+  - [x] Keyboards events
 
 ### v3 (Hooks, SO integrations, services)
 

@@ -4,7 +4,11 @@ import * as unicodeEmoji from "unicode-emoji";
 import { useState } from "react";
 const emojis = unicodeEmoji.getEmojis();
 
-const items: () => ExtensionItems = () => {
+/**
+ * Extension items needs to be a function in order to use hooks
+ * @returns Extension items
+ */
+const items: ExtensionItems = () => {
   const [a, setA] = useState("a");
   return emojis.map((emoji) => {
     return {
