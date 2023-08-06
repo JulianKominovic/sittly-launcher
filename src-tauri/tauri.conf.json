@@ -17,6 +17,12 @@
         "all": false,
         "open": true
       },
+      "clipboard": {
+        "all": true
+      },
+      "globalShortcut": {
+        "all": true
+      },
       "window": {
         "all": false,
         "close": true,
@@ -26,7 +32,9 @@
         "minimize": false,
         "unmaximize": false,
         "unminimize": false,
-        "startDragging": true
+        "startDragging": true,
+        "center": true,
+        "setFocus": true
       }
     },
     "bundle": {
@@ -52,11 +60,8 @@
         "fullscreen": false,
         "resizable": false,
         "title": "tauri-terminal",
-        "width": 300,
-        "height": 80,
-        "minHeight": 0,
-        "minWidth": 0,
-        "maxHeight": 80,
+        "width": 600,
+        "height": 400,
         "decorations": false,
         "hiddenTitle": true,
         "alwaysOnTop": true,

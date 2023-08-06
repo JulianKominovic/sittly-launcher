@@ -1,65 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Music from "./modes/Music";
 import { invoke } from "@tauri-apps/api";
-import { listen } from "@tauri-apps/api/event";
+import { listen, once, UnlistenFn } from "@tauri-apps/api/event";
+import { BsApp, BsMusicNote } from "react-icons/bs";
+import Command from "./ui/Command";
+import Footer from "./ui/Footer";
+import { registerMusicListener } from "./services/music";
+import { useServices } from "./services";
+import MainActivity from "./ui/MainActivity";
 
-const list = {
-  hover: { height: 160, width: "100%" },
-  // initial: { scale: 1, height: 150, width: "100%" },
-  initial: { scale: 0 },
-  animate: { scale: 1 },
-};
-
-const item = {
-  hover: { scale: 1 },
-  initial: { scale: 0 },
-  // initial: { scale: 1 },
+const EventsRegister = () => {
+  const { setMusic } = useServices((state) => ({
+    setMusic: state.setMusic,
+  }));
+  useEffect(() => {
+    const unlisten = registerMusicListener(setMusic);
+    return () => {
+      unlisten.then((unlisten) => unlisten());
+    };
+  }, []);
+  return null;
 };
 
 const App = () => {
-  const [currentSeconds, setCurrentSeconds] = useState(0);
-  useEffect(() => {
-    listen("player_status", (event) => {
-      console.log(event);
-    });
-  }, []);
+  const commandRefInput = useRef<HTMLInputElement>(null);
+
+  console.log("RENDER MAIN");
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      whileHover="hover"
-      variants={list}
-      transition={{
-        type: "spring",
-        stiffness: 100,
-        bounce: 0.05,
-        mass: 0.5,
-        velocity: 2,
-      }}
-      className="w-40 h-8 mx-auto bg-black rounded-3xl"
-    >
-      <motion.main
-        className="w-full h-full px-4 py-2"
-        variants={item}
-        transition={{
-          velocity: 4,
-        }}
-      >
-        <Music
-          artist="The Weeknd"
-          name="Blinding Lights"
-          onSlide={(value) => {
-            setCurrentSeconds(value);
-          }}
-          onPlayPause={() => {
-            invoke("play_pause_music");
-          }}
-          currentSeconds={currentSeconds}
-          totalSeconds={300}
-        />
-      </motion.main>
-    </motion.div>
+    <div className="flex flex-col h-full overflow-hidden">
+      <Command ref={commandRefInput}>{/* <MainActivity /> */}</Command>
+      <Footer commandRefInput={commandRefInput} />
+      <EventsRegister />
+    </div>
   );
 };
 

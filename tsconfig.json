@@ -15,5 +15,9 @@
     "noImplicitReturns": true,
     "jsx": "preserve"
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "baseUrl": ".",
+  "paths": {
+    "@/*": ["./src/*"]
+  }
 }
