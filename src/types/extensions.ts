@@ -6,7 +6,8 @@ export type ExtensionPage = {
   component: ReactNode | Element | (() => React.JSX.Element);
   name: string;
   description: string;
-  icon: ReactNode | Element;
+  icon: ReactNode;
 };
 
 export type ExtensionItems = () => ListItem[];
+export type ExtensionContextMenuItems = () => ListItem[];

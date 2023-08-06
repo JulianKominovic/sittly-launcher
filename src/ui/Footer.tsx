@@ -128,7 +128,7 @@ export default function ({ commandRefInput }) {
       className={clsx(
         calculateAsyncTasksUtils([]).background,
         calculateAsyncTasksUtils([]).border,
-        "flex items-center justify-between h-10 px-2 text-sm border-t text-slate-600 bg-gradient-to-r from-green-50 to-yellow-50"
+        "flex items-center justify-between h-10 px-2 text-sm border-t text-slate-600 bg-gradient-to-r from-transparent to-transparent"
       )}
     >
       <RenderFooterStatus />

@@ -11,6 +11,9 @@ export type MusicServiceReturn = {
   status: "Playing" | "Paused" | "Stopped";
 };
 
+/**
+ * Requires `playerctl` to be installed on the system
+ */
 export function registerMusicListener(
   callback: (payload: MusicServiceReturn) => void
 ) {

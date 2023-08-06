@@ -35,27 +35,27 @@ Until v4, this extensions will be kept private in the same repository, but in th
 
 - [ ] Extensions modeling
   - [ ] Metadata
-  - [ ] Commands
-  - [ ] Global context menu actions
+  - [ ] No results items
+  - [x] Global context menu actions
   - [x] Pages (needs routing)
   - [x] Main actions (index screen)
   - [ ] Readme
 - [x] Navigation
   - [x] Routing
   - [x] Back button
-  - [ ] Forward button
-  - [ ] Home button
+  - [x] Forward button
+  - [x] Home button
   - [x] Keyboards events
 
 ### v3 (Hooks, SO integrations, services)
 
-- [ ] Searchbar hooks
-  - [ ] Value
-  - [ ] Placeholder
-- [ ] Clipboard hooks
-  - [ ] Copy
-  - [ ] Paste
-  - [ ] Paste to current window
+- [x] Searchbar hooks
+  - [x] Value
+  - [x] Placeholder
+- [x] Clipboard hooks
+  - [x] Copy
+  - [x] Paste
+  - [x] Paste to current window
 - [ ] Filesystem hooks
   - [ ] Open file
   - [ ] Open folder
@@ -64,10 +64,10 @@ Until v4, this extensions will be kept private in the same repository, but in th
 - [ ] System hooks
   - [ ] Open url
   - [ ] Open app
-- [ ] Router hooks
-  - [ ] Go back
-  - [ ] Go forward
-  - [ ] Go home
+- [x] Router hooks
+  - [x] Go back
+  - [x] Go forward
+  - [x] Go home
 - [ ] Async tasks
   - [ ] Async tasks indicator
   - [ ] Async tasks list

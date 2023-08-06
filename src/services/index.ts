@@ -1,26 +1,30 @@
-import React from "react";
 import { create } from "zustand";
-import { AuxActions } from "../types/extensions";
+import { ListItem } from "../ui/shadcn/ui/own_command";
 import { MusicServiceReturn } from "./music";
 
 type ContextTypes = {
   music: MusicServiceReturn;
+  /**
+   * @IMPORTANT Internal use only. Do not use this function.
+   */
   setMusic: (music: MusicServiceReturn) => void;
-  contextMenuOptions: AuxActions[];
-  setContextMenuOptions: (contextMenuOptions: AuxActions[]) => void;
+  contextMenuOptions: ListItem[];
+  setContextMenuOptions: (contextMenuOptions: ListItem[]) => void;
   contextMenuIsOpen: boolean;
+  /**
+   * @IMPORTANT Internal use only. Do not use this function.
+   */
   setContextMenuIsOpen: (contextMenuIsOpen: boolean) => void;
-  // notification: { message: string; status: "Success" | "Fail" | "InProgress" };
-  // notify: (
-  //   notification: {
-  //     message: string;
-  //     status: "Success" | "Fail" | "InProgress";
-  //   },
-  //   timeout: number
-  // ) => void;
+  searchbarText: string;
+  setSearchbarText: (searchbarText: string) => void;
+  /**
+   * @IMPORTANT Internal use only. Do not use this function.
+   */
+  setInitialContextMenuOptions: (initialContextMenuOptions: ListItem[]) => void;
+  initialContextMenuOptions: ListItem[];
 };
 
-const useServices = create<ContextTypes>((set) => ({
+const useServices = create<ContextTypes>((set, get) => ({
   music: {
     title: "",
     artist: "",
@@ -30,21 +34,25 @@ const useServices = create<ContextTypes>((set) => ({
     durationMillis: 0,
     status: "Stopped",
   },
+
   setMusic: (music: MusicServiceReturn) => set({ music }),
   contextMenuOptions: [],
   setContextMenuOptions: (contextMenuOptions: any) =>
-    set({ contextMenuOptions }),
+    set({
+      contextMenuOptions:
+        get().initialContextMenuOptions.concat(contextMenuOptions),
+    }),
   contextMenuIsOpen: false,
   setContextMenuIsOpen: (contextMenuIsOpen: boolean) =>
     set({ contextMenuIsOpen }),
-  // notify: (notification, timeout = 3000) => {
-  //   set({ notification });
-  //   setTimeout(
-  //     () => set({ notification: { message: "", status: "InProgress" } }),
-  //     timeout
-  //   );
-  // },
-  // notification: { message: "", status: "InProgress" },
+  searchbarText: "",
+  setSearchbarText: (searchbarText: string) => set({ searchbarText }),
+  setInitialContextMenuOptions: (initialContextMenuOptions: any) =>
+    set({
+      initialContextMenuOptions,
+      contextMenuOptions: initialContextMenuOptions,
+    }),
+  initialContextMenuOptions: [],
 }));
 
 export { useServices };

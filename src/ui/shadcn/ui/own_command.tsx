@@ -1,9 +1,6 @@
 import React, {
   createContext,
   forwardRef,
-  ReactComponentElement,
-  ReactHTML,
-  ReactHTMLElement,
   useContext,
   useDeferredValue,
   useEffect,
@@ -17,25 +14,26 @@ import {
   VirtuosoGrid,
   VirtuosoGridHandle,
   VirtuosoHandle,
-  VirtuosoProps,
 } from "react-virtuoso";
-import { AuxActions } from "../../../types/extensions";
 import { useServices } from "../../../services";
 import { LightningBoltIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
-import {
-  useLocation,
-  useMatch,
-  useNavigate,
-  useNavigation,
-  useNavigationType,
-} from "react-router-dom";
-import { BsBack, BsSkipBackward } from "react-icons/bs";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
-import { SkipBack } from "lucide-react";
 
+/**
+ * Filtering priority goes from cheapest to most expensive computation wise
+ * 1. If not search is provided, return all items
+ * 2. If the item has a `filteringText` prop, use that
+ * 3. If the item has a `title` prop, use that
+ * 4. If the item has a `description` prop, use that
+ * 5. If the item has a `customChildren` prop, use that, this is the most expensive one, since it has to render the children and compute the textContent
+ */
 function filterItems<T extends ListItem>(items: T[], search: string) {
+  if (!search) return items;
   return items.filter((item) => {
+    if (item.filteringText)
+      return item.filteringText.toLowerCase().includes(search.toLowerCase());
     if (item.title?.toLowerCase().includes(search.toLowerCase())) return true;
     if (item.description?.toLowerCase().includes(search.toLowerCase()))
       return true;
@@ -50,14 +48,54 @@ function filterItems<T extends ListItem>(items: T[], search: string) {
 }
 
 export type ListItem = {
+  /**
+   * The title of the item
+   *
+   * Ignore this prop if you are using `customChildren`
+   */
   title?: string;
+  /**
+   * The description of the item
+   *
+   * Ignore this prop if you are using `customChildren`
+   */
   description?: string;
+  /**
+   * The icon of the item
+   *
+   * Ignore this prop if you are using `customChildren`
+   */
   icon?: React.ReactNode;
-  actionName?: string;
+  /**
+   * When the item is clicked or selected via keyboard
+   *
+   */
   onClick: () => void;
+  /**
+   * If you want to use a custom component as the item
+   *
+   * If you are using this prop, you should ignore `title`, `description` and `icon`. They won't work.
+   *
+   * I encourage you to use `filteringText` if you are using this prop because search bar won't work unless you have text inside the `customChildren`
+   */
   customChildren?: React.ReactNode;
+  /**
+   * The class name will be passed to button element
+   */
   className?: string;
+  /**
+   * When the item is highlighted via keyboard or mouse hover.
+   *
+   */
   onHighlight?: () => void;
+  /**
+   * In case you want to specify a filtering text that is different from the title, description or `customChildren`.
+   *
+   * If you are using `customChildren`, you should use this prop.
+   *
+   * This prop is used for filtering the items when the user types in the search bar
+   */
+  filteringText?: string;
 };
 
 const Empty = () => {
@@ -88,16 +126,14 @@ const Root = ({
 };
 
 const List = ({
-  className,
   items = [],
-  ...props
 }: {
-  className?: string;
   items: ListItem[];
 } & React.HTMLProps<HTMLDivElement>) => {
   const ref = useRef<VirtuosoHandle>(null);
-  const { setCurrentItemIndex, currentItemIndex, search } =
-    useContext(ListContext);
+  const _search = useServices((state) => state.searchbarText);
+  const search = useDeferredValue(_search);
+  const { setCurrentItemIndex, currentItemIndex } = useContext(ListContext);
   const filteredItems = useMemo(
     () => filterItems(items, search),
     [items, search]
@@ -164,18 +200,16 @@ const List = ({
 };
 
 const Grid = ({
-  className,
   items = [],
   columns = 4,
-  ...props
 }: {
-  className?: string;
   items: ListItem[];
   columns: number;
 } & React.HTMLProps<HTMLDivElement>) => {
   const ref = useRef<VirtuosoGridHandle>(null);
-  const { setCurrentItemIndex, currentItemIndex, search } =
-    useContext(ListContext);
+  const _search = useServices((state) => state.searchbarText);
+  const search = useDeferredValue(_search);
+  const { setCurrentItemIndex, currentItemIndex } = useContext(ListContext);
   const filteredItems = useMemo(
     () => filterItems(items, search),
     [items, search]
@@ -267,7 +301,6 @@ const Grid = ({
 
 const Item = ({
   className,
-  actionName,
   description,
   icon,
   title,
@@ -363,7 +396,12 @@ const Input = forwardRef(
     }: { className?: string } & React.HTMLProps<HTMLInputElement>,
     ref
   ) => {
-    const { search, setSearch, setCurrentItemIndex } = useContext(ListContext);
+    const { _search, setSearch } = useServices((state) => ({
+      _search: state.searchbarText,
+      setSearch: state.setSearchbarText,
+    }));
+    const search = useDeferredValue(_search);
+    const { setCurrentItemIndex } = useContext(ListContext);
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
@@ -371,7 +409,7 @@ const Input = forwardRef(
       <div className="flex items-center gap-2">
         {pathname !== "/" && (
           <button
-            className="flex items-center justify-center px-2 py-1 mx-2 rounded-full bg-neutral-200 text-neutral-foreground"
+            className="flex items-center justify-center px-2 py-1 mx-2 rounded-lg bg-neutral-200 text-neutral-foreground"
             onClick={() => {
               navigate(-1);
             }}
@@ -400,24 +438,16 @@ const Input = forwardRef(
 const ListContext = createContext<{
   currentItemIndex: number;
   setCurrentItemIndex: React.Dispatch<React.SetStateAction<number>>;
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
 }>({
   currentItemIndex: 0,
   setCurrentItemIndex: () => {},
-  search: "",
-  setSearch: () => {},
 } as any);
 
 const ListContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentItemIndex, setCurrentItemIndex] = useState(-1);
-  const [_search, setSearch] = useState("");
-  const search = useDeferredValue(_search);
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
   return (
-    <ListContext.Provider
-      value={{ currentItemIndex, setCurrentItemIndex, search, setSearch }}
-    >
+    <ListContext.Provider value={{ currentItemIndex, setCurrentItemIndex }}>
       {children}
     </ListContext.Provider>
   );
