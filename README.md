@@ -61,7 +61,8 @@ First version of the UI, with all the components needed to build a launcher.
   - [x] Hook to set and get context menu items
   - [x] Global context menu open flag
   - [x] Context menu items
-- [ ] Buttons
+- [x] Buttons
+- [x] Badges
 - [ ] Input fields
   - [ ] Select fields
   - [x] Input text
@@ -69,7 +70,7 @@ First version of the UI, with all the components needed to build a launcher.
   - [x] Input number
   - [x] Input files
   - [x] Checkbox
-  - [ ] Radio
+  - [x] Radio
   - [x] Switch
   - [x] Slider
   - [x] Color picker
