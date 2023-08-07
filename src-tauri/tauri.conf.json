@@ -23,6 +23,9 @@
       "globalShortcut": {
         "all": true
       },
+      "notification": {
+        "all": true
+      },
       "window": {
         "all": false,
         "close": true,

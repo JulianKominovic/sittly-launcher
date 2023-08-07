@@ -39,8 +39,9 @@ const useServices = create<ContextTypes>((set, get) => ({
   contextMenuOptions: [],
   setContextMenuOptions: (contextMenuOptions: any) =>
     set({
-      contextMenuOptions:
-        get().initialContextMenuOptions.concat(contextMenuOptions),
+      contextMenuOptions: contextMenuOptions.concat(
+        get().initialContextMenuOptions
+      ),
     }),
   isContextMenuOpen: false,
   setContextMenuIsOpen: (isContextMenuOpen: boolean) =>

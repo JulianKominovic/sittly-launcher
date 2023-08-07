@@ -151,7 +151,7 @@ export default function ({ commandRefInput }) {
           alignOffset={6}
           sideOffset={6}
         >
-          <Command className="bg-white bg-opacity-50 border rounded-xl backdrop-blur-lg">
+          <Command className="bg-white bg-opacity-50 border shadow-lg rounded-xl backdrop-blur-2xl backdrop-saturate-200">
             <CommandList>
               {contexMenuOptions.map(
                 ({ title, description, icon, onClick }, index) => {

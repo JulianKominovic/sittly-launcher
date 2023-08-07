@@ -1,5 +1,5 @@
-export const pages = [import("./emojis/pages")];
-export const items = [];
+export const pages = [import("./emojis/pages"), import("./ui-example/pages")];
+export const items = [import("./music/items")];
 export const contextMenuItems = [import("./navigation/context")];
 export const noResultItems = [import("./navigation/no-results")];
 

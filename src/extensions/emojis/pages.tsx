@@ -1,9 +1,12 @@
-import { BsEmojiSmile } from "react-icons/bs";
+import { BsClipboard, BsEmojiSmile } from "react-icons/bs";
 import { ExtensionPage } from "../../types/extensions";
 import { SittlyCommand } from "../../ui/shadcn/ui/own_command";
 import * as unicodeEmoji from "unicode-emoji";
-import { pasteToCurrentWindow } from "../../services/clipboard";
-import { useState } from "react";
+import {
+  copyToClipboard,
+  pasteToCurrentWindow,
+} from "../../services/clipboard";
+import { useServices } from "../../services";
 const emojis = unicodeEmoji.getEmojis();
 
 const Pages: ExtensionPage[] = [
@@ -11,6 +14,9 @@ const Pages: ExtensionPage[] = [
     name: "Emojis",
     route: "/emojis",
     component: () => {
+      const setContextMenuOptions = useServices(
+        (state) => state.setContextMenuOptions
+      );
       return (
         <SittlyCommand.Root>
           <SittlyCommand.Grid
@@ -21,8 +27,25 @@ const Pages: ExtensionPage[] = [
                 onClick() {
                   pasteToCurrentWindow(emoji.emoji);
                 },
+                onHighlight() {
+                  setContextMenuOptions([
+                    {
+                      title: "Copy",
+                      onClick() {
+                        copyToClipboard(emoji.emoji);
+                      },
+                      description: `Copy ${emoji.emoji} to the clipboard`,
+                      icon: <BsClipboard />,
+                    },
+                  ]);
+                },
                 filteringText: emoji.description,
-                customChildren: <>{emoji.emoji}</>,
+                customChildren: (
+                  <div className="flex items-center justify-center text-6xl">
+                    {emoji.emoji}
+                  </div>
+                ),
+                className: "flex items-center justify-center",
               };
             })}
           />

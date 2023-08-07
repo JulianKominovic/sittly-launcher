@@ -2,6 +2,46 @@
 
 A Raycast app copy for Linux.
 
+## Devs!
+
+Here you have instructions to setup and run the app in dev mode.
+
+Below you have the instructions to create your own extensions.
+
+### Pre-requisites
+
+- X11 (Xorg) desktop environment (preferably ubuntu gnome). It may work on Wayland and other distros, but it's not tested.
+- [Nodejs](https://nodejs.org/en/)
+- [Pnpm](https://pnpm.io/)
+
+### Install linux dependencies
+
+- xsel
+- xdotool
+
+```bash
+sudo apt install xsel xdotool
+```
+
+### Steps
+
+- Clone repo
+- Cd into repo
+- Install dependencies
+- Run tauri app in dev mode
+
+```bash
+git clone https://github.com/JulianKominovic/sittly-launcher.git sittly-launcher
+cd sittly-launcher
+npm i -g pnpm
+pnpm i
+pnpm run tauri dev
+```
+
+### Creating extensions
+
+## Usage
+
 ## Roadmap
 
 ### v1 (UI)
@@ -24,12 +64,15 @@ First version of the UI, with all the components needed to build a launcher.
 - [ ] Buttons
 - [ ] Input fields
   - [ ] Select fields
-  - [ ] Input text
-  - [ ] Checkbox
+  - [x] Input text
+  - [x] Input password
+  - [x] Input number
+  - [x] Input files
+  - [x] Checkbox
   - [ ] Radio
-  - [ ] Switch
-  - [ ] Slider
-  - [ ] Color picker
+  - [x] Switch
+  - [x] Slider
+  - [x] Color picker
 - [ ] Links
 - [ ] Layouts
 
@@ -83,7 +126,7 @@ Until v4, this extensions will be kept private in the same repository, but in th
   - [ ] Async wrapper to handle success, error, loading and cancel
 - [ ] Notifications
   - [ ] Notification list
-  - [ ] Send notifications
+  - [x] Send notifications
 
 ### v4 (Extension dev template, docs, devtools, api)
 
