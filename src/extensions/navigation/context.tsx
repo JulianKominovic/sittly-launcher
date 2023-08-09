@@ -1,5 +1,5 @@
 import { ExtensionContextMenuItems } from "../../types/extensions";
-import { useRouter } from "../../services/router";
+import { useRouter } from "../../@devtools/hooks/router";
 import { BsArrowLeft, BsArrowRight, BsHouse } from "react-icons/bs";
 
 /**

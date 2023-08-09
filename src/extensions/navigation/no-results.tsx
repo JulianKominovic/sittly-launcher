@@ -1,6 +1,6 @@
 import { ExtensionNoResultItems } from "../../types/extensions";
 import { BsTrash } from "react-icons/bs";
-import { useServices } from "../../services";
+import { useServices } from "../../@devtools/hooks/context";
 
 /**
  * Extension items needs to be a function in order to use hooks

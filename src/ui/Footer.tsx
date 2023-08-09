@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BsDot, BsMusicNote } from "react-icons/bs";
-import { useServices } from "../services";
+import { useServices } from "../@devtools/hooks/context";
 import {
   Command,
   CommandInput,
   CommandItem,
   CommandList,
-} from "./shadcn/ui/command";
+} from "../@devtools/components/command";
 import * as Popover from "@radix-ui/react-popover";
 import Kbd from "./Kbd";
 import clsx from "clsx";

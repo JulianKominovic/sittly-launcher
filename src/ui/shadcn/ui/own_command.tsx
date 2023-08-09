@@ -15,7 +15,7 @@ import {
   VirtuosoGridHandle,
   VirtuosoHandle,
 } from "react-virtuoso";
-import { useServices } from "../../../services";
+import { useServices } from "../../../@devtools/hooks/context";
 import { LightningBoltIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -190,7 +190,7 @@ const List = ({
             {...item}
             //@ts-expect-error private prop
             displayType="LIST"
-            key={item.title + index}
+            key={(item.title as string) + index}
             index={index}
           />
         );
@@ -297,7 +297,7 @@ const Grid = ({
               areFallbackItems ? "" : "aspect-square h-auto",
               item.className
             )}
-            key={item.title + index}
+            key={(item.title as string) + index}
             index={index}
           />
         );

@@ -4,8 +4,8 @@ import { writeText, readText } from "@tauri-apps/api/clipboard";
 import { sendNotification } from "./notifications";
 
 export const pasteToCurrentWindow = async (
-  text: string,
-  typeOfClipboard?: "TEXT" | "IMAGE" | "HTML"
+  text: string
+  // typeOfClipboard?: "TEXT" | "IMAGE" | "HTML"
 ) => {
   await writeText(text);
   await appWindow.hide();

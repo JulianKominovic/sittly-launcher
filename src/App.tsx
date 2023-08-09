@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from "react";
 import Command from "./ui/Command";
 import Footer from "./ui/Footer";
 import { registerMusicListener } from "./services/music";
-import { useServices } from "./services";
+import { useServices } from "./@devtools/hooks/context";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ListItem, SittlyCommand } from "./ui/shadcn/ui/own_command";
-import { useRouter } from "./services/router";
+import { useRouter } from "./@devtools/dist/hooks/router";
 import {
   mapExtensionsContextMenuItems,
   mapExtensionsItems,

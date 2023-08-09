@@ -4,8 +4,8 @@ import {
   BsPlayFill,
   BsRewindFill,
 } from "react-icons/bs";
-import { useServices } from "../services";
-import { nextMedia, playPause, prevMedia } from "../services/music";
+import { useServices } from "../@devtools/hooks/context";
+import { nextMedia, playPause, prevMedia } from "../@devtools/api/music";
 import { SittlyCommand } from "./shadcn/ui/own_command";
 
 export default function () {

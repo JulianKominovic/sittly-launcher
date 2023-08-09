@@ -5,8 +5,8 @@ import * as unicodeEmoji from "unicode-emoji";
 import {
   copyToClipboard,
   pasteToCurrentWindow,
-} from "../../services/clipboard";
-import { useServices } from "../../services";
+} from "../../@devtools/api/clipboard";
+import { useServices } from "../../@devtools/hooks/context";
 const emojis = unicodeEmoji.getEmojis();
 
 const Pages: ExtensionPage[] = [

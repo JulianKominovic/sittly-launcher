@@ -73,7 +73,7 @@ First version of the UI, with all the components needed to build a launcher.
   - [x] Radio
   - [x] Switch
   - [x] Slider
-  - [x] Color picker
+  - [ ] Color picker
 - [ ] Links
 - [ ] Layouts
 
@@ -146,6 +146,7 @@ Until v4, this extensions will be kept private in the same repository, but in th
   - [ ] Extension utils
   - [ ] Extension types
 - [ ] Devtools
+  - [x] Compilation scripts
   - [ ] Move UI components, hooks, services, utils, types, models, etc to npm @sittly/devtools
   - [ ] @sitlly/devtools/components
   - [ ] @sitlly/devtools/hooks

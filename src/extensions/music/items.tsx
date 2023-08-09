@@ -12,7 +12,7 @@ import {
   playPause,
   prevMedia,
   setVolume,
-} from "../../services/music";
+} from "../../@devtools/api/music";
 const items: ExtensionItems = () => {
   return [
     {

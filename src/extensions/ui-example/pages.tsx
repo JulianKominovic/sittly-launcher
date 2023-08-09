@@ -1,13 +1,13 @@
 import { BsCollection } from "react-icons/bs";
 import { ExtensionPage } from "../../types/extensions";
-import { Badge } from "../../ui/shadcn/ui/badge";
-import { Button } from "../../ui/shadcn/ui/button";
-import { Checkbox } from "../../ui/shadcn/ui/checkbox";
-import { Fieldset } from "../../ui/shadcn/ui/fieldset";
-import { Input } from "../../ui/shadcn/ui/input";
-import { RadioGroup, RadioGroupItem } from "../../ui/shadcn/ui/radio";
-import { Slider } from "../../ui/shadcn/ui/slider";
-import { Switch } from "../../ui/shadcn/ui/switch";
+import { Badge } from "../../@devtools/components/badge";
+import { Button } from "../../@devtools/components/button";
+import { Checkbox } from "../../@devtools/components/checkbox";
+import { Fieldset } from "../../@devtools/components/fieldset";
+import { Input } from "../../@devtools/components/input";
+import { RadioGroup, RadioGroupItem } from "../../@devtools/components/radio";
+import { Slider } from "../../@devtools/components/slider";
+import { Switch } from "../../@devtools/components/switch";
 
 const Title = () => {
   return (
@@ -92,9 +92,6 @@ const Pages: ExtensionPage[] = [
             </Input>
             <Input type="file">
               <Fieldset.Label className="min-w-[120px]">Files</Fieldset.Label>
-            </Input>
-            <Input type="color">
-              <Fieldset.Label className="min-w-[120px]">Color</Fieldset.Label>
             </Input>
             <Input type="number">
               <Fieldset.Label className="min-w-[120px]">Number</Fieldset.Label>

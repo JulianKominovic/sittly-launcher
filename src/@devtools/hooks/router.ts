@@ -24,3 +24,4 @@ export function useRouter() {
     location,
   };
 }
+export default useRouter;

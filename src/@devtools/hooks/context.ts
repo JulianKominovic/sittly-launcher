@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { ListItem } from "../ui/shadcn/ui/own_command";
-import { MusicServiceReturn } from "./music";
+import { ListItem } from "../../ui/shadcn/ui/own_command";
+import { MusicServiceReturn } from "../../services/music";
 
 type ContextTypes = {
   music: MusicServiceReturn;
