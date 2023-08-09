@@ -1,6 +1,6 @@
 # Sittly launcher
 
-A Raycast app copy for Linux.
+Launcher for Linux (gnome) similar to Raycast, Spotlight, Albert...
 
 ## Devs!
 
@@ -145,12 +145,9 @@ Until v4, this extensions will be kept private in the same repository, but in th
   - [ ] Extension components
   - [ ] Extension utils
   - [ ] Extension types
-- [ ] Devtools
+- [x] Devtools
   - [x] Compilation scripts
-  - [ ] Move UI components, hooks, services, utils, types, models, etc to npm @sittly/devtools
-  - [ ] @sitlly/devtools/components
-  - [ ] @sitlly/devtools/hooks
-  - [ ] @sitlly/devtools/services
-  - [ ] @sitlly/devtools/utils
-  - [ ] @sitlly/devtools/types
-  - [ ] @sitlly/devtools/models
+  - [x] Move UI components, hooks, services, utils, types, models, etc to npm @sittly-devtools
+  - [x] @sittly-devtools/components
+  - [x] @sittly-devtools/hooks
+  - [x] @sittly-devtools/api

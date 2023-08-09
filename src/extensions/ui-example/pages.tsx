@@ -1,5 +1,5 @@
 import { BsCollection } from "react-icons/bs";
-import { ExtensionPage } from "../../types/extensions";
+import { ExtensionPage } from "../../@devtools/types";
 import { Badge } from "../../@devtools/components/badge";
 import { Button } from "../../@devtools/components/button";
 import { Checkbox } from "../../@devtools/components/checkbox";

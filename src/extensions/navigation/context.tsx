@@ -1,4 +1,4 @@
-import { ExtensionContextMenuItems } from "../../types/extensions";
+import { ExtensionContextMenuItems } from "../../@devtools/types";
 import { useRouter } from "../../@devtools/hooks/router";
 import { BsArrowLeft, BsArrowRight, BsHouse } from "react-icons/bs";
 

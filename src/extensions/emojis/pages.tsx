@@ -1,5 +1,5 @@
 import { BsClipboard, BsEmojiSmile } from "react-icons/bs";
-import { ExtensionPage } from "../../types/extensions";
+import { ExtensionPage } from "../../@devtools/types";
 import { SittlyCommand } from "../../ui/shadcn/ui/own_command";
 import * as unicodeEmoji from "unicode-emoji";
 import {

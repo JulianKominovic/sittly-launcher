@@ -1,4 +1,4 @@
-import { ExtensionItems } from "../../types/extensions";
+import { ExtensionItems } from "../../@devtools/types";
 import {
   BsFastForward,
   BsPlay,

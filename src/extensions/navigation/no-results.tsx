@@ -1,4 +1,4 @@
-import { ExtensionNoResultItems } from "../../types/extensions";
+import { ExtensionNoResultItems } from "../../@devtools/types";
 import { BsTrash } from "react-icons/bs";
 import { useServices } from "../../@devtools/hooks/context";
 

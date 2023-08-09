@@ -21,6 +21,7 @@ import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import { mapExtensionsNoResultItems } from "../../../extensions/extension-assembly";
+import { ListItem } from "../../../@devtools/types";
 
 /**
  * Filtering priority goes from cheapest to most expensive computation wise
@@ -47,57 +48,6 @@ function filterItems<T extends ListItem>(items: T[], search: string) {
     return false;
   });
 }
-
-export type ListItem = {
-  /**
-   * The title of the item
-   *
-   * Ignore this prop if you are using `customChildren`
-   */
-  title?: string;
-  /**
-   * The description of the item
-   *
-   * Ignore this prop if you are using `customChildren`
-   */
-  description?: string;
-  /**
-   * The icon of the item
-   *
-   * Ignore this prop if you are using `customChildren`
-   */
-  icon?: React.ReactNode;
-  /**
-   * When the item is clicked or selected via keyboard
-   *
-   */
-  onClick: () => void;
-  /**
-   * If you want to use a custom component as the item
-   *
-   * If you are using this prop, you should ignore `title`, `description` and `icon`. They won't work.
-   *
-   * I encourage you to use `filteringText` if you are using this prop because search bar won't work unless you have text inside the `customChildren`
-   */
-  customChildren?: React.ReactNode;
-  /**
-   * The class name will be passed to button element
-   */
-  className?: string;
-  /**
-   * When the item is highlighted via keyboard or mouse hover.
-   *
-   */
-  onHighlight?: () => void;
-  /**
-   * In case you want to specify a filtering text that is different from the title, description or `customChildren`.
-   *
-   * If you are using `customChildren`, you should use this prop.
-   *
-   * This prop is used for filtering the items when the user types in the search bar
-   */
-  filteringText?: string;
-};
 
 const Empty = () => {
   return <div className="py-6 text-sm text-center">No results found</div>;

@@ -4,8 +4,9 @@ import Footer from "./ui/Footer";
 import { registerMusicListener } from "./services/music";
 import { useServices } from "./@devtools/hooks/context";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { ListItem, SittlyCommand } from "./ui/shadcn/ui/own_command";
-import { useRouter } from "./@devtools/dist/hooks/router";
+import { SittlyCommand } from "./ui/shadcn/ui/own_command";
+import { useRouter } from "./@devtools/hooks/router";
+
 import {
   mapExtensionsContextMenuItems,
   mapExtensionsItems,
@@ -13,6 +14,7 @@ import {
 } from "./extensions/extension-assembly";
 import { eventIsFromContextMenu } from "./lib/utils";
 import { appWindow } from "@tauri-apps/api/window";
+import { ListItem } from "./@devtools/types";
 
 const EventsRegister = () => {
   const { setMusic, setInitialContextMenuOptions, isContextMenuOpen } =
