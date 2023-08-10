@@ -2,7 +2,7 @@ import {
   ExtensionContextMenuItems,
   ExtensionItems,
   ExtensionNoResultItems,
-  ExtensionPage,
+  ExtensionPages,
 } from "../@devtools/types";
 
 const localStorageExtensionString = localStorage.getItem("extensions");
@@ -53,7 +53,7 @@ function tryImport(path: string) {
 }
 
 const remoteImports: {
-  pages: ExtensionPage;
+  pages: ExtensionPages;
   items: ExtensionItems;
   context: ExtensionContextMenuItems;
   noResults: ExtensionNoResultItems;

@@ -12,6 +12,11 @@ export type ExtensionPages = ExtensionPage[];
 export type ExtensionItems = () => ListItem[];
 export type ExtensionNoResultItems = () => ListItem[];
 export type ExtensionContextMenuItems = () => ListItem[];
+export type ExtensionMetadata = {
+  name: string;
+  description: string;
+  icon: ReactNode;
+};
 
 export type ListItem = {
   /**
