@@ -74,6 +74,7 @@ First version of the UI, with all the components needed to build a launcher.
   - [x] Switch
   - [x] Slider
   - [ ] Color picker
+- [ ] Markdown renderer
 - [ ] Links
 - [ ] Layouts
 
@@ -109,13 +110,13 @@ Until v4, this extensions will be kept private in the same repository, but in th
   - [x] Paste
   - [x] Paste to current window
 - [ ] Filesystem hooks
-  - [ ] Open file
-  - [ ] Open folder
+  - [x] Open file
+  - [x] Open folder
   - [ ] Open terminal
-  - [ ] Open with
+  - [x] Open with
 - [ ] System hooks
-  - [ ] Open url
-  - [ ] Open app
+  - [x] Open url
+  - [x] Open app
 - [x] Router hooks
   - [x] Go back
   - [x] Go forward
@@ -149,7 +150,9 @@ Until v4, this extensions will be kept private in the same repository, but in th
   - [ ] Extension types
 - [x] Devtools
   - [x] Compilation scripts
-  - [x] Move UI components, hooks, services, utils, types, models, etc to npm @sittly-devtools
-  - [x] @sittly-devtools/components
-  - [x] @sittly-devtools/hooks
-  - [x] @sittly-devtools/api
+  - [x] Move UI components, hooks, services, utils, types, models, etc to npm sittly-devtools
+  - [x] sittly-devtools/components
+  - [x] sittly-devtools/hooks
+  - [x] sittly-devtools/api
+  - [x] sittly-devtools/types
+  - [x] sittly-devtools/lib/utils

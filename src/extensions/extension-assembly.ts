@@ -38,7 +38,7 @@ function githubUrlToRawUrl(url: string) {
     urlObj.pathname = `${user}/${repo}/main/dist/compiled.js`;
     return `https://raw.githubusercontent.com${urlObj.pathname}`;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 }
@@ -78,7 +78,10 @@ const remoteNoResultItems = filteredRemoteImports.map(
   (imported) => imported.noResults
 );
 
-export const pages = [tryImport("./ui-example/pages")];
+export const pages = [
+  tryImport("./ui-example/pages"),
+  tryImport("./extension-viewer/pages"),
+];
 export const items = [tryImport("./music/items")];
 export const contextMenuItems = [tryImport("./navigation/context")];
 export const noResultItems = [tryImport("./navigation/no-results")];
@@ -95,13 +98,6 @@ export const contextMenuItemsImports = (await Promise.all(contextMenuItems))
 export const noResultItemsImports = (await Promise.all(noResultItems))
   .concat(remoteNoResultItems.map((page) => ({ default: page })))
   .filter((page) => page.default);
-
-console.log({
-  pagesImports,
-  itemsImports,
-  contextMenuItemsImports,
-  noResultItemsImports,
-});
 
 /**
  * Only use this functions inside React components.

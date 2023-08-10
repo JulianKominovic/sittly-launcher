@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 
-import { SittlyCommand } from "./shadcn/ui/own_command";
+import { SittlyCommand } from "../@devtools/components/own_command";
 
 export default forwardRef(function (
   {

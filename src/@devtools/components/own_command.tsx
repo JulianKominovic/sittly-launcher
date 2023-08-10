@@ -8,24 +8,20 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  cn,
-  eventIsFromContextMenu,
-  textContent,
-} from "../../../@devtools/lib/utils";
+import { cn, eventIsFromContextMenu, textContent } from "../lib/utils";
 import {
   Virtuoso,
   VirtuosoGrid,
   VirtuosoGridHandle,
   VirtuosoHandle,
 } from "react-virtuoso";
-import { useServices } from "../../../@devtools/hooks/context";
+import { useServices } from "../hooks/context";
 import { LightningBoltIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
-import { mapExtensionsNoResultItems } from "../../../extensions/extension-assembly";
-import { ListItem } from "../../../@devtools/types";
+import { mapExtensionsNoResultItems } from "../../extensions/extension-assembly";
+import { ListItem } from "../types";
 
 function shouldShowItem(item: ListItem) {
   return item.show === undefined ? true : item.show;
@@ -335,19 +331,19 @@ const Item = ({
           {title || description ? (
             <div
               className={clsx(
-                "flex  flex-grow gap-2",
+                "flex flex-grow gap-2 w-5/6",
                 displayType === "GRID"
                   ? "flex-col items-start"
                   : "flex-row items-center"
               )}
             >
               {title && (
-                <div className="text-sm font-medium text-foreground">
+                <div className="flex-grow text-sm font-medium truncate text-foreground">
                   {title}
                 </div>
               )}
               {description && (
-                <div className="text-xs text-muted-foreground">
+                <div className="text-xs truncate text-muted-foreground">
                   {description}
                 </div>
               )}

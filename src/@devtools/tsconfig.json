@@ -15,7 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true
   },
-  "include": ["./**/*.tsx", "./**/*.ts"],
+  "include": ["./**/*.tsx", "./**/*.ts", "../ui/shadcn/command.tsx"],
   "exclude": [
     "dist",
     "node_modules",

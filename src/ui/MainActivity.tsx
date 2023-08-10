@@ -6,7 +6,7 @@ import {
 } from "react-icons/bs";
 import { useServices } from "../@devtools/hooks/context";
 import { nextMedia, playPause, prevMedia } from "../@devtools/api/music";
-import { SittlyCommand } from "./shadcn/ui/own_command";
+import { SittlyCommand } from "../@devtools/components/own_command";
 
 export default function () {
   const music = useServices((state) => state.music);

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-export type ExtensionPage = {
+type ExtensionPage = {
   route: `/${string}`;
   component: ReactNode | Element | (() => React.JSX.Element);
   name: string;
@@ -8,6 +8,7 @@ export type ExtensionPage = {
   icon: ReactNode;
 };
 
+export type ExtensionPages = ExtensionPage[];
 export type ExtensionItems = () => ListItem[];
 export type ExtensionNoResultItems = () => ListItem[];
 export type ExtensionContextMenuItems = () => ListItem[];

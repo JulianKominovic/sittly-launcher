@@ -4,7 +4,7 @@ import Footer from "./ui/Footer";
 import { registerMusicListener } from "./services/music";
 import { useServices } from "./@devtools/hooks/context";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { SittlyCommand } from "./ui/shadcn/ui/own_command";
+import { SittlyCommand } from "./@devtools/components/own_command";
 import { useRouter } from "./@devtools/hooks/router";
 
 import {

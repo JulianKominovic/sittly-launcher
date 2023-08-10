@@ -6,7 +6,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../@devtools/components/command";
+} from "./shadcn/command";
 import * as Popover from "@radix-ui/react-popover";
 import Kbd from "./Kbd";
 import clsx from "clsx";
