@@ -12,7 +12,7 @@ import {
   mapExtensionsItems,
   mapExtensionsPages,
 } from "./extensions/extension-assembly";
-import { eventIsFromContextMenu } from "./lib/utils";
+import { eventIsFromContextMenu } from "./@devtools/lib/utils";
 import { appWindow } from "@tauri-apps/api/window";
 import { ListItem } from "./@devtools/types";
 
@@ -90,7 +90,6 @@ const App = () => {
               <Route
                 key={page.route}
                 path={page.route}
-                //@ts-expect-error I don't know how to fix this
                 element={<page.component />}
               />
             );

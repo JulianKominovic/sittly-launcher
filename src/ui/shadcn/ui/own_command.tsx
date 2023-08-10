@@ -8,7 +8,11 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { cn, eventIsFromContextMenu, textContent } from "../../../lib/utils";
+import {
+  cn,
+  eventIsFromContextMenu,
+  textContent,
+} from "../../../@devtools/lib/utils";
 import {
   Virtuoso,
   VirtuosoGrid,
@@ -23,6 +27,14 @@ import { IoMdArrowBack } from "react-icons/io";
 import { mapExtensionsNoResultItems } from "../../../extensions/extension-assembly";
 import { ListItem } from "../../../@devtools/types";
 
+function shouldShowItem(item: ListItem) {
+  return item.show === undefined ? true : item.show;
+}
+
+function filterNoResultItems(items: ListItem[]) {
+  return items.filter(shouldShowItem);
+}
+
 /**
  * Filtering priority goes from cheapest to most expensive computation wise
  * 1. If not search is provided, return all items
@@ -32,8 +44,9 @@ import { ListItem } from "../../../@devtools/types";
  * 5. If the item has a `customChildren` prop, use that, this is the most expensive one, since it has to render the children and compute the textContent
  */
 function filterItems<T extends ListItem>(items: T[], search: string) {
-  if (!search) return items;
+  if (!search) return items.filter(shouldShowItem);
   return items.filter((item) => {
+    if (item.show !== undefined) return shouldShowItem(item);
     if (item.filteringText)
       return item.filteringText.toLowerCase().includes(search.toLowerCase());
     if (item.title?.toLowerCase().includes(search.toLowerCase())) return true;
@@ -90,10 +103,13 @@ const List = ({
   const _search = useServices((state) => state.searchbarText);
   const search = useDeferredValue(_search);
   const { setCurrentItemIndex, currentItemIndex } = useContext(ListContext);
+  // mapExtensionsNoResultItems should be at the top level
   const noResultItems = mapExtensionsNoResultItems();
   const filteredItems = useMemo(() => {
     const filteredItems = filterItems(items, search);
-    return filteredItems.length === 0 ? noResultItems : filteredItems;
+    return filteredItems.length === 0
+      ? filterNoResultItems(noResultItems)
+      : filteredItems;
   }, [items, search]);
 
   const isContextMenuOpen = useServices((state) => state.isContextMenuOpen);
@@ -138,7 +154,7 @@ const List = ({
         return (
           <Item
             {...item}
-            //@ts-expect-error private prop
+            // @ts-expect-error Private property
             displayType="LIST"
             key={(item.title as string) + index}
             index={index}
@@ -165,11 +181,15 @@ const Grid = ({
   const _search = useServices((state) => state.searchbarText);
   const search = useDeferredValue(_search);
   const { setCurrentItemIndex, currentItemIndex } = useContext(ListContext);
+  // mapExtensionsNoResultItems should be at the top level
   const noResultItems = mapExtensionsNoResultItems();
   const { areFallbackItems, filteredItems } = useMemo(() => {
     const filteredItems = filterItems(items, search);
     return {
-      filteredItems: filteredItems.length === 0 ? noResultItems : filteredItems,
+      filteredItems:
+        filteredItems.length === 0
+          ? filterNoResultItems(noResultItems)
+          : filteredItems,
       areFallbackItems: filteredItems.length === 0,
     };
   }, [items, search]);
@@ -241,7 +261,7 @@ const Grid = ({
         return (
           <Item
             {...item}
-            //@ts-expect-error private prop
+            // @ts-expect-error Private property
             displayType={areFallbackItems ? "LIST" : "GRID"}
             className={clsx(
               areFallbackItems ? "" : "aspect-square h-auto",

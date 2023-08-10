@@ -61,4 +61,8 @@ export type ListItem = {
    * This prop is used for filtering the items when the user types in the search bar
    */
   filteringText?: string;
+  /**
+   * Controls when items will be displayed
+   */
+  show?: boolean;
 };

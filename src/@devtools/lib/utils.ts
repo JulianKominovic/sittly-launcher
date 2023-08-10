@@ -47,3 +47,15 @@ export const eventIsFromContextMenu = (event: KeyboardEvent) => {
     "data-is-context-menu"
   );
 };
+
+export const urlUtils = {
+  isGithubUrl: (url: string) => {
+    if (!url) return false;
+    try {
+      const urlObj = new URL(url);
+      return urlObj.hostname === "github.com";
+    } catch (err) {
+      return false;
+    }
+  },
+};

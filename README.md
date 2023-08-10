@@ -132,8 +132,10 @@ Until v4, this extensions will be kept private in the same repository, but in th
 ### v4 (Extension dev template, docs, devtools, api)
 
 - [ ] Extension dev template
-  - [ ] Github template
-  - [ ] Npm template
+  - [x] Github template
+  - [x] Github hosting compiled extensions
+  - [ ] Version control
+  - [ ] Fast refresh
 - [ ] Docs
   - [ ] Nextjs docs or docusaurus
   - [ ] Extension examples
