@@ -291,13 +291,18 @@ const Item = ({
   index: number;
 } & React.HTMLProps<HTMLButtonElement> &
   ListItem) => {
+  const setContextMenuOptions = useServices(
+    (state) => state.setContextMenuOptions
+  );
   const { currentItemIndex, setCurrentItemIndex } = useContext(ListContext);
   useEffect(() => {
-    if (!onHighlight) return;
     if (currentItemIndex === index) {
+      if (!onHighlight) return;
       onHighlight();
+    } else {
+      setContextMenuOptions([]);
     }
-  }, [currentItemIndex, onHighlight]);
+  }, [currentItemIndex, onHighlight, setContextMenuOptions]);
   return (
     <button
       {...props}

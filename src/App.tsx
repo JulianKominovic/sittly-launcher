@@ -17,12 +17,17 @@ import { appWindow } from "@tauri-apps/api/window";
 import { ListItem } from "./@devtools/types";
 
 const EventsRegister = () => {
-  const { setMusic, setInitialContextMenuOptions, isContextMenuOpen } =
-    useServices((state) => ({
-      setMusic: state.setMusic,
-      setInitialContextMenuOptions: state.setInitialContextMenuOptions,
-      isContextMenuOpen: state.isContextMenuOpen,
-    }));
+  const {
+    setMusic,
+    setInitialContextMenuOptions,
+    isContextMenuOpen,
+    setContextMenuOptions,
+  } = useServices((state) => ({
+    setMusic: state.setMusic,
+    setInitialContextMenuOptions: state.setInitialContextMenuOptions,
+    setContextMenuOptions: state.setContextMenuOptions,
+    isContextMenuOpen: state.isContextMenuOpen,
+  }));
   const { goBack, location } = useRouter();
 
   //@ts-ignore
@@ -46,6 +51,9 @@ const EventsRegister = () => {
       window.removeEventListener("keydown", handleKeydown);
     };
   }, [handleKeydown]);
+  useEffect(() => {
+    setContextMenuOptions([]);
+  }, [location.pathname]);
   useEffect(() => {
     const unlisten = registerMusicListener(setMusic);
     setInitialContextMenuOptions(initialContextMenuOptions);
