@@ -2,7 +2,7 @@
   "name": "sittly-devtools",
   "description": "Devtools for Sittly.",
   "authors": "Julian Kominovic",
-  "version": "1.0.5",
+  "version": "1.0.11",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "build:devtools": "rimraf dist && rimraf dist-types && tsc && node build.js && rimraf dist-types",
-    "prepublishOnly": "pnpm run build:devtools"
+    "prepublishOnly": "pnpm run build:devtools",
+    "postpublish": "rimraf dist"
   },
   "devDependencies": {
     "esbuild": "^0.19.0",

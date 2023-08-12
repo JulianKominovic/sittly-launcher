@@ -2,16 +2,66 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <link rel="stylesheet" href="/src/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tauri App</title>
-    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if (!window.__SITTLY_EXTENSIONS__) {
+        window.__SITTLY_EXTENSIONS__ = [];
+      }
+    </script>
   </head>
 
   <body class="h-screen p-4 overflow-hidden bg-transparent rounded-xl">
     <div
       id="root"
       class="h-full shadow-[0_0_12px_0_rgba(0,0,0,0.2)] bg-gradient-to-tr from-amber-50 via-orange-50 to-green-50 overflow-hidden rounded-xl"
-    ></div>
+    >
+      <style>
+        .spinner {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: radial-gradient(farthest-side, #b3b3cf 94%, #0000) top/9px
+              9px no-repeat,
+            conic-gradient(#0000 30%, #b3b3cf);
+          -webkit-mask: radial-gradient(
+            farthest-side,
+            #0000 calc(100% - 9px),
+            #000 0
+          );
+          animation: spinner-c7wet2 1s infinite linear;
+        }
+        .container-load {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          gap: 12px;
+        }
+        h2 {
+          color: #343434;
+        }
+        @keyframes spinner-c7wet2 {
+          100% {
+            transform: rotate(1turn);
+          }
+        }
+      </style>
+      <div class="container-load">
+        <div class="spinner"></div>
+        <h2>Loading...</h2>
+      </div>
+    </div>
+    <script type="module">
+      import { invoke } from "@tauri-apps/api/tauri";
+      invoke("get_compiled_code").then((code) => {
+        const script = document.createElement("script");
+        script.innerHTML = code;
+        document.body.appendChild(script);
+      });
+    </script>
   </body>
 </html>

@@ -3,6 +3,7 @@ import { BsGithub, BsTrash } from "react-icons/bs";
 import { useServices } from "../../@devtools/hooks/context";
 import { useLocalStorage } from "../../@devtools/hooks/localStorage";
 import { urlUtils } from "../../@devtools/lib/utils";
+import React from "react";
 
 /**
  * Extension items needs to be a function in order to use hooks

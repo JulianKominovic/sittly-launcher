@@ -25,6 +25,7 @@ const EventsRegister = () => {
     }));
   const { goBack, location } = useRouter();
 
+  //@ts-ignore
   const handleKeydown = (e: KeyboardEvent) => {
     if (e.code === "Escape") {
       if (eventIsFromContextMenu(e)) return;

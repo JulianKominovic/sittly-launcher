@@ -91,7 +91,11 @@ const RenderFooterStatus = () => {
   return <p>Sittly</p>;
 };
 
-export default function ({ commandRefInput }) {
+export default function ({
+  commandRefInput,
+}: {
+  commandRefInput: React.MutableRefObject<HTMLInputElement | null>;
+}) {
   const { contexMenuOptions, isContextMenuOpen, setContextMenuIsOpen } =
     useServices((state) => ({
       contexMenuOptions: state.contextMenuOptions,
@@ -157,7 +161,7 @@ export default function ({ commandRefInput }) {
                 ({ title, description, icon, onClick }, index) => {
                   return (
                     <CommandItem
-                      key={title + index}
+                      key={(title as any) + index}
                       id={title}
                       onKeyDownCapture={(e) => {
                         e.stopPropagation();

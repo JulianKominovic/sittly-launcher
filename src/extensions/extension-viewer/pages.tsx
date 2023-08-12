@@ -1,9 +1,11 @@
-import { BsCardText, BsGlobe, BsGrid, BsTrash } from "react-icons/bs";
+import { BsGlobe, BsGrid, BsTrash } from "react-icons/bs";
 import { SittlyCommand } from "../../@devtools/components/own_command";
 import { useServices } from "../../@devtools/hooks/context";
 import { useLocalStorage } from "../../@devtools/hooks/localStorage";
-import { ExtensionPages } from "../../@devtools/types";
+import { ExtensionMetadata, ExtensionPages } from "../../@devtools/types";
 import { openURI } from "../../@devtools/api/shell";
+import { mapExtensionsMetadata } from "../extension-assembly";
+import React from "react";
 
 const pages: ExtensionPages = [
   {
@@ -15,39 +17,43 @@ const pages: ExtensionPages = [
       const setContextMenuOptions = useServices(
         (state) => state.setContextMenuOptions
       );
-      const [extensions, setExtensions] = useLocalStorage<string[]>(
-        "extensions",
-        []
-      );
+      const [_, setExtensions] = useLocalStorage<string[]>("extensions", []);
       return (
         <SittlyCommand.List
           id="extensions"
-          items={extensions?.map((ext) => ({
-            title: ext,
-            description: ext,
-            icon: <BsCardText />,
-            onClick() {},
-            onHighlight() {
-              setContextMenuOptions([
-                {
-                  title: "Remove",
-                  description: "Remove extension",
-                  icon: <BsTrash />,
-                  onClick() {
-                    setExtensions((prev) => prev.filter((e) => e !== ext));
+          items={mapExtensionsMetadata()?.map((metadata: ExtensionMetadata) => {
+            return {
+              title: metadata.name,
+              description: metadata.description,
+              icon: metadata.icon,
+              onClick() {},
+              onHighlight() {
+                setContextMenuOptions([
+                  {
+                    title: "Remove",
+                    description: "Remove extension",
+                    icon: <BsTrash />,
+                    onClick() {
+                      setExtensions((prev) =>
+                        prev.filter(
+                          (e) => !new RegExp(e).test(metadata.repoUrl)
+                        )
+                      );
+                      location.reload();
+                    },
                   },
-                },
-                {
-                  title: "Open in browser",
-                  description: "Open extension in browser",
-                  icon: <BsGlobe />,
-                  onClick() {
-                    openURI(ext);
+                  {
+                    title: "Open in browser",
+                    description: "Open extension in browser",
+                    icon: <BsGlobe />,
+                    onClick() {
+                      openURI(metadata.repoUrl);
+                    },
                   },
-                },
-              ]);
-            },
-          }))}
+                ]);
+              },
+            };
+          })}
         />
       );
     },

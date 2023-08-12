@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { register, unregister } from "@tauri-apps/api/globalShortcut";
 import { appWindow } from "@tauri-apps/api/window";
 import { BrowserRouter } from "react-router-dom";
+import React from "react";
 
 const container = document.getElementById("root");
 const root = createRoot(container as HTMLElement); // createRoot(container!) if you use TypeScript

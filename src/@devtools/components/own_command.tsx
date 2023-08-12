@@ -338,7 +338,7 @@ const Item = ({
               )}
             >
               {title && (
-                <div className="flex-grow text-sm font-medium truncate text-foreground">
+                <div className="text-sm font-medium truncate text-foreground">
                   {title}
                 </div>
               )}

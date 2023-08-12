@@ -1,7 +1,8 @@
 import { ExtensionContextMenuItems } from "../../@devtools/types";
 import { useRouter } from "../../@devtools/hooks/router";
 import { BsArrowLeft, BsArrowRight, BsHouse } from "react-icons/bs";
-import { IoMdRefresh, IoMdRefreshCircle } from "react-icons/io";
+import { IoMdRefresh } from "react-icons/io";
+import React from "react";
 
 /**
  * Extension items needs to be a function in order to use hooks

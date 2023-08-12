@@ -13,6 +13,8 @@ import {
   prevMedia,
   setVolume,
 } from "../../@devtools/api/music";
+import React from "react";
+
 const items: ExtensionItems = () => {
   return [
     {

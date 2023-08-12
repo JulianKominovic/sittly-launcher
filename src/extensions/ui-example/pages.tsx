@@ -1,5 +1,5 @@
 import { BsCollection } from "react-icons/bs";
-import { ExtensionPage } from "../../@devtools/types";
+import { ExtensionPages } from "../../@devtools/types";
 import { Badge } from "../../@devtools/components/badge";
 import { Button } from "../../@devtools/components/button";
 import { Checkbox } from "../../@devtools/components/checkbox";
@@ -8,6 +8,7 @@ import { Input } from "../../@devtools/components/input";
 import { RadioGroup, RadioGroupItem } from "../../@devtools/components/radio";
 import { Slider } from "../../@devtools/components/slider";
 import { Switch } from "../../@devtools/components/switch";
+import React from "react";
 
 const Title = () => {
   return (
@@ -38,7 +39,7 @@ const GroupTitle = ({ children }: { children: string }) => {
   );
 };
 
-const Pages: ExtensionPage[] = [
+const Pages: ExtensionPages = [
   {
     name: "UI",
     route: "/ui-examples",

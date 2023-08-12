@@ -5,11 +5,13 @@ use dbus::{blocking::Connection, Message};
 use playerctl::PlayerCtl;
 use serde::{Deserialize, Serialize};
 use std::result::Result;
+use std::{os, path};
 use std::{
     process::Command,
     thread::{self, sleep},
     time::Duration,
 };
+
 use tauri::Manager;
 
 // struct AppState {
@@ -29,9 +31,9 @@ async fn previous_media() {
     PlayerCtl::previous()
 }
 /*
-   percent="10%+" -> increase volume by 10%
-   percent="10%-" -> decrease volume by 10%
-   percent="0" -> set volume to 0%
+percent="10%+" -> increase volume by 10%
+percent="10%-" -> decrease volume by 10%
+percent="0" -> set volume to 0%
 */
 #[tauri::command]
 async fn set_volume(volume: String) {
@@ -49,6 +51,33 @@ async fn paste_to_current_window() {
         .args(args)
         .output()
         .unwrap_or_else(|_| panic!("Failed to execute player info"));
+}
+
+#[tauri::command]
+async fn get_compiled_code() -> String {
+    let stdout = Command::new("node")
+        .args([format!(
+            "{}/.sittly/compile-extensions.js",
+            // Get homedir
+            std::env::var_os("HOME").unwrap().to_str().unwrap()
+        )
+        .as_str()])
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute player info"));
+
+    println!("{:?}", stdout);
+
+    let compiled_bundle = Command::new("cat")
+        .args([format!(
+            "{}/.sittly/dist/bundle.js",
+            // Get homedir
+            std::env::var_os("HOME").unwrap().to_str().unwrap()
+        )
+        .as_str()])
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute player info"));
+
+    String::from_utf8(compiled_bundle.stdout).unwrap()
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -96,9 +125,23 @@ fn main() {
                 }
                 sleep(Duration::from_millis(5000));
             });
+            Command::new("npm")
+                .current_dir(format!(
+                    "{}/.sittly",
+                    // Get homedir
+                    std::env::var_os("HOME").unwrap().to_str().unwrap()
+                ))
+                .args(["install"])
+                .output()
+                .unwrap_or_else(|_| panic!("Failed to execute player info"));
             Ok(())
         })
         .on_page_load(move |window, _| {
+
+            // let stderr = String::from_utf8(compiled.stderr).unwrap();
+            // let stdout = String::from_utf8(compiled.stdout).unwrap();
+
+            // window.eval(format!("const script = window.document.createElement('script');script.type = 'text/javascript';script.innerHTML=`{}` window.document.head.appendChild(script);",stdout.as_str()).as_str()).unwrap();
             // window
             //     .set_size(tauri::Size::Logical(LogicalSize {
             //         width: 200.0,
@@ -134,7 +177,8 @@ fn main() {
             previous_media,
             next_media,
             set_volume,
-            paste_to_current_window
+            paste_to_current_window,
+            get_compiled_code
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

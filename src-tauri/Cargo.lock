@@ -2795,6 +2795,7 @@ dependencies = [
  "ansi-to-html",
  "clap_complete",
  "dbus",
+ "pathdiff",
  "playerctl",
  "portable-pty",
  "serde",

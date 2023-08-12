@@ -16,6 +16,7 @@ export type ExtensionMetadata = {
   name: string;
   description: string;
   icon: ReactNode;
+  repoUrl: string;
 };
 
 export type ListItem = {
