@@ -1,5 +1,35 @@
+// import { useContext } from "react";
+// import { createContext } from "react";
+// import { ContextTypes, MusicServiceReturn } from "../types";
+
+// const ServicesContext = createContext<ContextTypes>({
+//   music: {
+//     title: "",
+//     artist: "",
+//     album: "",
+//     remainingMillis: 0,
+//     currentMillis: 0,
+//     durationMillis: 0,
+//     status: "Stopped",
+//   },
+
+//   setMusic: (music: MusicServiceReturn) => {},
+//   contextMenuOptions: [],
+//   setContextMenuOptions: (contextMenuOptions: any) => {},
+//   isContextMenuOpen: false,
+//   setContextMenuIsOpen: (isContextMenuOpen: boolean) => {},
+//   searchbarText: "",
+//   setSearchbarText: (searchbarText: string) => {},
+//   setInitialContextMenuOptions: (initialContextMenuOptions: any) => {},
+//   initialContextMenuOptions: [],
+// });
+// export const useServices = () => {
+//   return useContext(ServicesContext);
+// };
+
+// export default ServicesContext;
 import { create } from "zustand";
-import { MusicServiceReturn } from "../../services/music";
+import { MusicServiceReturn } from "../types";
 import { ListItem } from "../types";
 
 type ContextTypes = {

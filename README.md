@@ -151,6 +151,9 @@ Until v4, this extensions will be kept private in the same repository, but in th
 - [x] Devtools
   - [x] Compilation scripts
   - [x] Move UI components, hooks, services, utils, types, models, etc to npm sittly-devtools
+  - [ ] Find a better way of load extensions
+    - [ ] A faster compilation
+    - [ ] A secure way of load extensions
   - [x] sittly-devtools/components
   - [x] sittly-devtools/hooks
   - [x] sittly-devtools/api

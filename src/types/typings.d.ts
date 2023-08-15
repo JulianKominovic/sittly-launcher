@@ -4,7 +4,8 @@ import {
   ExtensionMetadata,
   ExtensionNoResultItems,
   ExtensionPages,
-} from "../@devtools/types";
+} from "../devtools/types";
+import sittlyDevtools from "../devtools";
 
 declare global {
   interface Window {
@@ -15,6 +16,8 @@ declare global {
       noResults?: ExtensionNoResultItems;
       metadata: ExtensionMetadata;
     }[];
+    React: any;
+    SittlyDevtools: typeof sittlyDevtools;
   }
 }
 

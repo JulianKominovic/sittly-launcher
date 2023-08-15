@@ -110,7 +110,7 @@ const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
-export {
+export default {
   Dialog,
   DialogTrigger,
   DialogContent,

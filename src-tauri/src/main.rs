@@ -45,6 +45,15 @@ async fn set_volume(volume: String) {
 }
 
 #[tauri::command]
+async fn download_extension(github_url: String) {
+    let args: [&str; 3] = ["clone", &github_url, "--depth=1"];
+    Command::new("git")
+        .args(args)
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to download github repo"));
+}
+
+#[tauri::command]
 async fn paste_to_current_window() {
     let args: [&str; 3] = ["key", "--clearmodifiers", "ctrl+shift+v"];
     Command::new("xdotool")
@@ -55,6 +64,16 @@ async fn paste_to_current_window() {
 
 #[tauri::command]
 async fn get_compiled_code() -> String {
+    Command::new("npm")
+        .current_dir(format!(
+            "{}/.sittly",
+            // Get homedir
+            std::env::var_os("HOME").unwrap().to_str().unwrap()
+        ))
+        .args(["install"])
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute player info"));
+
     let stdout = Command::new("node")
         .args([format!(
             "{}/.sittly/compile-extensions.js",
@@ -65,7 +84,7 @@ async fn get_compiled_code() -> String {
         .output()
         .unwrap_or_else(|_| panic!("Failed to execute player info"));
 
-    println!("{:?}", stdout);
+    print!("{:?}", String::from_utf8(stdout.stdout).unwrap());
 
     let compiled_bundle = Command::new("cat")
         .args([format!(
@@ -78,6 +97,21 @@ async fn get_compiled_code() -> String {
         .unwrap_or_else(|_| panic!("Failed to execute player info"));
 
     String::from_utf8(compiled_bundle.stdout).unwrap()
+}
+
+#[tauri::command]
+async fn cmd(command: String) -> Result<String, String> {
+    let args: [&str; 2] = ["-c", command.as_str()];
+    let output = Command::new("sh")
+        .args(args)
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute command"));
+    let stdout = String::from_utf8(output.stdout).unwrap();
+    let stderr = String::from_utf8(output.stderr).unwrap();
+    if stderr.len() > 0 {
+        return Err(stderr);
+    }
+    Ok(stdout)
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -125,15 +159,7 @@ fn main() {
                 }
                 sleep(Duration::from_millis(5000));
             });
-            Command::new("npm")
-                .current_dir(format!(
-                    "{}/.sittly",
-                    // Get homedir
-                    std::env::var_os("HOME").unwrap().to_str().unwrap()
-                ))
-                .args(["install"])
-                .output()
-                .unwrap_or_else(|_| panic!("Failed to execute player info"));
+
             Ok(())
         })
         .on_page_load(move |window, _| {
@@ -178,7 +204,9 @@ fn main() {
             next_media,
             set_volume,
             paste_to_current_window,
-            get_compiled_code
+            get_compiled_code,
+            download_extension,
+            cmd
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

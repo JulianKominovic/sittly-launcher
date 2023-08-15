@@ -1,7 +1,10 @@
+import { mapExtensionsNoResultItems } from "@/extensions/extension-assembly";
 import React, { forwardRef } from "react";
 
-import { SittlyCommand } from "../@devtools/components/own_command";
+import sittlyDevtools from "../devtools/index";
 
+const { components } = sittlyDevtools;
+const { Command: SittlyCommand } = components;
 export default forwardRef(function (
   {
     children,
@@ -10,8 +13,12 @@ export default forwardRef(function (
   },
   inputRef: React.Ref<HTMLInputElement> | undefined
 ) {
+  const noresult = mapExtensionsNoResultItems();
   return (
-    <SittlyCommand.Root className="flex-grow bg-transparent">
+    <SittlyCommand.Root
+      noResultItems={() => noresult}
+      className="flex-grow bg-transparent"
+    >
       <SittlyCommand.Input
         ref={inputRef}
         autoFocus

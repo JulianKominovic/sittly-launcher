@@ -1,9 +1,12 @@
-import { ExtensionContextMenuItems } from "../../@devtools/types";
-import { useRouter } from "../../@devtools/hooks/router";
+import { ExtensionContextMenuItems } from "../../devtools/types";
 import { BsArrowLeft, BsArrowRight, BsHouse } from "react-icons/bs";
 import { IoMdRefresh } from "react-icons/io";
 import React from "react";
+import sittlyDevtools from "../../devtools/index";
 
+const { hooks } = sittlyDevtools;
+
+const { useRouter } = hooks;
 /**
  * Extension items needs to be a function in order to use hooks
  * @returns Extension items

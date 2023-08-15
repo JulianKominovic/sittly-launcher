@@ -1,14 +1,5 @@
 import { listen } from "@tauri-apps/api/event";
-
-export type MusicServiceReturn = {
-  artist: string;
-  album: string;
-  title: string;
-  remainingMillis: number;
-  currentMillis: number;
-  durationMillis: number;
-  status: "Playing" | "Paused" | "Stopped";
-};
+import { MusicServiceReturn } from "../devtools/types";
 
 /**
  * Requires `playerctl` to be installed on the system

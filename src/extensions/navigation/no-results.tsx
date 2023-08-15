@@ -1,21 +1,20 @@
-import { ExtensionNoResultItems } from "../../@devtools/types";
+import { ExtensionNoResultItems } from "../../devtools/types";
 import { BsGithub, BsTrash } from "react-icons/bs";
-import { useServices } from "../../@devtools/hooks/context";
-import { useLocalStorage } from "../../@devtools/hooks/localStorage";
-import { urlUtils } from "../../@devtools/lib/utils";
-import React from "react";
+import sittlyDevtools from "../../devtools/index";
 
+import React from "react";
+const { hooks, utils } = sittlyDevtools;
+const { useLocalStorage, useServices } = hooks;
+const { urlUtils } = utils;
 /**
  * Extension items needs to be a function in order to use hooks
  * @returns Extension items
  */
 const items: ExtensionNoResultItems = () => {
-  const { setSearchbarText, searchbarText } = useServices((state) => {
-    return {
-      setSearchbarText: state.setSearchbarText,
-      searchbarText: state.searchbarText,
-    };
-  });
+  const { setSearchbarText, searchbarText } = useServices((state) => ({
+    setSearchbarText: state.setSearchbarText,
+    searchbarText: state.searchbarText,
+  }));
   const [extensions, setExtensions] = useLocalStorage<string[]>(
     "extensions",
     []

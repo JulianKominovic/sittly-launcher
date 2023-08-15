@@ -20,8 +20,8 @@ import { LightningBoltIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
-import { mapExtensionsNoResultItems } from "../../extensions/extension-assembly";
 import { ListItem } from "../types";
+import { ExtensionNoResultItems } from "../types";
 
 function shouldShowItem(item: ListItem) {
   return item.show === undefined ? true : item.show;
@@ -65,13 +65,15 @@ const Empty = () => {
 const Root = ({
   className,
   children,
+  noResultItems,
   ...props
 }: {
   className?: string;
   children: React.ReactNode;
+  noResultItems: ExtensionNoResultItems;
 } & React.HTMLProps<HTMLDivElement>) => {
   return (
-    <ListContextProvider>
+    <ListContextProvider noResultItems={noResultItems}>
       <div
         className={cn(
           "flex h-full w-full flex-col overflow-hidden rounded-md text-popover-foreground",
@@ -96,19 +98,28 @@ const List = ({
   id: string;
 } & React.HTMLProps<HTMLDivElement>) => {
   const ref = useRef<VirtuosoHandle>(null);
-  const _search = useServices((state) => state.searchbarText);
+  const {
+    searchbarText: _search,
+    isContextMenuOpen,
+    setContextMenuOptions,
+  } = useServices((state) => ({
+    searchbarText: state.searchbarText,
+    isContextMenuOpen: state.isContextMenuOpen,
+    setContextMenuOptions: state.setContextMenuOptions,
+  }));
+
   const search = useDeferredValue(_search);
-  const { setCurrentItemIndex, currentItemIndex } = useContext(ListContext);
+  const { setCurrentItemIndex, currentItemIndex, noResultItems } =
+    useContext(ListContext);
   // mapExtensionsNoResultItems should be at the top level
-  const noResultItems = mapExtensionsNoResultItems();
+
   const filteredItems = useMemo(() => {
     const filteredItems = filterItems(items, search);
     return filteredItems.length === 0
-      ? filterNoResultItems(noResultItems)
+      ? filterNoResultItems(noResultItems())
       : filteredItems;
   }, [items, search]);
 
-  const isContextMenuOpen = useServices((state) => state.isContextMenuOpen);
   const keyDownCallback = (e: KeyboardEvent) => {
     // Ignore all events from the context menu
     if (eventIsFromContextMenu(e)) return;
@@ -130,6 +141,9 @@ const List = ({
         index: nextIndex,
         behavior: "auto",
       });
+
+      setContextMenuOptions([]);
+      filteredItems[nextIndex]?.onHighlight?.();
       setCurrentItemIndex(nextIndex);
     }
   };
@@ -174,22 +188,31 @@ const Grid = ({
   id: string;
 } & React.HTMLProps<HTMLDivElement>) => {
   const ref = useRef<VirtuosoGridHandle>(null);
-  const _search = useServices((state) => state.searchbarText);
+  const {
+    searchbarText: _search,
+    isContextMenuOpen,
+    setContextMenuOptions,
+  } = useServices((state) => ({
+    searchbarText: state.searchbarText,
+    isContextMenuOpen: state.isContextMenuOpen,
+    setContextMenuOptions: state.setContextMenuOptions,
+  }));
+
   const search = useDeferredValue(_search);
-  const { setCurrentItemIndex, currentItemIndex } = useContext(ListContext);
+  const { setCurrentItemIndex, currentItemIndex, noResultItems } =
+    useContext(ListContext);
   // mapExtensionsNoResultItems should be at the top level
-  const noResultItems = mapExtensionsNoResultItems();
+
   const { areFallbackItems, filteredItems } = useMemo(() => {
     const filteredItems = filterItems(items, search);
     return {
       filteredItems:
         filteredItems.length === 0
-          ? filterNoResultItems(noResultItems)
+          ? filterNoResultItems(noResultItems())
           : filteredItems,
       areFallbackItems: filteredItems.length === 0,
     };
   }, [items, search]);
-  const isContextMenuOpen = useServices((state) => state.isContextMenuOpen);
 
   const keyDownCallback = (e: KeyboardEvent) => {
     // Ignore all events from the context menu
@@ -221,6 +244,9 @@ const Grid = ({
       behavior: "auto",
       align: "center",
     });
+
+    setContextMenuOptions([]);
+    filteredItems[nextIndex]?.onHighlight?.();
     setCurrentItemIndex(nextIndex);
   };
 
@@ -291,18 +317,13 @@ const Item = ({
   index: number;
 } & React.HTMLProps<HTMLButtonElement> &
   ListItem) => {
-  const setContextMenuOptions = useServices(
-    (state) => state.setContextMenuOptions
-  );
   const { currentItemIndex, setCurrentItemIndex } = useContext(ListContext);
-  useEffect(() => {
-    if (currentItemIndex === index) {
-      if (!onHighlight) return;
-      onHighlight();
-    } else {
-      setContextMenuOptions([]);
-    }
-  }, [currentItemIndex, onHighlight, setContextMenuOptions]);
+  // useEffect(() => {
+  //   if (currentItemIndex === index) {
+  //     if (!onHighlight) return;
+  //     onHighlight();
+  //   }
+  // }, [currentItemIndex, onHighlight]);
   return (
     <button
       {...props}
@@ -374,10 +395,8 @@ const Input = forwardRef(
     }: { className?: string } & React.HTMLProps<HTMLInputElement>,
     ref
   ) => {
-    const { _search, setSearch } = useServices((state) => ({
-      _search: state.searchbarText,
-      setSearch: state.setSearchbarText,
-    }));
+    const { searchbarText: _search, setSearchbarText: setSearch } =
+      useServices();
     const search = useDeferredValue(_search);
     const { setCurrentItemIndex } = useContext(ListContext);
     const { pathname } = useLocation();
@@ -416,22 +435,32 @@ const Input = forwardRef(
 const ListContext = createContext<{
   currentItemIndex: number;
   setCurrentItemIndex: React.Dispatch<React.SetStateAction<number>>;
+  noResultItems: ExtensionNoResultItems;
 }>({
   currentItemIndex: 0,
   setCurrentItemIndex: () => {},
+  noResultItems: () => [],
 } as any);
 
-const ListContextProvider = ({ children }: { children: React.ReactNode }) => {
+const ListContextProvider = ({
+  children,
+  noResultItems,
+}: {
+  children: React.ReactNode;
+  noResultItems: ExtensionNoResultItems;
+}) => {
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
   return (
-    <ListContext.Provider value={{ currentItemIndex, setCurrentItemIndex }}>
+    <ListContext.Provider
+      value={{ currentItemIndex, setCurrentItemIndex, noResultItems }}
+    >
       {children}
     </ListContext.Provider>
   );
 };
 
-export const SittlyCommand = {
+export default {
   Root,
   Input,
   // Group,

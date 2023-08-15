@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BsDot, BsMusicNote } from "react-icons/bs";
-import { useServices } from "../@devtools/hooks/context";
 import {
   Command,
   CommandInput,
@@ -10,7 +9,10 @@ import {
 import * as Popover from "@radix-ui/react-popover";
 import Kbd from "./Kbd";
 import clsx from "clsx";
+import sittlyDevtools from "../devtools/index";
 
+const { hooks } = sittlyDevtools;
+const { useServices } = hooks;
 const calculateAsyncTasksUtils = (
   tasks: { title: string; status: "FAILED" | "SUCCESS" | "IN_PROGRESS" }[]
 ): {
@@ -59,9 +61,7 @@ const calculateAsyncTasksUtils = (
 };
 
 const RenderFooterStatus = () => {
-  const { musicState } = useServices((state) => ({
-    musicState: state.music,
-  }));
+  const musicState = useServices((state) => state.music);
   const asyncTaskUtils = calculateAsyncTasksUtils([]);
 
   if (false) {
@@ -96,12 +96,8 @@ export default function ({
 }: {
   commandRefInput: React.MutableRefObject<HTMLInputElement | null>;
 }) {
-  const { contexMenuOptions, isContextMenuOpen, setContextMenuIsOpen } =
-    useServices((state) => ({
-      contexMenuOptions: state.contextMenuOptions,
-      setContextMenuIsOpen: state.setContextMenuIsOpen,
-      isContextMenuOpen: state.isContextMenuOpen,
-    }));
+  const { contextMenuOptions, isContextMenuOpen, setContextMenuIsOpen } =
+    useServices();
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const setContextMenuVisibility = (bool: boolean) => {
     setShowMoreOptions(bool);
@@ -114,7 +110,7 @@ export default function ({
 
   useEffect(() => {
     const callback = (e: KeyboardEvent) => {
-      if (contexMenuOptions.length > 0) {
+      if (contextMenuOptions.length > 0) {
         if (e.key === "o" && e.ctrlKey) {
           toggleContextMenuVisibility();
         }
@@ -124,7 +120,7 @@ export default function ({
     return () => {
       window.removeEventListener("keydown", callback);
     };
-  }, [contexMenuOptions, isContextMenuOpen, setContextMenuIsOpen]);
+  }, [contextMenuOptions, isContextMenuOpen, setContextMenuIsOpen]);
 
   return (
     <footer
@@ -140,7 +136,7 @@ export default function ({
         open={showMoreOptions}
         onOpenChange={setContextMenuVisibility}
       >
-        {contexMenuOptions.length > 0 ? (
+        {contextMenuOptions.length > 0 ? (
           <Popover.Trigger className="flex items-center gap-2 p-1 px-2 bg-white bg-opacity-50 border rounded-lg border-neutral-200">
             More options <Kbd keys="Ctrl+o" />
           </Popover.Trigger>
@@ -157,7 +153,7 @@ export default function ({
         >
           <Command className="bg-white bg-opacity-50 border shadow-lg rounded-xl backdrop-blur-2xl backdrop-saturate-200">
             <CommandList>
-              {contexMenuOptions.map(
+              {contextMenuOptions.map(
                 ({ title, description, icon, onClick }, index) => {
                   return (
                     <CommandItem

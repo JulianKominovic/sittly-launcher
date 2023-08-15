@@ -4,9 +4,9 @@
 //   BsPlayFill,
 //   BsRewindFill,
 // } from "react-icons/bs";
-// import { useServices } from "../@devtools/hooks/context";
-// import { nextMedia, playPause, prevMedia } from "../@devtools/api/music";
-// import { SittlyCommand } from "../@devtools/components/own_command";
+// import { useServices } from ".sittly-devtools/dist/hooks/context";
+// import { nextMedia, playPause, prevMedia } from ".sittly-devtools/dist/api/music";
+// import { SittlyCommand } from ".sittly-devtools/dist/components/own_command";
 
 // export default function () {
 //   const music = useServices((state) => state.music);

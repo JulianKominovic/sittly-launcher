@@ -8,7 +8,7 @@ import {
   ExtensionItems,
   ExtensionNoResultItems,
   ExtensionPages,
-} from "../@devtools/types";
+} from "../devtools/types";
 
 const extensions = (window as any).__SITTLY_EXTENSIONS__ ?? [];
 
@@ -71,7 +71,7 @@ export const mapExtensionsContextMenuItems = () =>
  * If used outside React components, it will throw an error because it uses React hooks internally.
  */
 export const mapExtensionsNoResultItems = () =>
-  noResultItemsImports().flatMap((item) => item().map((item: any) => item));
+  noResultItemsImports().flatMap((item) => item().map((item) => item));
 
 export const mapExtensionsMetadata = () =>
   extensions.map((ext: any) => ext.metadata);

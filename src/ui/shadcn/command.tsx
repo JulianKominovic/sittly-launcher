@@ -2,9 +2,12 @@ import * as React from "react";
 import { DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
+import sittlyDevtools from "../../devtools/index";
 
-import { cn } from "../../@devtools/lib/utils";
-import { Dialog, DialogContent } from "../../@devtools/components/dialog";
+const { utils, components } = sittlyDevtools;
+
+const { cn } = utils;
+const { Dialog } = components;
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
@@ -25,13 +28,13 @@ interface CommandDialogProps extends DialogProps {}
 
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
-    <Dialog {...props}>
-      <DialogContent className="p-0 overflow-hidden shadow-lg">
+    <Dialog.Root {...props}>
+      <Dialog.DialogContent className="p-0 overflow-hidden shadow-lg">
         <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
           {children}
         </Command>
-      </DialogContent>
-    </Dialog>
+      </Dialog.DialogContent>
+    </Dialog.Root>
   );
 };
 

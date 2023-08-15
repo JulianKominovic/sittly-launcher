@@ -8,14 +8,15 @@
     "declaration": true,
     "sourceMap": true,
     "target": "ESNext",
-    "outDir": "dist-types",
+    "outDir": "dist",
     "moduleResolution": "node",
     "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "declarationDir": "dist"
   },
-  "include": ["./**/*.tsx", "./**/*.ts", "../ui/shadcn/command.tsx"],
+  "include": ["./index.ts"],
   "exclude": [
     "dist",
     "node_modules",

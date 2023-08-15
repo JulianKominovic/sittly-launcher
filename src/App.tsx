@@ -2,19 +2,21 @@ import React, { useEffect, useRef } from "react";
 import Command from "./ui/Command";
 import Footer from "./ui/Footer";
 import { registerMusicListener } from "./services/music";
-import { useServices } from "./@devtools/hooks/context";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { SittlyCommand } from "./@devtools/components/own_command";
-import { useRouter } from "./@devtools/hooks/router";
 
 import {
   mapExtensionsContextMenuItems,
   mapExtensionsItems,
   mapExtensionsPages,
 } from "./extensions/extension-assembly";
-import { eventIsFromContextMenu } from "./@devtools/lib/utils";
 import { appWindow } from "@tauri-apps/api/window";
-import { ListItem } from "./@devtools/types";
+import sittlyDevtools from "./devtools/index";
+import { ListItem } from "./devtools/types";
+
+const { hooks, components, utils } = sittlyDevtools;
+const { Command: SittlyCommand } = components;
+const { useRouter, useServices } = hooks;
+const { eventIsFromContextMenu } = utils;
 
 const EventsRegister = () => {
   const {
@@ -25,8 +27,8 @@ const EventsRegister = () => {
   } = useServices((state) => ({
     setMusic: state.setMusic,
     setInitialContextMenuOptions: state.setInitialContextMenuOptions,
-    setContextMenuOptions: state.setContextMenuOptions,
     isContextMenuOpen: state.isContextMenuOpen,
+    setContextMenuOptions: state.setContextMenuOptions,
   }));
   const { goBack, location } = useRouter();
 

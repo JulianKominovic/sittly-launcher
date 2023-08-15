@@ -23,4 +23,4 @@ const Fieldset = {
   ),
 };
 
-export { Fieldset };
+export default Fieldset;

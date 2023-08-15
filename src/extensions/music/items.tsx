@@ -1,4 +1,4 @@
-import { ExtensionItems } from "../../@devtools/types";
+import { ExtensionItems } from "../../devtools/types";
 import {
   BsFastForward,
   BsPlay,
@@ -7,14 +7,13 @@ import {
   BsVolumeMute,
   BsVolumeUp,
 } from "react-icons/bs";
-import {
-  nextMedia,
-  playPause,
-  prevMedia,
-  setVolume,
-} from "../../@devtools/api/music";
+import sittlyDevtools from "../../devtools/index";
+
 import React from "react";
 
+const { api } = sittlyDevtools;
+const { music } = api;
+const { nextMedia, playPause, prevMedia, setVolume } = music;
 const items: ExtensionItems = () => {
   return [
     {

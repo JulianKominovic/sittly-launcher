@@ -73,3 +73,35 @@ export type ListItem = {
    */
   show?: boolean;
 };
+
+export type MusicServiceReturn = {
+  artist: string;
+  album: string;
+  title: string;
+  remainingMillis: number;
+  currentMillis: number;
+  durationMillis: number;
+  status: "Playing" | "Paused" | "Stopped";
+};
+
+export type ContextTypes = {
+  music: MusicServiceReturn;
+  /**
+   * @IMPORTANT Internal use only. Do not use this function.
+   */
+  setMusic: (music: MusicServiceReturn) => void;
+  contextMenuOptions: ListItem[];
+  setContextMenuOptions: (contextMenuOptions: ListItem[]) => void;
+  isContextMenuOpen: boolean;
+  /**
+   * @IMPORTANT Internal use only. Do not use this function.
+   */
+  setContextMenuIsOpen: (contextMenuIsOpen: boolean) => void;
+  searchbarText: string;
+  setSearchbarText: (searchbarText: string) => void;
+  /**
+   * @IMPORTANT Internal use only. Do not use this function.
+   */
+  setInitialContextMenuOptions: (initialContextMenuOptions: ListItem[]) => void;
+  initialContextMenuOptions: ListItem[];
+};

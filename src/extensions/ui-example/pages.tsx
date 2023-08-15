@@ -1,14 +1,11 @@
 import { BsCollection } from "react-icons/bs";
-import { ExtensionPages } from "../../@devtools/types";
-import { Badge } from "../../@devtools/components/badge";
-import { Button } from "../../@devtools/components/button";
-import { Checkbox } from "../../@devtools/components/checkbox";
-import { Fieldset } from "../../@devtools/components/fieldset";
-import { Input } from "../../@devtools/components/input";
-import { RadioGroup, RadioGroupItem } from "../../@devtools/components/radio";
-import { Slider } from "../../@devtools/components/slider";
-import { Switch } from "../../@devtools/components/switch";
+import { ExtensionPages } from "../../devtools/types";
 import React from "react";
+import sittlyDevtools from "../../devtools/index";
+
+const { components } = sittlyDevtools;
+const { Badge, Button, Checkbox, Fieldset, Input, Radio, Slider, Switch } =
+  components;
 
 const Title = () => {
   return (
@@ -108,21 +105,21 @@ const Pages: ExtensionPages = [
             <Switch>
               <Fieldset.Label className="min-w-[120px]">Switch</Fieldset.Label>
             </Switch>
-            <RadioGroup>
+            <Radio.Group>
               <Fieldset.Label className="min-w-[120px]">Radio 1</Fieldset.Label>
-              <RadioGroupItem value="1">
+              <Radio.GroupItem value="1">
                 <Fieldset.Label className="min-w-[120px]">
                   Radio 1
                 </Fieldset.Label>
                 <Fieldset.Details>Radio 1 details</Fieldset.Details>
-              </RadioGroupItem>
-              <RadioGroupItem value="2">
+              </Radio.GroupItem>
+              <Radio.GroupItem value="2">
                 <Fieldset.Label className="min-w-[120px]">
                   Radio 2
                 </Fieldset.Label>
                 <Fieldset.Details>Radio 2 details</Fieldset.Details>
-              </RadioGroupItem>
-            </RadioGroup>
+              </Radio.GroupItem>
+            </Radio.Group>
           </hgroup>
         </main>
       );

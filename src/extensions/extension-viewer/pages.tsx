@@ -1,12 +1,14 @@
 import { BsGlobe, BsGrid, BsTrash } from "react-icons/bs";
-import { SittlyCommand } from "../../@devtools/components/own_command";
-import { useServices } from "../../@devtools/hooks/context";
-import { useLocalStorage } from "../../@devtools/hooks/localStorage";
-import { ExtensionMetadata, ExtensionPages } from "../../@devtools/types";
-import { openURI } from "../../@devtools/api/shell";
+import { ExtensionMetadata, ExtensionPages } from "../../devtools/types";
 import { mapExtensionsMetadata } from "../extension-assembly";
 import React from "react";
+import sittlyDevtools from "../../devtools/index";
 
+const { components, hooks, api } = sittlyDevtools;
+const { shell } = api;
+const { openURI } = shell;
+const { useServices, useLocalStorage } = hooks;
+const { Command: SittlyCommand } = components;
 const pages: ExtensionPages = [
   {
     name: "Extensions",

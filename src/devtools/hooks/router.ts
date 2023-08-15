@@ -15,6 +15,9 @@ export function useRouter() {
   function goToHome() {
     return navigate("/");
   }
+  function reload() {
+    return window.location.reload();
+  }
 
   return {
     goBack,
@@ -22,6 +25,6 @@ export function useRouter() {
     goTo,
     goToHome,
     location,
+    reload,
   };
 }
-export default useRouter;
