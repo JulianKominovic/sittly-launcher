@@ -2449,6 +2449,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7bd3e3206899af3f8b12af284fafc038cc1dc2b41d1b89dd17297221c5d225de"
 
 [[package]]
+name = "sittly"
+version = "0.0.0"
+dependencies = [
+ "ansi-to-html",
+ "clap_complete",
+ "dbus",
+ "pathdiff",
+ "playerctl",
+ "portable-pty",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tokio",
+]
+
+[[package]]
 name = "slab"
 version = "0.4.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2786,23 +2803,6 @@ dependencies = [
  "webview2-com",
  "windows 0.39.0",
  "wry",
-]
-
-[[package]]
-name = "tauri-terminal"
-version = "0.0.0"
-dependencies = [
- "ansi-to-html",
- "clap_complete",
- "dbus",
- "pathdiff",
- "playerctl",
- "portable-pty",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tokio",
 ]
 
 [[package]]

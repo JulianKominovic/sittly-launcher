@@ -1,12 +1,4 @@
 import React from "react";
-import sittlyDevtools from "./devtools/index";
-
-// Plug the devtools when end testing
-// const sittlyDevtools = window.SittlyDevtools
-
-window.React = React;
-// window.SittlyDevtools = SittlyDevtools;
-window.SittlyDevtools = sittlyDevtools;
 import App from "./App";
 import { createRoot } from "react-dom/client";
 import { register, unregister } from "@tauri-apps/api/globalShortcut";

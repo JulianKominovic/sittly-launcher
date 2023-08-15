@@ -40,6 +40,8 @@ pnpm run tauri dev
 
 ### Creating extensions
 
+Call to action for bored devs.
+
 ## Usage
 
 ## Roadmap
@@ -74,7 +76,7 @@ First version of the UI, with all the components needed to build a launcher.
   - [x] Switch
   - [x] Slider
   - [ ] Color picker
-- [ ] Markdown renderer
+- [ ] **Markdown renderer**
 - [ ] Links
 - [ ] Layouts
 
@@ -95,6 +97,7 @@ Until v4, this extensions will be kept private in the same repository, but in th
   - [ ] Readme
 - [x] Navigation
   - [x] Routing
+  - [x] Reload
   - [x] Back button
   - [x] Forward button
   - [x] Home button
@@ -135,7 +138,7 @@ Until v4, this extensions will be kept private in the same repository, but in th
 - [ ] Extension dev template
   - [x] Github template
   - [x] Github hosting compiled extensions
-  - [ ] Version control
+  - [ ] Control version
   - [ ] Fast refresh
 - [ ] Docs
   - [ ] Nextjs docs or docusaurus
@@ -151,11 +154,68 @@ Until v4, this extensions will be kept private in the same repository, but in th
 - [x] Devtools
   - [x] Compilation scripts
   - [x] Move UI components, hooks, services, utils, types, models, etc to npm sittly-devtools
-  - [ ] Find a better way of load extensions
-    - [ ] A faster compilation
-    - [ ] A secure way of load extensions
+  - [ ] Extension load system
+  - [ ] Faster extension development
   - [x] sittly-devtools/components
   - [x] sittly-devtools/hooks
   - [x] sittly-devtools/api
   - [x] sittly-devtools/types
   - [x] sittly-devtools/lib/utils
+
+### v5 In-App extension store
+
+- [ ] Database
+- [ ] Store extension
+- [ ] Install extension
+- [ ] Uninstall extension
+- [ ] Update extension
+- [ ] Extension info
+- [ ] Extension search
+- [ ] Extension categories
+- [ ] Extension tags
+- [ ] Extension rating
+- [ ] Extension comments
+- [ ] Extension screenshots
+- [ ] Extension videos
+- [ ] Extension stats
+- [ ] Extension versions
+- [ ] Extension dependencies
+
+### v6 Landing, website, web store
+
+- [ ] Nextjs website
+- [ ] Landing
+- [ ] Web store
+
+### v7 Advanced SO integrations
+
+- [ ] Filesystem
+- [ ] Battery level
+- [ ] Wifi
+- [ ] Bluetooth
+- [ ] Audio
+- [ ] Video
+- [ ] Dbus interface (linux)
+- [ ] Brightness
+- [ ] System stats
+- [ ] System info
+- [ ] Wallpaper
+- [ ] Screenshots
+- [ ] Clipboard history
+- [ ] Window manager
+
+### v8 Node environment
+
+- [ ] Isolated node environment
+- [ ] IPC communication
+- [ ] Lightweight node environment
+- [ ] useNode hook
+
+### v9 Advanced UI
+
+- [ ] Animations
+- [ ] Transitions
+- [ ] Customization
+- [ ] Themes
+- [ ] Layouts
+- [ ] Custom components

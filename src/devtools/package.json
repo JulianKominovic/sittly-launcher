@@ -2,7 +2,7 @@
   "name": "sittly-devtools",
   "description": "Devtools for Sittly.",
   "authors": "Julian Kominovic",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -46,7 +46,6 @@
     "react-router": "^6.14.2",
     "react-router-dom": "^6.14.2",
     "react-virtuoso": "^4.3.10",
-    "sittly-devtools": "^1.0.29",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
     "unicode-emoji": "^2.4.0",

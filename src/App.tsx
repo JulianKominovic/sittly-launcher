@@ -93,7 +93,11 @@ const App = () => {
           <Route
             path="/"
             element={
-              <SittlyCommand.List id="index-commands" items={indexItems} />
+              <SittlyCommand.List
+                key="index-commands"
+                id="index-commands"
+                items={indexItems}
+              />
             }
           />
           {mappedPages.map((page) => {

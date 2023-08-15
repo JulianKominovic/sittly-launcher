@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "tauri-terminal",
+    "productName": "sittly",
     "version": "0.0.0"
   },
   "tauri": {
@@ -28,6 +28,19 @@
       },
       "path": {
         "all": true
+      },
+      "fs": {
+        "all": false,
+        "copyFile": false,
+        "createDir": true,
+        "exists": true,
+        "readDir": false,
+        "readFile": true,
+        "removeDir": false,
+        "removeFile": false,
+        "renameFile": false,
+        "scope": ["$HOME/.sittly"],
+        "writeFile": true
       },
       "window": {
         "all": false,
@@ -53,7 +66,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.jkominovic.sittly",
-      "targets": "all"
+      "targets": "deb"
     },
     "security": {
       "csp": null
