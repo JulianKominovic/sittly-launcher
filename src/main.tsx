@@ -1,3 +1,6 @@
+await window.extensionsLoaded;
+console.log("INITIALIZING MAIN APP");
+
 import React from "react";
 import App from "./App";
 import { createRoot } from "react-dom/client";

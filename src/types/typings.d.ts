@@ -16,6 +16,7 @@ declare global {
       noResults?: ExtensionNoResultItems;
       metadata: ExtensionMetadata;
     }[];
+    extensionsLoaded: Promise<void>;
     React: any;
     SittlyDevtools: typeof sittlyDevtools;
   }

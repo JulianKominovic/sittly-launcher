@@ -33,13 +33,13 @@
         "all": false,
         "copyFile": false,
         "createDir": true,
-        "exists": true,
-        "readDir": false,
+        "exists": false,
+        "readDir": true,
         "readFile": true,
         "removeDir": false,
         "removeFile": false,
         "renameFile": false,
-        "scope": ["$HOME/.sittly"],
+        "scope": ["$HOME/.sittly/**/*"],
         "writeFile": true
       },
       "window": {
