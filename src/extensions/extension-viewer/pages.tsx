@@ -1,13 +1,13 @@
 import { BsGlobe, BsGrid, BsTrash } from "react-icons/bs";
 import { ExtensionMetadata, ExtensionPages } from "../../devtools/types";
-import { mapExtensionsMetadata } from "../extension-assembly";
+import { deleteExtension, mapExtensionsMetadata } from "../extension-assembly";
 import React from "react";
 import sittlyDevtools from "../../devtools/index";
 
 const { components, hooks, api } = sittlyDevtools;
 const { shell } = api;
 const { openURI } = shell;
-const { useServices, useLocalStorage } = hooks;
+const { useServices } = hooks;
 const { Command: SittlyCommand } = components;
 const pages: ExtensionPages = [
   {
@@ -19,7 +19,6 @@ const pages: ExtensionPages = [
       const setContextMenuOptions = useServices(
         (state) => state.setContextMenuOptions
       );
-      const [_, setExtensions] = useLocalStorage<string[]>("extensions", []);
       return (
         <SittlyCommand.List
           id="extensions"
@@ -36,12 +35,9 @@ const pages: ExtensionPages = [
                     description: "Remove extension",
                     icon: <BsTrash />,
                     onClick() {
-                      setExtensions((prev) =>
-                        prev.filter(
-                          (e) => !new RegExp(e).test(metadata.repoUrl)
-                        )
-                      );
-                      location.reload();
+                      deleteExtension(metadata).then(() => {
+                        location.reload();
+                      });
                     },
                   },
                   {

@@ -6,9 +6,18 @@ import noResultNavigation from "./navigation/no-results";
 import {
   ExtensionContextMenuItems,
   ExtensionItems,
+  ExtensionMetadata,
   ExtensionNoResultItems,
   ExtensionPages,
 } from "../devtools/types";
+import {
+  createDir,
+  readDir,
+  readTextFile,
+  removeDir,
+  writeFile,
+} from "@tauri-apps/api/fs";
+import { join, homeDir } from "@tauri-apps/api/path";
 
 const extensions = (window as any).__SITTLY_EXTENSIONS__ ?? [];
 
@@ -75,3 +84,39 @@ export const mapExtensionsNoResultItems = () =>
 
 export const mapExtensionsMetadata = () =>
   extensions.map((ext: any) => ext.metadata);
+
+export async function downloadExtension(githubRepoUrl: string) {
+  const Url = new URL(githubRepoUrl);
+  const [_, username, repo] = Url.pathname.split("/");
+  const rawGithubFile = `https://raw.githubusercontent.com/${username}/${repo}/main/dist/compiled.js`;
+  const home = await homeDir();
+  const sittlyExtensionsPath = await join(home, ".sittly", "extensions", repo);
+  const sittlyExtensionsPathDistFile = await join(
+    sittlyExtensionsPath,
+    "compiled.js"
+  );
+
+  const response = await fetch(rawGithubFile).then((res) => res.text());
+  await createDir(sittlyExtensionsPath, { recursive: true }).catch((err) =>
+    console.log(err)
+  );
+  await writeFile(sittlyExtensionsPathDistFile, response).catch((err) =>
+    console.log(err)
+  );
+}
+
+export function listExtensions() {
+  return window.__SITTLY_EXTENSIONS__.map((ext) => ext.metadata);
+}
+
+export async function deleteExtension(extension: ExtensionMetadata) {
+  const home = await homeDir();
+  const Url = new URL(extension.repoUrl);
+  const [_, username, repo] = Url.pathname.split("/");
+  console.log(username, repo);
+  const sittlyExtensionsPath = await join(home, ".sittly", "extensions", repo);
+
+  await removeDir(sittlyExtensionsPath, {
+    recursive: true,
+  }).catch((err) => console.log(err));
+}

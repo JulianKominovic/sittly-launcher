@@ -3,6 +3,7 @@ import { BsGithub, BsTrash } from "react-icons/bs";
 import sittlyDevtools from "../../devtools/index";
 
 import React from "react";
+import { downloadExtension } from "../extension-assembly";
 const { hooks, utils } = sittlyDevtools;
 const { useLocalStorage, useServices } = hooks;
 const { urlUtils } = utils;
@@ -15,11 +16,6 @@ const items: ExtensionNoResultItems = () => {
     setSearchbarText: state.setSearchbarText,
     searchbarText: state.searchbarText,
   }));
-  const [extensions, setExtensions] = useLocalStorage<string[]>(
-    "extensions",
-    []
-  );
-  const extensionIsInstalled = extensions.includes(searchbarText);
 
   return [
     {
@@ -32,17 +28,12 @@ const items: ExtensionNoResultItems = () => {
     },
     {
       onClick() {
-        setExtensions((prev) =>
-          extensionIsInstalled
-            ? prev.filter((ext) => !new RegExp(ext).test(searchbarText), "i")
-            : [...prev, searchbarText]
-        );
-        window.location.reload();
+        downloadExtension(searchbarText).then(() => {
+          window.location.reload();
+        });
       },
-      title: `${extensionIsInstalled ? "Remove" : "Add"} to extensions`,
-      description: `${
-        extensionIsInstalled ? "Remove" : "Add"
-      } extension from Github repo`,
+      title: `Add to extensions`,
+      description: `Add extension from Github repo`,
       icon: <BsGithub />,
       show: urlUtils.isGithubUrl(searchbarText),
     },

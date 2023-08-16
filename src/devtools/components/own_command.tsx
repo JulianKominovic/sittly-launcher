@@ -329,7 +329,7 @@ const Item = ({
       {...props}
       className={cn(
         "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 rounded-lg w-full",
-        currentItemIndex === index ? "bg-neutral-200" : "",
+        currentItemIndex === index ? "bg-opacity-5 bg-neutral-900" : "",
         displayType === "GRID"
           ? "flex-col items-start h-auto"
           : "flex-row  h-9",

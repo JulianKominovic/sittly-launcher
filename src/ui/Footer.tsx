@@ -137,8 +137,8 @@ export default function ({
         onOpenChange={setContextMenuVisibility}
       >
         {contextMenuOptions.length > 0 ? (
-          <Popover.Trigger className="flex items-center gap-2 p-1 px-2 bg-white bg-opacity-50 border rounded-lg border-neutral-200">
-            More options <Kbd keys="Ctrl+o" />
+          <Popover.Trigger className="flex items-center gap-2 p-1 px-2 bg-transparent rounded-lg">
+            More options <Kbd keys={["Ctrl", "O"]} />
           </Popover.Trigger>
         ) : null}
 
@@ -151,7 +151,7 @@ export default function ({
           alignOffset={6}
           sideOffset={6}
         >
-          <Command className="bg-white bg-opacity-50 border shadow-lg rounded-xl backdrop-blur-2xl backdrop-saturate-200">
+          <Command className="bg-white border shadow-lg bg-opacity-60 rounded-xl backdrop-blur-2xl backdrop-saturate-200">
             <CommandList>
               {contextMenuOptions.map(
                 ({ title, description, icon, onClick }, index) => {
