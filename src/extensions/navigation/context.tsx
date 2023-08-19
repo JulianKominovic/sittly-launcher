@@ -1,8 +1,9 @@
 import { ExtensionContextMenuItems } from "../../devtools/types";
 import { BsArrowLeft, BsArrowRight, BsHouse } from "react-icons/bs";
-import { IoMdRefresh } from "react-icons/io";
+import { IoMdExit, IoMdRefresh } from "react-icons/io";
 import React from "react";
 import sittlyDevtools from "../../devtools/index";
+import { appWindow } from "@tauri-apps/api/window";
 
 const { hooks } = sittlyDevtools;
 
@@ -45,6 +46,14 @@ const items: ExtensionContextMenuItems = () => {
       title: "Reload",
       description: "Fast reload the page",
       icon: <IoMdRefresh />,
+    },
+    {
+      onClick() {
+        appWindow.close();
+      },
+      title: "Quit",
+      description: "Quit the app",
+      icon: <IoMdExit />,
     },
   ];
 };
