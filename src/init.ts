@@ -19,7 +19,12 @@ async function initLoad() {
   }).catch((err) => console.log(err));
 
   const sittlyExtensions = await readDir(sittlyExtensionsPath);
-  const thisScript = document.querySelector("#init-script");
+  console.log("SITTLY EXTENSIONS PATH: ", sittlyExtensionsPath);
+  const thisScript = import.meta.env.DEV
+    ? document.querySelector("#init-script")
+    : document.querySelector("#sittly-extensions-set");
+
+  console.log("THIS SCRIPT: ", thisScript);
   (await Promise.allSettled(
     sittlyExtensions.map(async (extension) => {
       const extensionFile = await join(extension.path, "compiled.js");

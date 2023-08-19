@@ -1,11 +1,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use dbus::{blocking::Connection, Message};
 use playerctl::PlayerCtl;
 use serde::{Deserialize, Serialize};
 use std::result::Result;
-use std::{os, path};
 use std::{
     process::Command,
     thread::{self, sleep},
@@ -163,7 +161,11 @@ fn main() {
             Ok(())
         })
         .on_page_load(move |window, _| {
-
+            #[cfg(debug_assertions)] // only include this code on debug builds
+            {
+                window.open_devtools();
+                window.close_devtools();
+            }
             // let stderr = String::from_utf8(compiled.stderr).unwrap();
             // let stdout = String::from_utf8(compiled.stdout).unwrap();
 

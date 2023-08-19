@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/src/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tauri App</title>
-    <script>
+    <script id="sittly-extensions-set">
       if (!window.__SITTLY_EXTENSIONS__) {
         window.__SITTLY_EXTENSIONS__ = [];
       }
@@ -55,19 +55,8 @@
         <h2>Loading...</h2>
       </div>
     </div>
-    <!-- <script type="module">
-      import { invoke } from "@tauri-apps/api/tauri";
-      invoke("get_compiled_code").then((code) => {
-        const script = document.createElement("script");
-        script.innerHTML = code;
-        document.body.appendChild(script);
-      });
-    </script> -->
-    
-    <script src="/src/init.ts" type="module" id="init-script"></script>
-    <script  src="/src/main.tsx" type="module"></script>
-  
 
-    </script>
+    <script src="/src/init.ts" type="module" id="init-script"></script>
+    <script src="/src/main.tsx" type="module" id="main-script"></script>
   </body>
 </html>

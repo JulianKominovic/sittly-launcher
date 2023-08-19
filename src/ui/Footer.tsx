@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BsDot, BsMusicNote } from "react-icons/bs";
 import {
   Command,
