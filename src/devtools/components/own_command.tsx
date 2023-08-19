@@ -318,12 +318,6 @@ const Item = ({
 } & React.HTMLProps<HTMLButtonElement> &
   ListItem) => {
   const { currentItemIndex, setCurrentItemIndex } = useContext(ListContext);
-  // useEffect(() => {
-  //   if (currentItemIndex === index) {
-  //     if (!onHighlight) return;
-  //     onHighlight();
-  //   }
-  // }, [currentItemIndex, onHighlight]);
   return (
     <button
       {...props}
@@ -335,8 +329,12 @@ const Item = ({
           : "flex-row  h-9",
         className
       )}
-      onClick={onClick}
+      onClick={() => {
+        onClick?.();
+      }}
       onMouseEnter={() => {
+        if (currentItemIndex === index) return;
+        onHighlight?.();
         setCurrentItemIndex(index);
       }}
     >

@@ -162,7 +162,13 @@ Until v4, this extensions will be kept private in the same repository, but in th
   - [x] sittly-devtools/types
   - [x] sittly-devtools/lib/utils
 
-### v5 In-App extension store
+### v5 Landing, website, web store
+
+- [ ] Nextjs website
+- [ ] Landing
+- [ ] Web store
+
+### v6 In-App extension store
 
 - [ ] Database
 - [ ] Store extension
@@ -180,12 +186,6 @@ Until v4, this extensions will be kept private in the same repository, but in th
 - [ ] Extension stats
 - [ ] Extension versions
 - [ ] Extension dependencies
-
-### v6 Landing, website, web store
-
-- [ ] Nextjs website
-- [ ] Landing
-- [ ] Web store
 
 ### v7 Advanced SO integrations
 

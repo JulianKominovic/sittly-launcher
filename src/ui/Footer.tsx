@@ -98,13 +98,10 @@ export default function ({
 }) {
   const { contextMenuOptions, isContextMenuOpen, setContextMenuIsOpen } =
     useServices();
-  const [showMoreOptions, setShowMoreOptions] = useState(false);
   const setContextMenuVisibility = (bool: boolean) => {
-    setShowMoreOptions(bool);
     setContextMenuIsOpen(bool);
   };
   const toggleContextMenuVisibility = () => {
-    setShowMoreOptions((prev) => !prev);
     setContextMenuIsOpen(!isContextMenuOpen);
   };
 
@@ -133,7 +130,7 @@ export default function ({
       <RenderFooterStatus />
 
       <Popover.Root
-        open={showMoreOptions}
+        open={isContextMenuOpen}
         onOpenChange={setContextMenuVisibility}
       >
         {contextMenuOptions.length > 0 ? (

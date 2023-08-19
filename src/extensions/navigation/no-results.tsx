@@ -5,7 +5,7 @@ import sittlyDevtools from "../../devtools/index";
 import React from "react";
 import { downloadExtension } from "../extension-assembly";
 const { hooks, utils } = sittlyDevtools;
-const { useLocalStorage, useServices } = hooks;
+const { useServices } = hooks;
 const { urlUtils } = utils;
 /**
  * Extension items needs to be a function in order to use hooks

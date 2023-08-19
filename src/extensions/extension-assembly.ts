@@ -3,6 +3,7 @@ import extensionViewPages from "./extension-viewer/pages";
 import musicItems from "./music/items";
 import contextMenuNavigation from "./navigation/context";
 import noResultNavigation from "./navigation/no-results";
+import storePage from "./store/page";
 import {
   ExtensionContextMenuItems,
   ExtensionItems,
@@ -10,22 +11,16 @@ import {
   ExtensionNoResultItems,
   ExtensionPages,
 } from "../devtools/types";
-import {
-  createDir,
-  readDir,
-  readTextFile,
-  removeDir,
-  writeFile,
-} from "@tauri-apps/api/fs";
+import { createDir, removeDir, writeFile } from "@tauri-apps/api/fs";
 import { join, homeDir } from "@tauri-apps/api/path";
 
 const extensions = (window as any).__SITTLY_EXTENSIONS__ ?? [];
 
-export const pages = [uiExamplePages, extensionViewPages];
+export const pages = [uiExamplePages, extensionViewPages, storePage];
 export const items = [musicItems];
 export const contextMenuItems = [contextMenuNavigation];
 export const noResultItems = [noResultNavigation];
-console.log(extensions);
+
 export const pagesImports = () =>
   pages.concat(
     extensions
@@ -56,7 +51,6 @@ export const noResultItemsImports = () =>
  *
  * If used outside React components, it will throw an error because it uses React hooks internally.
  */
-console.log(pagesImports());
 
 export const mapExtensionsPages = () =>
   pagesImports().flatMap((page) => page.map((page: any) => page));
@@ -112,8 +106,7 @@ export function listExtensions() {
 export async function deleteExtension(extension: ExtensionMetadata) {
   const home = await homeDir();
   const Url = new URL(extension.repoUrl);
-  const [_, username, repo] = Url.pathname.split("/");
-  console.log(username, repo);
+  const [_, _username, repo] = Url.pathname.split("/");
   const sittlyExtensionsPath = await join(home, ".sittly", "extensions", repo);
 
   await removeDir(sittlyExtensionsPath, {

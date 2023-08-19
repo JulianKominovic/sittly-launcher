@@ -29,9 +29,7 @@ export default defineConfig(async () => ({
     sourcemap: !!process.env.TAURI_DEBUG,
   },
   plugins: [react()],
-  optimizeDeps: {
-    exclude: ["@swc/wasm-web"],
-  },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

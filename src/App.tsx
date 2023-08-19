@@ -24,14 +24,17 @@ const EventsRegister = () => {
     setInitialContextMenuOptions,
     isContextMenuOpen,
     setContextMenuOptions,
+    setSearchbarText,
+    setContextMenuIsOpen,
   } = useServices((state) => ({
     setMusic: state.setMusic,
     setInitialContextMenuOptions: state.setInitialContextMenuOptions,
     isContextMenuOpen: state.isContextMenuOpen,
+    setContextMenuIsOpen: state.setContextMenuIsOpen,
     setContextMenuOptions: state.setContextMenuOptions,
+    setSearchbarText: state.setSearchbarText,
   }));
   const { goBack, location } = useRouter();
-
   //@ts-ignore
   const handleKeydown = (e: KeyboardEvent) => {
     if (e.code === "Escape") {
@@ -45,6 +48,10 @@ const EventsRegister = () => {
       goBack();
     }
   };
+  const handleContextMenuChange = (e: MouseEvent) => {
+    setContextMenuIsOpen(true);
+    e.preventDefault();
+  };
   const initialContextMenuOptions = mapExtensionsContextMenuItems();
   useEffect(() => {
     window.addEventListener("keydown", handleKeydown);
@@ -54,7 +61,16 @@ const EventsRegister = () => {
     };
   }, [handleKeydown]);
   useEffect(() => {
+    window.addEventListener("contextmenu", handleContextMenuChange);
+
+    return () => {
+      window.removeEventListener("contextmenu", handleContextMenuChange);
+    };
+  }, [handleContextMenuChange]);
+
+  useEffect(() => {
     setContextMenuOptions([]);
+    setSearchbarText("");
   }, [location.pathname]);
   useEffect(() => {
     const unlisten = registerMusicListener(setMusic);
