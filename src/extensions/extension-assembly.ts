@@ -84,7 +84,13 @@ export async function downloadExtension(githubRepoUrl: string) {
   const [_, username, repo] = Url.pathname.split("/");
   const rawGithubFile = `https://raw.githubusercontent.com/${username}/${repo}/main/dist/compiled.js`;
   const home = await homeDir();
-  const sittlyExtensionsPath = await join(home, ".sittly", "extensions", repo);
+  const sittlyExtensionsPath = await join(
+    home,
+    ".sittly",
+    "extensions",
+    repo,
+    "dist"
+  );
   const sittlyExtensionsPathDistFile = await join(
     sittlyExtensionsPath,
     "compiled.js"

@@ -27,7 +27,7 @@ async function initLoad() {
   console.log("THIS SCRIPT: ", thisScript);
   (await Promise.allSettled(
     sittlyExtensions.map(async (extension) => {
-      const extensionFile = await join(extension.path, "compiled.js");
+      const extensionFile = await join(extension.path, "dist", "compiled.js");
       const fileContent = await readTextFile(extensionFile);
       const script = document.createElement("script");
       script.innerHTML = fileContent;
