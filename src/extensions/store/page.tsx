@@ -36,9 +36,12 @@ const pages: ExtensionPages = [
           )
             .from(DATABASE_TABLE_NAME)
             .select()
-            .neq(
+            .not(
               "url",
-              window.__SITTLY_EXTENSIONS__?.map((e) => e.metadata.repoUrl)
+              "in",
+              `(${window.__SITTLY_EXTENSIONS__
+                ?.map((e) => e.metadata.repoUrl)
+                .join(",")})`
             );
 
           setLoading(false);

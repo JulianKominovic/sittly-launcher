@@ -110,10 +110,6 @@ dependencies:
   react-virtuoso:
     specifier: ^4.3.10
     version: 4.3.10(react-dom@18.2.0)(react@18.2.0)
-  sittly-devtools:
-    specifier: ^1.0.29
-    version: >-
-      1.0.29(@babel/plugin-proposal-class-properties@7.18.6)(@babel/preset-env@7.22.10)(@babel/preset-react@7.22.5)(@babel/preset-typescript@7.22.5)(@chialab/esbuild-plugin-html@0.17.3)(@originjs/vite-plugin-commonjs@1.0.3)(@radix-ui/react-checkbox@1.0.4)(@radix-ui/react-dialog@1.0.4)(@radix-ui/react-icons@1.3.0)(@radix-ui/react-popover@1.0.6)(@radix-ui/react-radio-group@1.1.3)(@radix-ui/react-slider@1.1.2)(@radix-ui/react-slot@1.0.2)(@radix-ui/react-switch@1.0.3)(@swc/wasm-web@1.3.76)(@tauri-apps/api@1.2.0)(@tauri-apps/cli@1.2.2)(@types/node@20.4.2)(@types/react-dom@18.2.5)(@types/react@18.2.12)(@vitejs/plugin-react@4.0.0)(autoprefixer@10.4.14)(babel-loader@9.1.3)(class-variance-authority@0.6.1)(clsx@1.2.1)(cmdk@0.2.0)(esbuild@0.19.0)(framer-motion@10.12.18)(lucide-react@0.260.0)(postcss@8.4.24)(react-dom@18.2.0)(react-icons@4.9.0)(react-router-dom@6.14.2)(react-router@6.14.2)(react-virtuoso@4.3.10)(react@18.2.0)(tailwind-merge@1.13.2)(tailwindcss-animate@1.0.6)(tailwindcss@3.3.2)(typescript@5.1.6)(unicode-emoji-utils@1.1.2)(unicode-emoji@2.4.0)(usehooks-ts@2.9.1)(vite-plugin-require@1.1.10)(vite@4.0.0)(webpack-cli@5.1.4)(webpack-dev-server@4.15.1)(webpack-node-externals@3.0.0)(webpack@5.88.2)(zustand@4.3.9)
   tailwind-merge:
     specifier: ^1.13.2
     version: 1.13.2
@@ -6366,115 +6362,6 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  ? /sittly-devtools@1.0.29(@babel/plugin-proposal-class-properties@7.18.6)(@babel/preset-env@7.22.10)(@babel/preset-react@7.22.5)(@babel/preset-typescript@7.22.5)(@chialab/esbuild-plugin-html@0.17.3)(@originjs/vite-plugin-commonjs@1.0.3)(@radix-ui/react-checkbox@1.0.4)(@radix-ui/react-dialog@1.0.4)(@radix-ui/react-icons@1.3.0)(@radix-ui/react-popover@1.0.6)(@radix-ui/react-radio-group@1.1.3)(@radix-ui/react-slider@1.1.2)(@radix-ui/react-slot@1.0.2)(@radix-ui/react-switch@1.0.3)(@swc/wasm-web@1.3.76)(@tauri-apps/api@1.2.0)(@tauri-apps/cli@1.2.2)(@types/node@20.4.2)(@types/react-dom@18.2.5)(@types/react@18.2.12)(@vitejs/plugin-react@4.0.0)(autoprefixer@10.4.14)(babel-loader@9.1.3)(class-variance-authority@0.6.1)(clsx@1.2.1)(cmdk@0.2.0)(esbuild@0.19.0)(framer-motion@10.12.18)(lucide-react@0.260.0)(postcss@8.4.24)(react-dom@18.2.0)(react-icons@4.9.0)(react-router-dom@6.14.2)(react-router@6.14.2)(react-virtuoso@4.3.10)(react@18.2.0)(tailwind-merge@1.13.2)(tailwindcss-animate@1.0.6)(tailwindcss@3.3.2)(typescript@5.1.6)(unicode-emoji-utils@1.1.2)(unicode-emoji@2.4.0)(usehooks-ts@2.9.1)(vite-plugin-require@1.1.10)(vite@4.0.0)(webpack-cli@5.1.4)(webpack-dev-server@4.15.1)(webpack-node-externals@3.0.0)(webpack@5.88.2)(zustand@4.3.9)
-  : resolution: {integrity: sha512-3KMBmTQrg7FEaNKuir5MQyOQXSPdXB5xLdSDh2jJcMI5F7MeCXX8F6zqGd6oAvf1n0QRkEngi82+v2gRp0KD7w==}
-    peerDependencies:
-      '@babel/plugin-proposal-class-properties': ^7.18.6
-      '@babel/preset-env': ^7.22.10
-      '@babel/preset-react': ^7.22.5
-      '@babel/preset-typescript': ^7.22.5
-      '@chialab/esbuild-plugin-html': ^0.17.3
-      '@originjs/vite-plugin-commonjs': ^1.0.3
-      '@radix-ui/react-checkbox': ^1.0.4
-      '@radix-ui/react-dialog': ^1.0.4
-      '@radix-ui/react-icons': ^1.3.0
-      '@radix-ui/react-popover': ^1.0.6
-      '@radix-ui/react-radio-group': ^1.1.3
-      '@radix-ui/react-slider': ^1.1.2
-      '@radix-ui/react-slot': ^1.0.2
-      '@radix-ui/react-switch': ^1.0.3
-      '@swc/wasm-web': ^1.3.76
-      '@tauri-apps/api': ^1.2.0
-      '@tauri-apps/cli': ^1.2.2
-      '@types/node': ^20.4.2
-      '@types/react': ^18.2.12
-      '@types/react-dom': ^18.2.5
-      '@vitejs/plugin-react': ^4.0.0
-      autoprefixer: ^10.4.14
-      babel-loader: ^9.1.3
-      class-variance-authority: ^0.6.1
-      clsx: ^1.2.1
-      cmdk: ^0.2.0
-      esbuild: ^0.19.1
-      framer-motion: ^10.12.18
-      lucide-react: ^0.260.0
-      postcss: ^8.4.24
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      react-icons: ^4.9.0
-      react-router: ^6.14.2
-      react-router-dom: ^6.14.2
-      react-virtuoso: ^4.3.10
-      sittly-devtools: ^1.0.28
-      tailwind-merge: ^1.13.2
-      tailwindcss: ^3.3.2
-      tailwindcss-animate: ^1.0.6
-      typescript: ^4.9.5
-      unicode-emoji: ^2.4.0
-      unicode-emoji-utils: ^1.1.2
-      usehooks-ts: ^2.9.1
-      vite: ^4.0.0
-      vite-plugin-require: ^1.1.10
-      webpack: ^5.88.2
-      webpack-cli: ^5.1.4
-      webpack-dev-server: ^4.15.1
-      webpack-node-externals: ^3.0.0
-      zustand: ^4.3.9
-    dependencies:
-      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.22.10)
-      '@babel/preset-env': 7.22.10(@babel/core@7.22.10)
-      '@babel/preset-react': 7.22.5(@babel/core@7.22.10)
-      '@babel/preset-typescript': 7.22.5(@babel/core@7.22.10)
-      '@chialab/esbuild-plugin-html': 0.17.3
-      '@originjs/vite-plugin-commonjs': 1.0.3
-      '@radix-ui/react-checkbox': 1.0.4(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-dialog': 1.0.4(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-icons': 1.3.0(react@18.2.0)
-      '@radix-ui/react-popover': 1.0.6(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-radio-group': 1.1.3(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-slider': 1.1.2(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-slot': 1.0.2(@types/react@18.2.12)(react@18.2.0)
-      '@radix-ui/react-switch': 1.0.3(@types/react-dom@18.2.5)(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
-      '@swc/wasm-web': 1.3.76
-      '@tauri-apps/api': 1.2.0
-      '@tauri-apps/cli': 1.2.2
-      '@types/node': 20.4.2
-      '@types/react': 18.2.12
-      '@types/react-dom': 18.2.5
-      '@vitejs/plugin-react': 4.0.0(vite@4.0.0)
-      autoprefixer: 10.4.14(postcss@8.4.24)
-      babel-loader: 9.1.3(@babel/core@7.22.10)(webpack@5.88.2)
-      class-variance-authority: 0.6.1
-      clsx: 1.2.1
-      cmdk: 0.2.0(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
-      esbuild: 0.19.0
-      framer-motion: 10.12.18(react-dom@18.2.0)(react@18.2.0)
-      lucide-react: 0.260.0(react@18.2.0)
-      postcss: 8.4.24
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-icons: 4.9.0(react@18.2.0)
-      react-router: 6.14.2(react@18.2.0)
-      react-router-dom: 6.14.2(react-dom@18.2.0)(react@18.2.0)
-      react-virtuoso: 4.3.10(react-dom@18.2.0)(react@18.2.0)
-      sittly-devtools: >-
-        1.0.29(@babel/plugin-proposal-class-properties@7.18.6)(@babel/preset-env@7.22.10)(@babel/preset-react@7.22.5)(@babel/preset-typescript@7.22.5)(@chialab/esbuild-plugin-html@0.17.3)(@originjs/vite-plugin-commonjs@1.0.3)(@radix-ui/react-checkbox@1.0.4)(@radix-ui/react-dialog@1.0.4)(@radix-ui/react-icons@1.3.0)(@radix-ui/react-popover@1.0.6)(@radix-ui/react-radio-group@1.1.3)(@radix-ui/react-slider@1.1.2)(@radix-ui/react-slot@1.0.2)(@radix-ui/react-switch@1.0.3)(@swc/wasm-web@1.3.76)(@tauri-apps/api@1.2.0)(@tauri-apps/cli@1.2.2)(@types/node@20.4.2)(@types/react-dom@18.2.5)(@types/react@18.2.12)(@vitejs/plugin-react@4.0.0)(autoprefixer@10.4.14)(babel-loader@9.1.3)(class-variance-authority@0.6.1)(clsx@1.2.1)(cmdk@0.2.0)(esbuild@0.19.0)(framer-motion@10.12.18)(lucide-react@0.260.0)(postcss@8.4.24)(react-dom@18.2.0)(react-icons@4.9.0)(react-router-dom@6.14.2)(react-router@6.14.2)(react-virtuoso@4.3.10)(react@18.2.0)(tailwind-merge@1.13.2)(tailwindcss-animate@1.0.6)(tailwindcss@3.3.2)(typescript@5.1.6)(unicode-emoji-utils@1.1.2)(unicode-emoji@2.4.0)(usehooks-ts@2.9.1)(vite-plugin-require@1.1.10)(vite@4.0.0)(webpack-cli@5.1.4)(webpack-dev-server@4.15.1)(webpack-node-externals@3.0.0)(webpack@5.88.2)(zustand@4.3.9)
-      tailwind-merge: 1.13.2
-      tailwindcss: 3.3.2
-      tailwindcss-animate: 1.0.6(tailwindcss@3.3.2)
-      typescript: 5.1.6
-      unicode-emoji: 2.4.0
-      unicode-emoji-utils: 1.1.2
-      usehooks-ts: 2.9.1(react-dom@18.2.0)(react@18.2.0)
-      vite: 4.0.0(@types/node@20.4.2)
-      vite-plugin-require: 1.1.10(css-loader@6.8.1)(esbuild@0.19.0)(react-dom@18.2.0)(react@18.2.0)(vite@4.0.0)(webpack-cli@5.1.4)
-      webpack: 5.88.2(esbuild@0.19.0)(webpack-cli@5.1.4)
-      webpack-cli: 5.1.4(webpack-dev-server@4.15.1)(webpack@5.88.2)
-      webpack-dev-server: 4.15.1(webpack-cli@5.1.4)(webpack@5.88.2)
-      webpack-node-externals: 3.0.0
-      zustand: 4.3.9(react@18.2.0)
-    dev: false
-
   /slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
@@ -6810,6 +6697,7 @@ packages:
     resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
 
   /unicode-canonical-property-names-ecmascript@2.0.0:
     resolution: {integrity: sha512-yY5PpDlfVIU5+y/BSCxAJRBIS1Zc2dDG3Ujq+sR0U+JjUevW2JhocOF+soROYDSaAezOzOKuyyixhD6mBknSmQ==}
