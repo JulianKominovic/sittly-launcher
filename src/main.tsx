@@ -22,3 +22,8 @@ register("Ctrl+Alt+K", async () => {
   await appWindow.setFocus();
   await appWindow.show();
 });
+if (import.meta.env.PROD) {
+  appWindow.onFocusChanged(({ payload: focused }) => {
+    if (!focused) appWindow.hide();
+  });
+}
