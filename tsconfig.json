@@ -7,6 +7,7 @@
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "types": ["vite/client"],
     "noEmit": true,
@@ -19,5 +20,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["node_modules", "dist"]
 }

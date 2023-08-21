@@ -12,7 +12,6 @@ import {
 import { appWindow } from "@tauri-apps/api/window";
 import sittlyDevtools from "./devtools/index";
 import { ListItem } from "./devtools/types";
-import { saveImage } from "./devtools/api/files";
 
 const { hooks, components, utils } = sittlyDevtools;
 const { Command: SittlyCommand } = components;
