@@ -2,6 +2,7 @@ import os from "os";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { Buffer } from "buffer";
 const mobile =
   process.env.TAURI_PLATFORM === "android" ||
   process.env.TAURI_PLATFORM === "ios";
@@ -33,6 +34,7 @@ export default defineConfig(async () => ({
 
   resolve: {
     alias: {
+      "node:buffer": "buffer",
       "@": path.resolve(__dirname, "./src"),
       "@ext": path.resolve(__dirname, "./src/extensions"),
       "@extensions": path.relative(

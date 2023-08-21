@@ -17,6 +17,11 @@
         "all": false,
         "open": true
       },
+      "http": {
+        "all": true,
+        "request": true,
+        "scope": ["https://**"]
+      },
       "clipboard": {
         "all": true
       },
@@ -54,6 +59,9 @@
         "startDragging": true,
         "center": true,
         "setFocus": true
+      },
+      "dialog": {
+        "all": true
       }
     },
 

@@ -148,7 +148,7 @@ export default function ({
           alignOffset={6}
           sideOffset={6}
         >
-          <Command className="bg-white border shadow-lg bg-opacity-60 rounded-xl backdrop-blur-2xl backdrop-saturate-200 max-h-72">
+          <Command className="bg-white border shadow-lg bg-opacity-80 rounded-xl backdrop-blur-xl backdrop-saturate-200 max-h-72">
             <CommandList>
               {contextMenuOptions.map(
                 ({ title, description, icon, onClick }, index) => {

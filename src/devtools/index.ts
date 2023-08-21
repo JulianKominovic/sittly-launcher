@@ -2,6 +2,7 @@ import * as clipboard from "./api/clipboard";
 import * as music from "./api/music";
 import * as notifications from "./api/notifications";
 import * as shell from "./api/shell";
+import * as files from "./api/files";
 
 import * as Badge from "./components/badge";
 import * as Button from "./components/button";
@@ -48,6 +49,7 @@ const api = {
   music,
   notifications,
   shell,
+  files,
 };
 
 const hooks = {
