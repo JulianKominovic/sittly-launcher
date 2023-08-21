@@ -14,7 +14,6 @@ export default forwardRef(function (
   inputRef: React.Ref<HTMLInputElement> | undefined
 ) {
   const noresult = mapExtensionsNoResultItems();
-  console.log("COMMAND RENDER");
   return (
     <SittlyCommand.Root
       noResultItems={() => noresult}

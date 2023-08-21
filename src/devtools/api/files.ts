@@ -7,6 +7,9 @@ import { fetch, ResponseType } from "@tauri-apps/api/http";
 
 /**
  * Saves an image from a URL to user's disk and shows a notification
+ * @example
+ * saveImage("https://example.com/image.png")
+ *
  */
 export const saveImage = async (imageSrc: string) => {
   // Fetch the image as a blob

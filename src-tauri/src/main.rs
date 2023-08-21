@@ -1,6 +1,5 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-
 use playerctl::PlayerCtl;
 use serde::{Deserialize, Serialize};
 use std::result::Result;
@@ -9,8 +8,8 @@ use std::{
     thread::{self, sleep},
     time::Duration,
 };
-
 use tauri::Manager;
+use wallpaper;
 
 // struct AppState {
 //     writer: Arc<AsyncMutex<Box<dyn Write + Send>>>,
@@ -95,6 +94,11 @@ async fn get_compiled_code() -> String {
         .unwrap_or_else(|_| panic!("Failed to execute player info"));
 
     String::from_utf8(compiled_bundle.stdout).unwrap()
+}
+
+#[tauri::command]
+async fn set_wallpaper(path: String) {
+    wallpaper::set_from_path(path.as_str()).unwrap();
 }
 
 #[tauri::command]
@@ -208,7 +212,8 @@ fn main() {
             paste_to_current_window,
             get_compiled_code,
             download_extension,
-            cmd
+            cmd,
+            set_wallpaper
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
