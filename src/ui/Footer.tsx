@@ -148,7 +148,7 @@ export default function ({
           alignOffset={6}
           sideOffset={6}
         >
-          <Command className="bg-white border shadow-lg bg-opacity-60 rounded-xl backdrop-blur-2xl backdrop-saturate-200">
+          <Command className="bg-white border shadow-lg bg-opacity-60 rounded-xl backdrop-blur-2xl backdrop-saturate-200 max-h-72">
             <CommandList>
               {contextMenuOptions.map(
                 ({ title, description, icon, onClick }, index) => {
@@ -178,7 +178,9 @@ export default function ({
                           className: "text-sm",
                         })}
                       <p>{title}</p>
-                      <span className="text-slate-500">{description}</span>
+                      <span className="truncate max-w-[40ch] text-slate-500">
+                        {description}
+                      </span>
                     </CommandItem>
                   );
                 }
