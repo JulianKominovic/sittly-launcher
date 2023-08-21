@@ -10,7 +10,7 @@ export const pasteToCurrentWindow = async (
   await writeText(text);
   await appWindow.hide();
   const overflow = text.length > 20;
-  invoke("paste_to_current_window");
+  await invoke("paste_to_current_window");
   sendNotification({
     title: "Paste to current window",
     body: `Paste ${text.slice(0, 20)}${overflow ? "..." : " "}to application`,
