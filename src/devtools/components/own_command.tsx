@@ -326,7 +326,7 @@ const Item = ({
         currentItemIndex === index ? "bg-opacity-5 bg-neutral-900" : "",
         displayType === "GRID"
           ? "flex-col items-start h-auto"
-          : "flex-row  h-9",
+          : "flex-row h-11",
         className
       )}
       onClick={() => {
@@ -345,8 +345,8 @@ const Item = ({
           {icon && (
             <div
               className={clsx(
-                "rounded-md",
-                displayType === "GRID" ? "w-auto" : "w-5 "
+                "rounded-md overflow-hidden flex justify-center items-center",
+                displayType === "GRID" ? "w-auto" : "w-7"
               )}
             >
               {icon}
