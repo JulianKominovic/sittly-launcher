@@ -4,6 +4,7 @@ import * as notifications from "./api/notifications";
 import * as shell from "./api/shell";
 import * as files from "./api/files";
 import * as indicators from "./api/indicators";
+import * as app from "./api/app";
 
 import * as Badge from "./components/badge";
 import * as Button from "./components/button";
@@ -52,6 +53,7 @@ const api = {
   shell,
   files,
   indicators,
+  app,
 };
 
 const hooks = {
