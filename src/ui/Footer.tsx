@@ -10,67 +10,71 @@ import * as Popover from "@radix-ui/react-popover";
 import Kbd from "./Kbd";
 import clsx from "clsx";
 import sittlyDevtools from "../devtools/index";
+import { AsyncStatusEvent } from "@/devtools/types/events";
 
 const { hooks } = sittlyDevtools;
 const { useServices } = hooks;
 const calculateAsyncTasksUtils = (
-  tasks: { title: string; status: "FAILED" | "SUCCESS" | "IN_PROGRESS" }[]
+  task: AsyncStatusEvent
 ): {
   background: string;
   color: string;
-  title: string;
   border: string;
 } => {
-  if (tasks.length === 0)
-    return {
-      background: "",
-      color: "",
-      title: "",
-      border: "",
-    };
-  const taskFailed = tasks.find((task) => task.status === "FAILED");
+  const taskFailed = task.status === "ERROR";
   if (taskFailed)
     return {
       background: "from-red-100 to-red-50",
-      color: "text-red-500",
-      title: taskFailed.title,
+      color: "text-red-600",
       border: "border-red-100",
     };
-  if (tasks.every((task) => task.status === "SUCCESS"))
+  if (task.status === "SUCCESS")
     return {
       background: "from-green-100 to-green-50",
-      color: "text-green-500",
-      title: "All tasks completed",
+      color: "text-green-600",
       border: "border-green-100",
     };
-  const taskInProgress = tasks.find((task) => task.status === "IN_PROGRESS");
-  if (taskInProgress)
+  if (task.status === "IN_PROGRESS")
     return {
       background: "from-amber-100 to-amber-50",
-      color: "text-amber-500",
+      color: "text-amber-600",
       border: "border-amber-100",
-
-      title: taskInProgress.title,
     };
   return {
     background: "",
     color: "",
-    title: "",
     border: "",
   };
 };
 
-const RenderFooterStatus = () => {
+const RenderFooterStatus = ({
+  asyncOperation,
+}: {
+  asyncOperation: AsyncStatusEvent;
+}) => {
   const musicState = useServices((state) => state.music);
-  const asyncTaskUtils = calculateAsyncTasksUtils([]);
+  const asyncTaskUtils = calculateAsyncTasksUtils(asyncOperation);
 
-  if (false) {
+  if (asyncOperation.status !== "IDLE") {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 max-w-[40ch] overflow-hidden ">
         <BsDot
-          className={clsx(asyncTaskUtils.color, "text-4xl -m-2 animate-pulse")}
+          className={clsx(
+            asyncTaskUtils.color,
+            "text-3xl animate-pulse min-w-fit w-auto block"
+          )}
         />
-        <p className={clsx(asyncTaskUtils.color)}>{asyncTaskUtils.title}</p>
+        <p
+          className={clsx(
+            asyncTaskUtils.color,
+            "font-semibold whitespace-nowrap"
+          )}
+        >
+          {asyncOperation.title}
+        </p>
+        <small className={clsx(asyncTaskUtils.color, "text-sm truncate")}>
+          {asyncOperation.description}
+        </small>
       </div>
     );
   }
@@ -96,8 +100,17 @@ export default function ({
 }: {
   commandRefInput: React.MutableRefObject<HTMLInputElement | null>;
 }) {
-  const { contextMenuOptions, isContextMenuOpen, setContextMenuIsOpen } =
-    useServices();
+  const {
+    contextMenuOptions,
+    isContextMenuOpen,
+    setContextMenuIsOpen,
+    asyncOperation,
+  } = useServices((state) => ({
+    contextMenuOptions: state.contextMenuOptions,
+    isContextMenuOpen: state.isContextMenuOpen,
+    setContextMenuIsOpen: state.setContextMenuIsOpen,
+    asyncOperation: state.asyncOperation,
+  }));
   const setContextMenuVisibility = (bool: boolean) => {
     setContextMenuIsOpen(bool);
   };
@@ -122,12 +135,12 @@ export default function ({
   return (
     <footer
       className={clsx(
-        calculateAsyncTasksUtils([]).background,
-        calculateAsyncTasksUtils([]).border,
+        calculateAsyncTasksUtils(asyncOperation).background,
+        calculateAsyncTasksUtils(asyncOperation).border,
         "flex items-center justify-between h-10 px-2 text-sm border-t text-slate-600 bg-gradient-to-r from-transparent to-transparent"
       )}
     >
-      <RenderFooterStatus />
+      <RenderFooterStatus asyncOperation={asyncOperation} />
 
       <Popover.Root
         open={isContextMenuOpen}

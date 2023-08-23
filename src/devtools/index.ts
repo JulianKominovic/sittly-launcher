@@ -3,6 +3,7 @@ import * as music from "./api/music";
 import * as notifications from "./api/notifications";
 import * as shell from "./api/shell";
 import * as files from "./api/files";
+import * as indicators from "./api/indicators";
 
 import * as Badge from "./components/badge";
 import * as Button from "./components/button";
@@ -50,6 +51,7 @@ const api = {
   notifications,
   shell,
   files,
+  indicators,
 };
 
 const hooks = {

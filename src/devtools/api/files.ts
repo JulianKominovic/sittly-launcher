@@ -4,6 +4,7 @@ import { downloadDir } from "@tauri-apps/api/path";
 import { sendNotification } from "./notifications";
 import { fileTypeFromBuffer } from "file-type";
 import { fetch, ResponseType } from "@tauri-apps/api/http";
+import { notifyAsyncOperationStatus } from "./indicators";
 
 /**
  * Saves an image from a URL to user's disk and shows a notification
@@ -12,6 +13,12 @@ import { fetch, ResponseType } from "@tauri-apps/api/http";
  *
  */
 export const saveImage = async (imageSrc: string) => {
+  notifyAsyncOperationStatus({
+    title: "Saving image",
+    description: "wait a moment...",
+    status: "IN_PROGRESS",
+  });
+
   // Fetch the image as a blob
   let fileType = "";
   const { data: blob } = await fetch(imageSrc, {
@@ -32,6 +39,11 @@ export const saveImage = async (imageSrc: string) => {
     if (filePath) {
       // Now we can write the file to the disk
       await writeBinaryFile(filePath, arrayBuffer);
+      notifyAsyncOperationStatus({
+        title: "Image saved",
+        description: "The image has been saved to " + filePath,
+        status: "SUCCESS",
+      });
       return sendNotification({
         title: "Image saved",
         body: "The image has been saved to " + filePath,
@@ -40,6 +52,11 @@ export const saveImage = async (imageSrc: string) => {
     }
   }
 
+  notifyAsyncOperationStatus({
+    title: "Failed to save image",
+    description: "The image could not be saved",
+    status: "ERROR",
+  });
   return sendNotification({
     title: "Reading image failed",
     body: "The image could not be read",

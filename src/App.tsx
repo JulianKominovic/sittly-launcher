@@ -12,6 +12,7 @@ import {
 import { appWindow } from "@tauri-apps/api/window";
 import sittlyDevtools from "./devtools/index";
 import { ListItem } from "./devtools/types";
+import { AsyncStatusEvent, SittlyCustomEvents } from "./devtools/types/events";
 
 const { hooks, components, utils } = sittlyDevtools;
 const { Command: SittlyCommand } = components;
@@ -26,6 +27,7 @@ const EventsRegister = () => {
     setContextMenuOptions,
     setSearchbarText,
     setContextMenuIsOpen,
+    setAsyncOperation,
   } = useServices((state) => ({
     setMusic: state.setMusic,
     setInitialContextMenuOptions: state.setInitialContextMenuOptions,
@@ -33,6 +35,7 @@ const EventsRegister = () => {
     setContextMenuIsOpen: state.setContextMenuIsOpen,
     setContextMenuOptions: state.setContextMenuOptions,
     setSearchbarText: state.setSearchbarText,
+    setAsyncOperation: state.setAsyncOperation,
   }));
   const { goBack, location } = useRouter();
   //@ts-ignore
@@ -51,6 +54,12 @@ const EventsRegister = () => {
   const handleContextMenuChange = (e: MouseEvent) => {
     setContextMenuIsOpen(true);
     e.preventDefault();
+  };
+  const handleAsyncStatusEvent = ({
+    detail,
+  }: CustomEvent<AsyncStatusEvent>) => {
+    console.log("ASYNC STATUS EVENT", detail);
+    setAsyncOperation(detail);
   };
   const initialContextMenuOptions = mapExtensionsContextMenuItems();
   useEffect(() => {
@@ -76,7 +85,16 @@ const EventsRegister = () => {
     const unlisten = registerMusicListener(setMusic);
     setInitialContextMenuOptions(initialContextMenuOptions);
 
+    window.addEventListener(
+      SittlyCustomEvents.ASYNC_STATUS,
+      handleAsyncStatusEvent as any
+    );
+
     return () => {
+      window.removeEventListener(
+        SittlyCustomEvents.ASYNC_STATUS,
+        handleAsyncStatusEvent as any
+      );
       unlisten.then((unlisten) => unlisten());
     };
   }, []);
