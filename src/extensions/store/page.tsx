@@ -6,6 +6,8 @@ import sittlyDevtools from "../../devtools/index";
 import { ExtensionDatabaseModel } from "@/types/extension";
 import { createClient } from "@supabase/supabase-js";
 import { DATABASE_TABLE_NAME } from "@/config";
+import { notifyAsyncOperationStatus } from "@/devtools/api/indicators";
+import { ListSkeleton } from "@/devtools/components/skeletons";
 
 const { components, hooks, api } = sittlyDevtools;
 const { shell, notifications } = api;
@@ -30,6 +32,11 @@ const pages: ExtensionPages = [
       const [loading, setLoading] = useState(true);
       useEffect(() => {
         async function fetchExtensions() {
+          notifyAsyncOperationStatus({
+            title: "Loading",
+            status: "IN_PROGRESS",
+            description: "wait while we fetch extensions",
+          });
           const { data, error } = await createClient(
             import.meta.env.VITE_DB_REST_URL,
             import.meta.env.VITE_ANON_PUBLIC_KEY
@@ -45,19 +52,31 @@ const pages: ExtensionPages = [
             );
 
           setLoading(false);
-          if (error)
+          if (error) {
+            notifyAsyncOperationStatus({
+              title: "Error",
+              status: "ERROR",
+              description: "while fetching extensions",
+            });
             return sendNotification({
               title: "Error",
               body: "Error getting extensions",
               icon: "sync-error",
             });
+          }
+
+          notifyAsyncOperationStatus({
+            title: "Extensions loaded",
+            status: "SUCCESS",
+            description: "extensions loaded successfully",
+          });
           const extensionsGet = data as ExtensionDatabaseModel[];
           setExtensions(extensionsGet);
         }
         fetchExtensions();
       }, []);
 
-      if (loading) return <div>Loading...</div>;
+      if (loading) return <ListSkeleton />;
       return (
         <SittlyCommand.List
           id="extensions"

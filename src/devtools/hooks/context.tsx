@@ -60,6 +60,7 @@ const useServices = create<ContextTypes>((set, get) => ({
 
   setAsyncOperation: (asyncOperation: AsyncStatusEvent) => {
     if (asyncOperation.status === "IN_PROGRESS") return set({ asyncOperation });
+    clearTimeout(get().asyncOpTimeoutId);
     const timeoutId = setTimeout(() => {
       set({ asyncOperation: { title: "", status: "IDLE", description: "" } });
     }, 3000);
