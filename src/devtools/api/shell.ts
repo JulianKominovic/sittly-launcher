@@ -1,4 +1,4 @@
-import { fs, invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api";
 import { createDir, writeBinaryFile } from "@tauri-apps/api/fs";
 import { fetch, ResponseType } from "@tauri-apps/api/http";
 import { open } from "@tauri-apps/api/shell";
