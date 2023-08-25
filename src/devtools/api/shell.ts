@@ -8,6 +8,11 @@ import { homeDir, join } from "@tauri-apps/api/path";
 import { notifyAsyncOperationStatus } from "./indicators";
 
 /**
+ *
+ * Shell are the APIs that allow you to interact with the desktop env.
+ */
+
+/**
  * Open any URI using the default app
 @example // opens the given URL on the default browser:
 await open('https://github.com/tauri-apps/tauri');
@@ -81,3 +86,7 @@ export const setWallpaper = async (path: string): Promise<void> => {
     });
   }
 };
+
+export function getSelectedText() {
+  return invoke<string>("get_selected_text");
+}
