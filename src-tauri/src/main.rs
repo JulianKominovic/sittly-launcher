@@ -100,6 +100,18 @@ async fn get_compiled_code() -> String {
 async fn set_wallpaper(path: String) {
     wallpaper::set_from_path(path.as_str()).unwrap();
 }
+#[tauri::command]
+async fn get_selected_text() -> String {
+    // Using xsel -b
+    let args: [&str; 1] = ["-b"];
+    let output = Command::new("xsel")
+        .args(args)
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute command"));
+    let stdout = String::from_utf8(output.stdout).unwrap();
+
+    stdout
+}
 
 #[tauri::command]
 async fn cmd(command: String) -> Result<String, String> {
@@ -213,7 +225,8 @@ fn main() {
             get_compiled_code,
             download_extension,
             cmd,
-            set_wallpaper
+            set_wallpaper,
+            get_selected_text
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
