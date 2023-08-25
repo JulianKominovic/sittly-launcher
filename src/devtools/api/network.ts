@@ -10,4 +10,11 @@ import { fetch, ResponseType } from "@tauri-apps/api/http";
     });
  */
 const powerfulFetch = fetch;
-export { powerfulFetch, ResponseType };
+export {
+  powerfulFetch,
+  /**
+   * The type of the response body.
+   * Use with `powerfulFetch`
+   */
+  ResponseType,
+};
