@@ -22,6 +22,7 @@ const items: ExtensionContextMenuItems = () => {
       title: "Go back",
       description: "Go back to the previous page",
       icon: <BsArrowLeft />,
+      mainActionLabel: "Go back",
     },
     {
       onClick() {
@@ -30,6 +31,7 @@ const items: ExtensionContextMenuItems = () => {
       title: "Go forward",
       description: "Go forward to the next page",
       icon: <BsArrowRight />,
+      mainActionLabel: "Go forward",
     },
     {
       onClick() {
@@ -38,6 +40,7 @@ const items: ExtensionContextMenuItems = () => {
       title: "Go to home",
       description: "Go to the home page",
       icon: <BsHouse />,
+      mainActionLabel: "Go to home",
     },
     {
       onClick() {
@@ -46,6 +49,7 @@ const items: ExtensionContextMenuItems = () => {
       title: "Reload",
       description: "Fast reload the page",
       icon: <IoMdRefresh />,
+      mainActionLabel: "Reload",
     },
     {
       onClick() {
@@ -54,6 +58,7 @@ const items: ExtensionContextMenuItems = () => {
       title: "Quit",
       description: "Quit the app",
       icon: <IoMdExit />,
+      mainActionLabel: "Quit",
     },
   ];
 };
