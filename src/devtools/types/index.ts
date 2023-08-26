@@ -72,6 +72,12 @@ export type ListItem = {
    * Controls when items will be displayed
    */
   show?: boolean;
+
+  /**
+   * User can press `Enter` key to trigger the `onClick` function
+   * It helps the user by letting them know that pressing `Enter` or `click` will execute an action.
+   */
+  mainActionLabel: string;
 };
 
 export type MusicServiceReturn = {

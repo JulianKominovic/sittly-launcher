@@ -28,6 +28,7 @@ const EventsRegister = () => {
     setSearchbarText,
     setContextMenuIsOpen,
     setAsyncOperation,
+    searchbarText,
   } = useServices((state) => ({
     setMusic: state.setMusic,
     setInitialContextMenuOptions: state.setInitialContextMenuOptions,
@@ -36,6 +37,7 @@ const EventsRegister = () => {
     setContextMenuOptions: state.setContextMenuOptions,
     setSearchbarText: state.setSearchbarText,
     setAsyncOperation: state.setAsyncOperation,
+    searchbarText: state.searchbarText,
   }));
   const { goBack, location } = useRouter();
   //@ts-ignore
@@ -47,6 +49,7 @@ const EventsRegister = () => {
         e.stopPropagation();
         return;
       }
+      if (searchbarText !== "") return setSearchbarText("");
       if (location.pathname === "/") return appWindow.hide();
       goBack();
     }
@@ -58,7 +61,6 @@ const EventsRegister = () => {
   const handleAsyncStatusEvent = ({
     detail,
   }: CustomEvent<AsyncStatusEvent>) => {
-    console.log("ASYNC STATUS EVENT", detail);
     setAsyncOperation(detail);
   };
   const initialContextMenuOptions = mapExtensionsContextMenuItems();
@@ -110,6 +112,7 @@ const App = () => {
   const indexItems: ListItem[] = mappedPages
     .map((page) => {
       return {
+        mainActionLabel: "Go to " + page.name,
         title: page.name,
         description: page.description,
         icon: page.icon,

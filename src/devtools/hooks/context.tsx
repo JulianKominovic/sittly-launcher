@@ -37,6 +37,8 @@ type ContextTypes = {
    * @deprecated
    */
   setAsyncOpTimeoutId: (asyncOpTimeoutId: number) => void;
+  setMainActionLabel: (mainActionLabel: string) => void;
+  mainActionLabel: string;
 };
 
 const useServices = create<ContextTypes>((set, get) => ({
@@ -54,6 +56,9 @@ const useServices = create<ContextTypes>((set, get) => ({
     status: "IDLE",
     description: "",
   },
+  mainActionLabel: "",
+  setMainActionLabel: (mainActionLabel: string) =>
+    set({ mainActionLabel: mainActionLabel }),
   asyncOpTimeoutId: 0 as unknown as NodeJS.Timeout,
   setAsyncOpTimeoutId: (asyncOpTimeoutId: number) =>
     set({ asyncOpTimeoutId: asyncOpTimeoutId as unknown as NodeJS.Timeout }),

@@ -105,11 +105,13 @@ export default function ({
     isContextMenuOpen,
     setContextMenuIsOpen,
     asyncOperation,
+    mainAction,
   } = useServices((state) => ({
     contextMenuOptions: state.contextMenuOptions,
     isContextMenuOpen: state.isContextMenuOpen,
     setContextMenuIsOpen: state.setContextMenuIsOpen,
     asyncOperation: state.asyncOperation,
+    mainAction: state.mainActionLabel,
   }));
   const setContextMenuVisibility = (bool: boolean) => {
     setContextMenuIsOpen(bool);
@@ -141,71 +143,82 @@ export default function ({
       )}
     >
       <RenderFooterStatus asyncOperation={asyncOperation} />
+      <div className="flex items-center gap-2">
+        {mainAction && (
+          <div className="flex items-center gap-2 p-1 px-2 bg-transparent rounded-lg ">
+            <span className="truncate max-w-[18ch]">{mainAction}</span>{" "}
+            <Kbd keys={["↵"]} />
+          </div>
+        )}
 
-      <Popover.Root
-        open={isContextMenuOpen}
-        onOpenChange={setContextMenuVisibility}
-      >
-        {contextMenuOptions.length > 0 ? (
-          <Popover.Trigger className="flex items-center gap-2 p-1 px-2 bg-transparent rounded-lg">
-            More options <Kbd keys={["Ctrl", "O"]} />
-          </Popover.Trigger>
-        ) : null}
-
-        <Popover.Content
-          onCloseAutoFocus={(e) => {
-            e.preventDefault();
-            commandRefInput.current?.focus();
-          }}
-          align="end"
-          alignOffset={6}
-          sideOffset={6}
+        <Popover.Root
+          open={isContextMenuOpen}
+          onOpenChange={setContextMenuVisibility}
         >
-          <Command className="bg-white border shadow-lg bg-opacity-80 rounded-xl backdrop-blur-xl backdrop-saturate-200 max-h-72">
-            <CommandList>
-              {contextMenuOptions.map(
-                ({ title, description, icon, onClick }, index) => {
-                  return (
-                    <CommandItem
-                      key={(title as any) + index}
-                      id={title}
-                      onKeyDownCapture={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                      }}
-                      onSelectCapture={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                      }}
-                      onSelect={() => {
-                        onClick();
-                        setContextMenuVisibility(false);
-                      }}
-                    >
-                      {icon &&
-                        React.cloneElement(icon as React.ReactElement, {
-                          className: "text-sm",
-                        })}
-                      <p>{title}</p>
-                      <span className="truncate max-w-[40ch] text-slate-500">
-                        {description}
-                      </span>
-                    </CommandItem>
-                  );
-                }
-              )}
-            </CommandList>
-            <CommandInput
-              data-is-context-menu="true"
-              className="border-t rounded-none"
-            />
-          </Command>
-        </Popover.Content>
-      </Popover.Root>
+          {contextMenuOptions.length > 0 ? (
+            <Popover.Trigger className="flex items-center gap-2 p-1 px-2 bg-transparent rounded-lg">
+              <span className="whitespace-nowrap">
+                +{contextMenuOptions.length}
+              </span>{" "}
+              <Kbd keys={["Ctrl", "O"]} />
+            </Popover.Trigger>
+          ) : null}
+
+          <Popover.Content
+            onCloseAutoFocus={(e) => {
+              e.preventDefault();
+              commandRefInput.current?.focus();
+            }}
+            align="end"
+            alignOffset={6}
+            sideOffset={6}
+          >
+            <Command className="bg-white border shadow-lg bg-opacity-80 rounded-xl backdrop-blur-xl backdrop-saturate-200 max-h-72">
+              <CommandList>
+                {contextMenuOptions.map(
+                  ({ title, description, icon, onClick }, index) => {
+                    return (
+                      <CommandItem
+                        key={(title as any) + index}
+                        id={title}
+                        onKeyDownCapture={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                        }}
+                        onSelectCapture={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                        }}
+                        onSelect={() => {
+                          onClick();
+                          setContextMenuVisibility(false);
+                        }}
+                      >
+                        {icon &&
+                          React.cloneElement(icon as React.ReactElement, {
+                            className: "text-sm",
+                          })}
+                        <p>{title}</p>
+                        <span className="truncate max-w-[40ch] text-slate-500">
+                          {description}
+                        </span>
+                      </CommandItem>
+                    );
+                  }
+                )}
+              </CommandList>
+              <CommandInput
+                data-is-context-menu="true"
+                className="border-t rounded-none"
+              />
+            </Command>
+          </Popover.Content>
+        </Popover.Root>
+      </div>
     </footer>
   );
 }

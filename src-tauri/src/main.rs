@@ -103,7 +103,7 @@ async fn set_wallpaper(path: String) {
 #[tauri::command]
 async fn get_selected_text() -> String {
     // Using xsel -b
-    let args: [&str; 1] = ["-b"];
+    let args: [&str; 1] = ["-p"];
     let output = Command::new("xsel")
         .args(args)
         .output()

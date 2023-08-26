@@ -24,6 +24,7 @@ const items: ExtensionItems = () => {
         prevMedia();
       },
       actionName: "Previous",
+      mainActionLabel: "Previous",
     },
     {
       title: "Play/Pause",
@@ -33,6 +34,7 @@ const items: ExtensionItems = () => {
         playPause();
       },
       actionName: "Play/Pause",
+      mainActionLabel: "Play/Pause",
     },
     {
       title: "Next",
@@ -41,6 +43,7 @@ const items: ExtensionItems = () => {
       onClick: () => {
         nextMedia();
       },
+      mainActionLabel: "Next",
       actionName: "Next",
     },
     {
@@ -50,6 +53,7 @@ const items: ExtensionItems = () => {
       onClick: () => {
         setVolume("5%+");
       },
+      mainActionLabel: "Volume +5",
       actionName: "Volume +",
     },
     {
@@ -61,6 +65,7 @@ const items: ExtensionItems = () => {
         setVolume("5%-");
       },
       actionName: "Volume -",
+      mainActionLabel: "Volume -5",
     },
     {
       title: "Mute",
@@ -70,6 +75,7 @@ const items: ExtensionItems = () => {
         setVolume("0%");
       },
       actionName: "Mute",
+      mainActionLabel: "Mute",
     },
   ];
 };

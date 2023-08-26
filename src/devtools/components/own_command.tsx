@@ -102,10 +102,12 @@ const List = ({
     searchbarText: _search,
     isContextMenuOpen,
     setContextMenuOptions,
+    setMainActionLabel,
   } = useServices((state) => ({
     searchbarText: state.searchbarText,
     isContextMenuOpen: state.isContextMenuOpen,
     setContextMenuOptions: state.setContextMenuOptions,
+    setMainActionLabel: state.setMainActionLabel,
   }));
 
   const search = useDeferredValue(_search);
@@ -144,6 +146,7 @@ const List = ({
 
       setContextMenuOptions([]);
       filteredItems[nextIndex]?.onHighlight?.();
+      setMainActionLabel(filteredItems[nextIndex]?.mainActionLabel ?? "");
       setCurrentItemIndex(nextIndex);
     }
   };
@@ -192,10 +195,12 @@ const Grid = ({
     searchbarText: _search,
     isContextMenuOpen,
     setContextMenuOptions,
+    setMainActionLabel,
   } = useServices((state) => ({
     searchbarText: state.searchbarText,
     isContextMenuOpen: state.isContextMenuOpen,
     setContextMenuOptions: state.setContextMenuOptions,
+    setMainActionLabel: state.setMainActionLabel,
   }));
 
   const search = useDeferredValue(_search);
@@ -247,6 +252,7 @@ const Grid = ({
 
     setContextMenuOptions([]);
     filteredItems[nextIndex]?.onHighlight?.();
+    setMainActionLabel(filteredItems[nextIndex]?.mainActionLabel ?? "");
     setCurrentItemIndex(nextIndex);
   };
 

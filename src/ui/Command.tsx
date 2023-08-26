@@ -1,5 +1,6 @@
 import { mapExtensionsNoResultItems } from "@/extensions/extension-assembly";
-import React, { forwardRef } from "react";
+import { appWindow } from "@tauri-apps/api/window";
+import React, { forwardRef, useEffect } from "react";
 
 import sittlyDevtools from "../devtools/index";
 
@@ -14,6 +15,11 @@ export default forwardRef(function (
   inputRef: React.Ref<HTMLInputElement> | undefined
 ) {
   const noresult = mapExtensionsNoResultItems();
+  useEffect(() => {
+    appWindow.onFocusChanged(({ payload: focused }) => {
+      if (focused) (inputRef as any).current?.focus();
+    });
+  }, []);
   return (
     <SittlyCommand.Root
       noResultItems={() => noresult}

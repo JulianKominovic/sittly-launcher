@@ -25,6 +25,7 @@ const items: ExtensionNoResultItems = () => {
       title: "Clear searchbar",
       description: "Clear the searchbar",
       icon: <BsTrash />,
+      mainActionLabel: "Clear",
     },
     {
       onClick() {
@@ -32,6 +33,7 @@ const items: ExtensionNoResultItems = () => {
           window.location.reload();
         });
       },
+      mainActionLabel: "Install",
       title: `Add to extensions`,
       description: `Add extension from Github repo`,
       icon: <BsGithub />,

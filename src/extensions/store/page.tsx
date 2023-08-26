@@ -98,12 +98,14 @@ const pages: ExtensionPages = [
                     })
                     .finally(() => setLoading(false));
                 },
+                mainActionLabel: "Install",
                 onHighlight() {
                   setContextMenuOptions([
                     {
                       title: "Install",
                       description: "Install extension",
                       icon: <BsTrash />,
+                      mainActionLabel: "Install",
                       onClick() {
                         if (loading) return;
                         setLoading(true);
@@ -121,6 +123,7 @@ const pages: ExtensionPages = [
                       title: "Open in browser",
                       description: "Open extension in browser",
                       icon: <BsGlobe />,
+                      mainActionLabel: "Open in browser",
                       onClick() {
                         openURI(url);
                       },

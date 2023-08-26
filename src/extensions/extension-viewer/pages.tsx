@@ -39,6 +39,7 @@ const pages: ExtensionPages = [
                         location.reload();
                       });
                     },
+                    mainActionLabel: "Remove",
                   },
                   {
                     title: "Open in browser",
@@ -47,6 +48,7 @@ const pages: ExtensionPages = [
                     onClick() {
                       openURI(metadata.repoUrl);
                     },
+                    mainActionLabel: "Open",
                   },
                 ]);
               },
