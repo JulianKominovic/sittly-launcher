@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api";
-import { appWindow, LogicalPosition } from "@tauri-apps/api/window";
+import { appWindow } from "@tauri-apps/api/window";
 
 /**
  * Quit the app. Kill the process.
