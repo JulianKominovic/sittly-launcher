@@ -19,11 +19,10 @@ unregister("Ctrl+Alt+K");
 register("Ctrl+Alt+K", async () => {
   console.log("Open!");
   await appWindow.center();
-  await appWindow.setFocus();
-  await appWindow.show();
+  await appWindow.unminimize();
 });
 if (import.meta.env.PROD) {
   appWindow.onFocusChanged(({ payload: focused }) => {
-    if (!focused) appWindow.hide();
+    if (!focused) appWindow.minimize();
   });
 }

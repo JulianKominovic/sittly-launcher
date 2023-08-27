@@ -13,6 +13,7 @@ import { appWindow } from "@tauri-apps/api/window";
 import sittlyDevtools from "./devtools/index";
 import { ListItem } from "./devtools/types";
 import { AsyncStatusEvent, SittlyCustomEvents } from "./devtools/types/events";
+import { hideApp } from "./devtools/api/app";
 
 const { hooks, components, utils } = sittlyDevtools;
 const { Command: SittlyCommand } = components;
@@ -50,7 +51,7 @@ const EventsRegister = () => {
         return;
       }
       if (searchbarText !== "") return setSearchbarText("");
-      if (location.pathname === "/") return appWindow.hide();
+      if (location.pathname === "/") return hideApp();
       goBack();
     }
   };

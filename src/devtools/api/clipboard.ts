@@ -2,13 +2,14 @@ import { invoke } from "@tauri-apps/api";
 import { appWindow } from "@tauri-apps/api/window";
 import { writeText, readText } from "@tauri-apps/api/clipboard";
 import { sendNotification } from "./notifications";
+import { hideApp } from "./app";
 
 export const pasteToCurrentWindow = async (
   text: string
   // typeOfClipboard?: "TEXT" | "IMAGE" | "HTML"
 ) => {
   await writeText(text);
-  await appWindow.hide();
+  await hideApp();
   const overflow = text.length > 20;
   await invoke("paste_to_current_window");
   sendNotification({

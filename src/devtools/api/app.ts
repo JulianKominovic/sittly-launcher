@@ -10,13 +10,13 @@ export function quitApp() {
  * Hide the app. Keep the process running in background. User can open it again by pressing `Ctrl+Alt+K`
  */
 export function hideApp() {
-  return appWindow.hide();
+  return appWindow.minimize();
 }
 /**
  *  Show the app.
  */
 export function showApp() {
-  return appWindow.show();
+  return appWindow.unminimize();
 }
 
 /**
