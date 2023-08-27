@@ -48,17 +48,7 @@
         "writeFile": true
       },
       "window": {
-        "all": false,
-        "close": true,
-        "hide": false,
-        "show": false,
-        "maximize": false,
-        "minimize": true,
-        "unmaximize": false,
-        "unminimize": true,
-        "startDragging": true,
-        "center": true,
-        "setFocus": true
+        "all": true
       },
       "dialog": {
         "all": true

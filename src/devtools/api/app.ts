@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api";
-import { appWindow } from "@tauri-apps/api/window";
+import { appWindow, LogicalPosition } from "@tauri-apps/api/window";
 
 /**
  * Quit the app. Kill the process.
@@ -16,8 +16,9 @@ export function hideApp() {
 /**
  *  Show the app.
  */
-export function showApp() {
-  return invoke("show_app");
+export async function showApp() {
+  await centerApp();
+  await invoke("show_app");
 }
 
 /**

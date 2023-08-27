@@ -130,7 +130,16 @@ async fn cmd(command: String) -> Result<String, String> {
 
 #[tauri::command]
 async fn show_app() {
-    // wmctrl -l | grep -E 'sittly$'
+    // Get current workspace
+    // xdotool get_desktop
+    let workspace_args = ["get_desktop"];
+    let workspace_output = Command::new("xdotool")
+        .args(workspace_args)
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute command"));
+    let workspace_stdout = String::from_utf8(workspace_output.stdout).unwrap();
+
+    // Get all windows
     let window_list_args = ["-l"];
     let window_list_output = Command::new("wmctrl")
         .args(window_list_args)
@@ -146,9 +155,19 @@ async fn show_app() {
 
     let window_id = window_list_item.split("\n").collect::<Vec<&str>>()[0];
 
-    let args: [&str; 2] = ["windowactivate", window_id];
+    // Bring sittly window to current desktop
+
     Command::new("xdotool")
-        .args(args)
+        .args([
+            "set_desktop_for_window",
+            window_id,
+            workspace_stdout.as_str(),
+        ])
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute command"));
+
+    Command::new("xdotool")
+        .args(["windowactivate", window_id])
         .output()
         .unwrap_or_else(|_| panic!("Failed to execute command"));
 }
