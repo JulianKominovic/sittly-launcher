@@ -9,7 +9,6 @@ import {
   mapExtensionsItems,
   mapExtensionsPages,
 } from "./extensions/extension-assembly";
-import { appWindow } from "@tauri-apps/api/window";
 import sittlyDevtools from "./devtools/index";
 import { ListItem } from "./devtools/types";
 import { AsyncStatusEvent, SittlyCustomEvents } from "./devtools/types/events";

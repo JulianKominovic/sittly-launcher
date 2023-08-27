@@ -1,5 +1,4 @@
 import { invoke } from "@tauri-apps/api";
-import { appWindow } from "@tauri-apps/api/window";
 import { writeText, readText } from "@tauri-apps/api/clipboard";
 import { sendNotification } from "./notifications";
 import { hideApp } from "./app";
@@ -10,13 +9,8 @@ export const pasteToCurrentWindow = async (
 ) => {
   await writeText(text);
   await hideApp();
-  const overflow = text.length > 20;
+  await new Promise((resolve) => setTimeout(resolve, 100));
   await invoke("paste_to_current_window");
-  sendNotification({
-    title: "Paste to current window",
-    body: `Paste ${text.slice(0, 20)}${overflow ? "..." : " "}to application`,
-    icon: "edit-paste",
-  });
 };
 
 export const copyToClipboard = async (text: string) => {

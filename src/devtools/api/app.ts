@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api";
 import { appWindow } from "@tauri-apps/api/window";
 
 /**
@@ -16,7 +17,7 @@ export function hideApp() {
  *  Show the app.
  */
 export function showApp() {
-  return appWindow.unminimize();
+  return invoke("show_app");
 }
 
 /**

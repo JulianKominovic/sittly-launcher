@@ -87,7 +87,8 @@
       {
         "fullscreen": false,
         "resizable": false,
-        "title": "tauri-terminal",
+        "label": "sittly",
+        "title": "sittly",
         "width": 600,
         "height": 400,
         "decorations": false,
