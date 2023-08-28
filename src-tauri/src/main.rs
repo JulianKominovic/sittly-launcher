@@ -60,43 +60,6 @@ async fn paste_to_current_window() {
 }
 
 #[tauri::command]
-async fn get_compiled_code() -> String {
-    Command::new("npm")
-        .current_dir(format!(
-            "{}/.sittly",
-            // Get homedir
-            std::env::var_os("HOME").unwrap().to_str().unwrap()
-        ))
-        .args(["install"])
-        .output()
-        .unwrap_or_else(|_| panic!("Failed to execute player info"));
-
-    let stdout = Command::new("node")
-        .args([format!(
-            "{}/.sittly/compile-extensions.js",
-            // Get homedir
-            std::env::var_os("HOME").unwrap().to_str().unwrap()
-        )
-        .as_str()])
-        .output()
-        .unwrap_or_else(|_| panic!("Failed to execute player info"));
-
-    print!("{:?}", String::from_utf8(stdout.stdout).unwrap());
-
-    let compiled_bundle = Command::new("cat")
-        .args([format!(
-            "{}/.sittly/dist/bundle.js",
-            // Get homedir
-            std::env::var_os("HOME").unwrap().to_str().unwrap()
-        )
-        .as_str()])
-        .output()
-        .unwrap_or_else(|_| panic!("Failed to execute player info"));
-
-    String::from_utf8(compiled_bundle.stdout).unwrap()
-}
-
-#[tauri::command]
 async fn set_wallpaper(path: String) {
     wallpaper::set_from_path(path.as_str()).unwrap();
 }
@@ -114,18 +77,21 @@ async fn get_selected_text() -> String {
 }
 
 #[tauri::command]
+// cmd must return stdout, stderr, status
 async fn cmd(command: String) -> Result<String, String> {
     let args: [&str; 2] = ["-c", command.as_str()];
-    let output = Command::new("sh")
+    let output = Command::new("bash")
         .args(args)
         .output()
         .unwrap_or_else(|_| panic!("Failed to execute command"));
     let stdout = String::from_utf8(output.stdout).unwrap();
     let stderr = String::from_utf8(output.stderr).unwrap();
-    if stderr.len() > 0 {
-        return Err(stderr);
+    let status = output.status;
+    if status.success() {
+        Ok(stdout)
+    } else {
+        Err(stderr)
     }
-    Ok(stdout)
 }
 
 #[tauri::command]
@@ -266,7 +232,6 @@ fn main() {
             next_media,
             set_volume,
             paste_to_current_window,
-            get_compiled_code,
             download_extension,
             cmd,
             set_wallpaper,

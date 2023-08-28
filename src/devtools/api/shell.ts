@@ -90,3 +90,7 @@ export const setWallpaper = async (path: string): Promise<void> => {
 export function getSelectedText() {
   return invoke<string>("get_selected_text");
 }
+
+export function cmd(command: string): Promise<string> {
+  return invoke("cmd", { command });
+}
