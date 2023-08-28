@@ -91,6 +91,34 @@ export function getSelectedText() {
   return invoke<string>("get_selected_text");
 }
 
-export function cmd(command: string): Promise<string> {
-  return invoke("cmd", { command });
+export async function cmd(
+  command: string
+): Promise<{ stdout: string | null; stderr: string | null }> {
+  notifyAsyncOperationStatus({
+    title: "Executing command",
+    description: command,
+    status: "IN_PROGRESS",
+  });
+  try {
+    const response = await invoke<string>("cmd", { command });
+    notifyAsyncOperationStatus({
+      title: "Command executed",
+      description: command,
+      status: "SUCCESS",
+    });
+    return {
+      stdout: response,
+      stderr: null,
+    };
+  } catch (err) {
+    notifyAsyncOperationStatus({
+      title: "Error",
+      description: command,
+      status: "ERROR",
+    });
+    return {
+      stdout: null,
+      stderr: err as string,
+    };
+  }
 }
