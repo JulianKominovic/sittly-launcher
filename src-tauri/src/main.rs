@@ -2,6 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use playerctl::PlayerCtl;
 use serde::{Deserialize, Serialize};
+use shell_words::split;
 use std::result::Result;
 use std::{
     process::Command,
@@ -78,9 +79,9 @@ async fn get_selected_text() -> String {
 
 #[tauri::command]
 // cmd must return stdout, stderr, status
-async fn cmd(command: String) -> Result<String, String> {
-    let args: [&str; 2] = ["-c", command.as_str()];
-    let output = Command::new("bash")
+async fn cmd(command: String, args: Vec<String>) -> Result<String, String> {
+    println!("{} {:?}", command, args);
+    let output = Command::new(command)
         .args(args)
         .output()
         .unwrap_or_else(|_| panic!("Failed to execute command"));

@@ -92,7 +92,8 @@ export function getSelectedText() {
 }
 
 export async function cmd(
-  command: string
+  command: string,
+  args: string[]
 ): Promise<{ stdout: string | null; stderr: string | null }> {
   notifyAsyncOperationStatus({
     title: "Executing command",
@@ -100,20 +101,25 @@ export async function cmd(
     status: "IN_PROGRESS",
   });
   try {
-    const response = await invoke<string>("cmd", { command });
+    const response = await invoke<string>("cmd", {
+      command,
+      args,
+    });
     notifyAsyncOperationStatus({
       title: "Command executed",
       description: command,
       status: "SUCCESS",
     });
+    console.log(response);
     return {
       stdout: response,
       stderr: null,
     };
   } catch (err) {
+    console.log(err);
     notifyAsyncOperationStatus({
       title: "Error",
-      description: command,
+      description: err as string,
       status: "ERROR",
     });
     return {

@@ -1,5 +1,5 @@
 import { save } from "@tauri-apps/api/dialog";
-import { writeBinaryFile } from "@tauri-apps/api/fs";
+import { FsOptions, readTextFile, writeBinaryFile } from "@tauri-apps/api/fs";
 import { downloadDir } from "@tauri-apps/api/path";
 import { sendNotification } from "./notifications";
 import { fileTypeFromBuffer } from "file-type";

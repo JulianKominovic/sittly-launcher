@@ -2,7 +2,7 @@
   "name": "sittly-devtools",
   "description": "Devtools for Sittly.",
   "authors": "Julian Kominovic",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "typings": "dist/index.d.ts",
   "files": [
     "dist/**/*",

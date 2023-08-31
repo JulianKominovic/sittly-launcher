@@ -22,6 +22,7 @@ playerctl = "0.1.0"
 dbus = "0.9.7"
 pathdiff = "0.2.1"
 wallpaper = "3.2.0"
+shell-words = "1.1.0"
 
 [features]
 custom-protocol = ["tauri/custom-protocol"]

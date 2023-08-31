@@ -68,7 +68,7 @@ const useServices = create<ContextTypes>((set, get) => ({
     clearTimeout(get().asyncOpTimeoutId);
     const timeoutId = setTimeout(() => {
       set({ asyncOperation: { title: "", status: "IDLE", description: "" } });
-    }, 3000);
+    }, 5000);
     set({ asyncOperation, asyncOpTimeoutId: timeoutId });
   },
   setMusic: (music: MusicServiceReturn) => set({ music }),
