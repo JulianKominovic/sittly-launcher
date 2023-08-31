@@ -1,4 +1,5 @@
-import { fetch, ResponseType } from "@tauri-apps/api/http";
+import { fetch, FetchOptions, ResponseType } from "@tauri-apps/api/http";
+import { notifyAsyncOperationStatus } from "./indicators";
 /**
  *Perform an HTTP request using the default client.
 
@@ -9,7 +10,27 @@ import { fetch, ResponseType } from "@tauri-apps/api/http";
     timeout: 30,
     });
  */
-const powerfulFetch = fetch;
+const powerfulFetch = async <T>(url: string, options?: FetchOptions) => {
+  notifyAsyncOperationStatus({
+    title: "Fetching data",
+    description: url,
+    status: "IN_PROGRESS",
+  });
+  const response = await fetch<T>(url, options).catch((error) => {
+    notifyAsyncOperationStatus({
+      title: "Failed to fetch data",
+      description: url,
+      status: "ERROR",
+    });
+    throw error;
+  });
+  notifyAsyncOperationStatus({
+    title: "Successfully fetched data",
+    description: url,
+    status: "SUCCESS",
+  });
+  return response;
+};
 export {
   powerfulFetch,
   /**
