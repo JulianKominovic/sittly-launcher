@@ -129,9 +129,11 @@ const List = ({
     let nextIndex: number = currentItemIndex;
 
     if (e.code === "ArrowUp") {
+      e.preventDefault();
       nextIndex = Math.max(0, currentItemIndex - 1);
     }
     if (e.code === "ArrowDown") {
+      e.preventDefault();
       nextIndex = Math.min(filteredItems.length - 1, currentItemIndex + 1);
     }
     if (e.code === "Enter") {
@@ -226,9 +228,11 @@ const Grid = ({
     let nextIndex: number = currentItemIndex;
 
     if (e.code === "ArrowUp") {
+      e.preventDefault();
       nextIndex = Math.max(0, currentItemIndex - columns);
     }
     if (e.code === "ArrowDown") {
+      e.preventDefault();
       nextIndex = Math.min(
         filteredItems.length - 1,
         currentItemIndex + columns
