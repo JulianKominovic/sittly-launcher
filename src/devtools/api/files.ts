@@ -99,6 +99,32 @@ export async function findFiles({
 
   return results;
 }
+export async function readDir({ path }: { path: string }) {
+  notifyAsyncOperationStatus({
+    title: "Reading directory",
+    description: "please wait...",
+    status: "IN_PROGRESS",
+  });
+  const results = await invoke<File[]>("read_dir", {
+    path,
+  }).catch((err) => {
+    console.log(err);
+
+    notifyAsyncOperationStatus({
+      title: "Files not found",
+      description: "search failed",
+      status: "ERROR",
+    });
+    return [];
+  });
+  notifyAsyncOperationStatus({
+    title: "Directory read",
+    description: "search completed",
+    status: "SUCCESS",
+  });
+
+  return results;
+}
 
 export function readFile({ path }: { path: string }) {
   return invoke<File>("read_file", {
