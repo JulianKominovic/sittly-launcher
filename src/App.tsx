@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import Command from "./ui/Command";
 import Footer from "./ui/Footer";
 import { registerMusicListener } from "./services/music";
@@ -79,9 +79,9 @@ const EventsRegister = () => {
     };
   }, [handleContextMenuChange]);
 
-  useEffect(() => {
-    setContextMenuOptions([]);
+  useLayoutEffect(() => {
     setSearchbarText("");
+    setContextMenuOptions([]);
   }, [location.pathname]);
   useEffect(() => {
     const unlisten = registerMusicListener(setMusic);
