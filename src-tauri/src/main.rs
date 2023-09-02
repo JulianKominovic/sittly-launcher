@@ -1,10 +1,6 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use base64::{
-    alphabet,
-    engine::{self, general_purpose},
-    Engine as _,
-};
+use base64::{engine::general_purpose, Engine as _};
 use playerctl::PlayerCtl;
 use rust_search::{FilterExt, SearchBuilder};
 use serde::{Deserialize, Serialize};
@@ -15,7 +11,7 @@ use std::{
     thread::{self, sleep},
     time::Duration,
 };
-use tauri::api::{file::read_binary, path::home_dir};
+use tauri::api::file::read_binary;
 use tauri::Manager;
 use wallpaper;
 // struct AppState {
@@ -61,8 +57,8 @@ async fn find_files(query: String, base_dir: String, extension: Option<String>) 
     let mut search_builder = SearchBuilder::default()
         .location(base_dir)
         .search_input(query)
-        .limit(50) // results to return
-        .depth(10)
+        .limit(100) // results to return
+        .depth(6)
         .custom_filter(custom_filter) // Pass banned_files as a parameter
         .ignore_case()
         .hidden();
@@ -71,11 +67,28 @@ async fn find_files(query: String, base_dir: String, extension: Option<String>) 
         search_builder = search_builder.ext(ext);
     }
 
-    search_builder
+    let mut results: Vec<File> = search_builder
         .build()
         .map(|path| read_file(path, true))
         .filter(|file| file.name != "")
-        .collect()
+        .collect();
+
+    results.sort_by_key(|element: &File| element.last_modified);
+    results
+}
+
+#[tauri::command]
+async fn read_dir(path: String) -> Vec<File> {
+    let files_in_dir = std::fs::read_dir(path).unwrap();
+    let files = files_in_dir.map(|f| {
+        let file = f.unwrap();
+        let path = file.path();
+        let path_as_str = path.to_str().unwrap().to_string();
+        let file_struct = read_file(path_as_str, true);
+        file_struct
+    });
+    let mapped_files = files.filter(|f| f.name != "").collect::<Vec<File>>();
+    mapped_files
 }
 
 #[tauri::command]
@@ -380,7 +393,8 @@ fn main() {
             copy_image_to_clipboard,
             show_app,
             find_files,
-            read_file
+            read_file,
+            read_dir
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
