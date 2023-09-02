@@ -113,14 +113,13 @@ const List = ({
   const search = useDeferredValue(_search);
   const { setCurrentItemIndex, currentItemIndex, noResultItems } =
     useContext(ListContext);
-  // mapExtensionsNoResultItems should be at the top level
 
   const filteredItems = useMemo(() => {
     const filteredItems = filterItems(items, search);
     return filteredItems.length === 0
       ? filterNoResultItems(noResultItems())
       : filteredItems;
-  }, [items, search]);
+  }, [items.length, search]);
 
   const keyDownCallback = (e: KeyboardEvent) => {
     if (!["ArrowUp", "ArrowDown", "Enter"].includes(e.code)) return;
@@ -153,6 +152,13 @@ const List = ({
       setCurrentItemIndex(nextIndex);
     }
   };
+
+  useEffect(() => {
+    filteredItems[0]?.onHighlight?.();
+    setMainActionLabel(filteredItems[0]?.mainActionLabel ?? "");
+    setCurrentItemIndex(0);
+  }, [filteredItems]);
+
   useEffect(() => {
     document.addEventListener("keydown", keyDownCallback);
     return () => {
@@ -220,7 +226,7 @@ const Grid = ({
           : filteredItems,
       areFallbackItems: filteredItems.length === 0,
     };
-  }, [items, search]);
+  }, [items.length, search]);
 
   const keyDownCallback = (e: KeyboardEvent) => {
     if (
@@ -260,12 +266,17 @@ const Grid = ({
       behavior: "auto",
       align: "center",
     });
-
     setContextMenuOptions([]);
     filteredItems[nextIndex]?.onHighlight?.();
     setMainActionLabel(filteredItems[nextIndex]?.mainActionLabel ?? "");
     setCurrentItemIndex(nextIndex);
   };
+
+  useEffect(() => {
+    filteredItems[0]?.onHighlight?.();
+    setMainActionLabel(filteredItems[0]?.mainActionLabel ?? "");
+    setCurrentItemIndex(0);
+  }, [filteredItems]);
 
   useEffect(() => {
     document.addEventListener("keydown", keyDownCallback);
