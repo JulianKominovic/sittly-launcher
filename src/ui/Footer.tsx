@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { BsDot, BsMusicNote } from "react-icons/bs";
 import {
   Command,
+  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
@@ -11,9 +12,57 @@ import Kbd from "./Kbd";
 import clsx from "clsx";
 import sittlyDevtools from "../devtools/index";
 import { AsyncStatusEvent } from "@/devtools/types/events";
+import { ListItem } from "@/devtools/types";
 
 const { hooks } = sittlyDevtools;
 const { useServices } = hooks;
+
+const CommandItemMapper = (
+  {
+    title,
+    description,
+    icon,
+    onClick,
+    setContextMenuVisibility,
+  }: ListItem & {
+    setContextMenuVisibility: (bool: boolean) => void;
+  },
+  index: number
+) => {
+  return (
+    <CommandItem
+      key={(title as any) + index}
+      value={(title as any) + index}
+      id={title}
+      onKeyDownCapture={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+      onSelectCapture={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+      onSelect={() => {
+        onClick();
+        setContextMenuVisibility(false);
+      }}
+    >
+      {icon &&
+        React.cloneElement(icon as React.ReactElement, {
+          className: "text-sm",
+        })}
+      <p>{title}</p>
+      <span className="truncate max-w-[40ch] text-slate-500">
+        {description}
+      </span>
+    </CommandItem>
+  );
+};
+
 const calculateAsyncTasksUtils = (
   task: AsyncStatusEvent
 ): {
@@ -106,12 +155,14 @@ export default function ({
     setContextMenuIsOpen,
     asyncOperation,
     mainAction,
+    initialContextMenuOptions,
   } = useServices((state) => ({
     contextMenuOptions: state.contextMenuOptions,
     isContextMenuOpen: state.isContextMenuOpen,
     setContextMenuIsOpen: state.setContextMenuIsOpen,
     asyncOperation: state.asyncOperation,
     mainAction: state.mainActionLabel,
+    initialContextMenuOptions: state.initialContextMenuOptions,
   }));
   const setContextMenuVisibility = (bool: boolean) => {
     setContextMenuIsOpen(bool);
@@ -134,6 +185,15 @@ export default function ({
     };
   }, [contextMenuOptions, isContextMenuOpen, setContextMenuIsOpen]);
 
+  const navigationItems =
+    contextMenuOptions.length > initialContextMenuOptions.length
+      ? contextMenuOptions.slice(-initialContextMenuOptions.length)
+      : contextMenuOptions;
+  const restItems =
+    contextMenuOptions.length > initialContextMenuOptions.length
+      ? contextMenuOptions.slice(0, -initialContextMenuOptions.length)
+      : [];
+
   return (
     <footer
       className={clsx(
@@ -155,14 +215,12 @@ export default function ({
           open={isContextMenuOpen}
           onOpenChange={setContextMenuVisibility}
         >
-          {contextMenuOptions.length > 0 ? (
-            <Popover.Trigger className="flex items-center gap-2 p-1 px-2 bg-transparent rounded-lg">
-              <span className="whitespace-nowrap">
-                +{contextMenuOptions.length}
-              </span>{" "}
-              <Kbd keys={["Ctrl", "O"]} />
-            </Popover.Trigger>
-          ) : null}
+          <Popover.Trigger className="flex items-center gap-2 p-1 px-2 bg-transparent rounded-lg">
+            <span className="whitespace-nowrap">
+              +{contextMenuOptions.length} actions
+            </span>{" "}
+            <Kbd keys={["Ctrl", "O"]} />
+          </Popover.Trigger>
 
           <Popover.Content
             onCloseAutoFocus={(e) => {
@@ -175,41 +233,20 @@ export default function ({
           >
             <Command className="bg-white border shadow-lg bg-opacity-80 rounded-xl backdrop-blur-xl backdrop-saturate-200 max-h-72">
               <CommandList>
-                {contextMenuOptions.map(
-                  ({ title, description, icon, onClick }, index) => {
-                    return (
-                      <CommandItem
-                        key={(title as any) + index}
-                        id={title}
-                        onKeyDownCapture={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                        }}
-                        onSelectCapture={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                        }}
-                        onSelect={() => {
-                          onClick();
-                          setContextMenuVisibility(false);
-                        }}
-                      >
-                        {icon &&
-                          React.cloneElement(icon as React.ReactElement, {
-                            className: "text-sm",
-                          })}
-                        <p>{title}</p>
-                        <span className="truncate max-w-[40ch] text-slate-500">
-                          {description}
-                        </span>
-                      </CommandItem>
-                    );
-                  }
+                {restItems.map((props, index) =>
+                  CommandItemMapper(
+                    { ...props, setContextMenuVisibility },
+                    index
+                  )
                 )}
+                <CommandGroup heading="Navigation" value="navigation">
+                  {navigationItems.map((props, index) =>
+                    CommandItemMapper(
+                      { ...props, setContextMenuVisibility },
+                      index
+                    )
+                  )}
+                </CommandGroup>
               </CommandList>
               <CommandInput
                 data-is-context-menu="true"
