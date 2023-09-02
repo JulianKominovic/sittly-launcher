@@ -71,6 +71,9 @@ dependencies:
   lucide-react:
     specifier: ^0.260.0
     version: 0.260.0(react@18.2.0)
+  pretty-bytes:
+    specifier: ^6.1.1
+    version: 6.1.1
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -5624,6 +5627,11 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /pretty-bytes@6.1.1:
+    resolution: {integrity: sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+    dev: false
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

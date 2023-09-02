@@ -15,7 +15,7 @@
       "all": false,
       "shell": {
         "all": false,
-        "open": true
+        "open": ".*"
       },
       "http": {
         "all": true,
@@ -79,8 +79,8 @@
         "resizable": false,
         "label": "sittly",
         "title": "sittly",
-        "width": 600,
-        "height": 400,
+        "width": 700,
+        "height": 460,
         "decorations": false,
         "hiddenTitle": true,
         "alwaysOnTop": true,

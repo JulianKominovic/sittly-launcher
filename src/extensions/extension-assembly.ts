@@ -4,6 +4,7 @@ import musicItems from "./music/items";
 import contextMenuNavigation from "./navigation/context";
 import noResultNavigation from "./navigation/no-results";
 import storePage from "./store/page";
+import filesPage from "./find-files/page";
 import {
   ExtensionContextMenuItems,
   ExtensionItems,
@@ -16,7 +17,7 @@ import { join, homeDir } from "@tauri-apps/api/path";
 
 const extensions = (window as any).__SITTLY_EXTENSIONS__ ?? [];
 
-export const pages = [uiExamplePages, extensionViewPages, storePage];
+export const pages = [uiExamplePages, extensionViewPages, storePage, filesPage];
 export const items = [musicItems];
 export const contextMenuItems = [contextMenuNavigation];
 export const noResultItems = [noResultNavigation];

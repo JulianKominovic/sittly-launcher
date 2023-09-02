@@ -6,6 +6,7 @@ import { fileTypeFromBuffer } from "file-type";
 import { sendNotification } from "./notifications";
 import { homeDir, join } from "@tauri-apps/api/path";
 import { notifyAsyncOperationStatus } from "./indicators";
+import { hideApp } from "./app";
 
 /**
  *
@@ -21,8 +22,24 @@ await open('https://github.com/tauri-apps/tauri', 'firefox');
 @example // opens a file using the default program:
 await open('/path/to/file');
  */
-export const openURI = (path: string, openWith?: string): Promise<void> =>
+export const openURI = (
+  path: string,
+  openWith?:
+    | "firefox"
+    | "google chrome"
+    | "chromium"
+    | "safari"
+    | "open"
+    | "start"
+    | "xdg-open"
+    | "gio"
+    | "gnome-open"
+    | "kde-open"
+    | "wslview"
+) => {
   open(path, openWith);
+  hideApp();
+};
 /**
  * Set the wallpaper given a path
  * @example

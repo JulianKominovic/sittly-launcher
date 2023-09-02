@@ -1,11 +1,12 @@
 import { save } from "@tauri-apps/api/dialog";
-import { FsOptions, readTextFile, writeBinaryFile } from "@tauri-apps/api/fs";
+import { writeBinaryFile } from "@tauri-apps/api/fs";
 import { downloadDir } from "@tauri-apps/api/path";
 import { sendNotification } from "./notifications";
 import { fileTypeFromBuffer } from "file-type";
 import { fetch, ResponseType } from "@tauri-apps/api/http";
 import { notifyAsyncOperationStatus } from "./indicators";
-
+import { invoke } from "@tauri-apps/api";
+import { File } from "../../types/extension";
 /**
  * Saves an image from a URL to user's disk and shows a notification
  * @example
@@ -63,3 +64,45 @@ export const saveImage = async (imageSrc: string) => {
     icon: "network-error",
   });
 };
+
+export async function findFiles({
+  query,
+  baseDir,
+}: {
+  query: string;
+  baseDir: string;
+  extension?: string[];
+}) {
+  notifyAsyncOperationStatus({
+    title: "Searching files",
+    description: "please wait...",
+    status: "IN_PROGRESS",
+  });
+  const results = await invoke<File[]>("find_files", {
+    query,
+    baseDir,
+  }).catch((err) => {
+    console.log(err);
+
+    notifyAsyncOperationStatus({
+      title: "Files not found",
+      description: "Search failed",
+      status: "ERROR",
+    });
+    return [];
+  });
+  notifyAsyncOperationStatus({
+    title: "Files found",
+    description: "Search completed",
+    status: "SUCCESS",
+  });
+
+  return results;
+}
+
+export function readFile({ path }: { path: string }) {
+  return invoke<File>("read_file", {
+    path,
+    skipContent: false,
+  });
+}

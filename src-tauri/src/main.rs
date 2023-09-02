@@ -1,20 +1,142 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+use base64::{
+    alphabet,
+    engine::{self, general_purpose},
+    Engine as _,
+};
 use playerctl::PlayerCtl;
+use rust_search::{FilterExt, SearchBuilder};
 use serde::{Deserialize, Serialize};
-use shell_words::split;
 use std::result::Result;
+use std::time::SystemTime;
 use std::{
     process::Command,
     thread::{self, sleep},
     time::Duration,
 };
+use tauri::api::{file::read_binary, path::home_dir};
 use tauri::Manager;
 use wallpaper;
-
 // struct AppState {
 //     writer: Arc<AsyncMutex<Box<dyn Write + Send>>>,
 // }
+
+const IMAGES_SUPPORTED: [&str; 124] = [
+    "ase", "art", "bmp", "blp", "cd5", "cit", "cpt", "cr2", "cut", "dds", "dib", "djvu", "egt",
+    "exif", "gif", "gpl", "grf", "icns", "ico", "iff", "jng", "jpeg", "jpg", "jfif", "jp2", "jps",
+    "lbm", "max", "miff", "mng", "msp", "nef", "nitf", "ota", "pbm", "pc1", "pc2", "pc3", "pcf",
+    "pcx", "pdn", "pgm", "PI1", "PI2", "PI3", "pict", "pct", "pnm", "pns", "ppm", "psb", "psd",
+    "pdd", "psp", "px", "pxm", "pxr", "qfx", "raw", "rle", "sct", "sgi", "rgb", "int", "bw", "tga",
+    "tiff", "tif", "vtf", "xbm", "xcf", "xpm", "3dv", "amf", "ai", "awg", "cgm", "cdr", "cmx",
+    "dxf", "e2d", "egt", "eps", "fs", "gbr", "odg", "svg", "stl", "vrml", "x3d", "sxd", "v2d",
+    "vnd", "wmf", "emf", "art", "xar", "png", "webp", "jxr", "hdp", "wdp", "cur", "ecw", "iff",
+    "lbm", "liff", "nrrd", "pam", "pcx", "pgf", "sgi", "rgb", "rgba", "bw", "int", "inta", "sid",
+    "ras", "sun", "tga", "heic", "heif", "svg+xml",
+];
+#[derive(Serialize, Deserialize, Clone)]
+struct File {
+    name: String,
+    file_type: String,
+    path: String,
+    is_dir: bool,
+    size: u64,
+    base64: Option<String>,
+    last_modified: SystemTime,
+}
+
+#[tauri::command]
+async fn find_files(query: String, base_dir: String, extension: Option<String>) -> Vec<File> {
+    // Define a custom filter function that takes a reference to banned_files
+    fn custom_filter(entry: &rust_search::DirEntry) -> bool {
+        let banned_files = vec!["node_modules", ".git", "cache", "temp", "tmp"];
+        for banned_file in banned_files {
+            if entry.path().to_str().unwrap().contains(banned_file) {
+                return false; // Filter out entries that match banned files
+            }
+        }
+        true // Keep all other entries
+    }
+
+    let mut search_builder = SearchBuilder::default()
+        .location(base_dir)
+        .search_input(query)
+        .limit(50) // results to return
+        .depth(10)
+        .custom_filter(custom_filter) // Pass banned_files as a parameter
+        .ignore_case()
+        .hidden();
+
+    if let Some(ext) = extension {
+        search_builder = search_builder.ext(ext);
+    }
+
+    search_builder
+        .build()
+        .map(|path| read_file(path, true))
+        .filter(|file| file.name != "")
+        .collect()
+}
+
+#[tauri::command]
+fn read_file(path: String, skip_content: bool) -> File {
+    let metadata = std::fs::metadata(&path);
+    if metadata.is_err() {
+        return File {
+            name: String::from(""),
+            file_type: String::from(""),
+            path: String::from(""),
+            is_dir: false,
+            size: 0,
+            base64: None,
+            last_modified: SystemTime::now(),
+        };
+    }
+    let unwrapped_metadata = metadata.unwrap();
+    // Base64 encode file content if len is less than 10 mb
+    let length = unwrapped_metadata.len();
+    let splitted_path = path.split("/").collect::<Vec<&str>>();
+    let fallback_file_type = splitted_path.last().unwrap();
+    let filetype = std::path::Path::new(&path)
+        .extension()
+        .unwrap_or_else(|| std::ffi::OsStr::new(&fallback_file_type))
+        .to_str()
+        .unwrap()
+        .to_string();
+    let content = match skip_content {
+        true => String::from(""),
+        false => match unwrapped_metadata.is_dir() {
+            true => String::from(""),
+            false => match IMAGES_SUPPORTED.contains(&filetype.as_str()) {
+                true => match length {
+                    d if d < 10000000 => {
+                        let content = read_binary(&path).unwrap();
+                        println!("{} {}", path, content.len());
+                        let b64 = general_purpose::STANDARD.encode(content);
+                        b64
+                    }
+                    _ => String::from(""),
+                },
+                false => String::from(""),
+            },
+        },
+    };
+    File {
+        name: std::path::Path::new(&path)
+            .file_name()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .to_string(),
+
+        file_type: filetype,
+        path: String::from(&path),
+        is_dir: unwrapped_metadata.is_dir(),
+        size: length,
+        base64: Some(content),
+        last_modified: unwrapped_metadata.modified().unwrap(),
+    }
+}
 
 #[tauri::command]
 async fn play_pause_music() {
@@ -139,6 +261,16 @@ async fn show_app() {
         .unwrap_or_else(|_| panic!("Failed to execute command"));
 }
 
+#[tauri::command]
+async fn copy_image_to_clipboard(path: String, image_type: String) {
+    let image_type_arg = format!("{}{}", "image/", &image_type);
+    let args: [&str; 3] = ["-t", image_type_arg.as_str(), &path];
+    Command::new("xclip")
+        .args(args)
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute player info"));
+}
+
 #[derive(Serialize, Deserialize, Clone)]
 struct TrackData {
     current_time: i32,
@@ -237,7 +369,10 @@ fn main() {
             cmd,
             set_wallpaper,
             get_selected_text,
-            show_app
+            copy_image_to_clipboard,
+            show_app,
+            find_files,
+            read_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

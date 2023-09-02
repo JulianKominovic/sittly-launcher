@@ -123,6 +123,7 @@ const List = ({
   }, [items, search]);
 
   const keyDownCallback = (e: KeyboardEvent) => {
+    if (!["ArrowUp", "ArrowDown", "Enter"].includes(e.code)) return;
     // Ignore all events from the context menu
     if (eventIsFromContextMenu(e)) return;
     if (isContextMenuOpen) return;
@@ -222,6 +223,12 @@ const Grid = ({
   }, [items, search]);
 
   const keyDownCallback = (e: KeyboardEvent) => {
+    if (
+      !["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Enter"].includes(
+        e.code
+      )
+    )
+      return;
     // Ignore all events from the context menu
     if (eventIsFromContextMenu(e)) return;
     if (isContextMenuOpen) return;
@@ -358,7 +365,7 @@ const Item = ({
             <div
               className={clsx(
                 "rounded-md overflow-hidden flex justify-center items-center",
-                displayType === "GRID" ? "w-auto" : "w-7"
+                displayType === "GRID" ? "w-auto" : "w-7 min-w-7"
               )}
             >
               {icon}
