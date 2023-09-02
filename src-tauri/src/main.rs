@@ -264,7 +264,15 @@ async fn show_app() {
 #[tauri::command]
 async fn copy_image_to_clipboard(path: String, image_type: String) {
     let image_type_arg = format!("{}{}", "image/", &image_type);
-    let args: [&str; 3] = ["-t", image_type_arg.as_str(), &path];
+    let args = [
+        "-selection",
+        "clipboard",
+        "-t",
+        image_type_arg.as_str(),
+        "-i",
+        &path,
+    ];
+    println!("{:?}", args);
     Command::new("xclip")
         .args(args)
         .output()

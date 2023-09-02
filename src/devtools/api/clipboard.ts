@@ -7,7 +7,6 @@ export const pasteToCurrentWindow = async (
   content: string
   // typeOfClipboard?: "TEXT" | "IMAGE" | "HTML"="TEXT"
 ) => {
-  if()
   await writeText(content);
   await hideApp();
   await new Promise((resolve) => setTimeout(resolve, 100));
@@ -23,14 +22,17 @@ export const copyToClipboard = async (text: string) => {
     icon: "edit-copy",
   });
 };
-export const copyImageToClipboard = async (imagePath: string,imageType:"png"|"jpeg"|"svg+xml"|"avif") => {
-  await invoke("copy_image_to_clipboard", { path: imagePath ,
-    imageType
-  });
+export const copyImageToClipboard = async (
+  imagePath: string,
+  imageType: "png" | "jpeg" | "svg+xml" | "avif"
+) => {
+  await invoke("copy_image_to_clipboard", { path: imagePath, imageType });
   const overflow = imagePath.length > 20;
   sendNotification({
-    title: "Copied "+imageType,
-    body: `image from ${imagePath.slice(0, 20)}${overflow ? "..." : " "}to clipboard`,
+    title: "Copied " + imageType,
+    body: `image from ${imagePath.slice(0, 20)}${
+      overflow ? "..." : " "
+    }to clipboard`,
     icon: "edit-copy",
   });
 };
