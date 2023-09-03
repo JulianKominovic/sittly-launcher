@@ -2,6 +2,7 @@ import {
   BsBoxArrowInUpLeft,
   BsClipboard,
   BsClipboard2,
+  BsClipboard2Plus,
   BsFileBinary,
   BsFiles,
   BsFolder,
@@ -23,8 +24,10 @@ import {
 import {
   copyImageToClipboard,
   copyToClipboard,
+  pasteToCurrentWindow,
 } from "@/devtools/api/clipboard";
 import { homeDir } from "@tauri-apps/api/path";
+import { useDebounceFunction } from "@/devtools/lib/utils";
 
 const { components, hooks, api } = sittlyDevtools;
 const { shell } = api;
@@ -188,6 +191,9 @@ const pages: ExtensionPages = [
         path: "",
       });
       const preview = useDeferredValue(_preview);
+
+      const { debounce } = useDebounceFunction(400);
+
       useEffect(() => {
         readDir({
           path: cwd,
@@ -203,11 +209,144 @@ const pages: ExtensionPages = [
         });
       }, [cwd]);
 
+      function handleOnHighlight(path: string) {
+        debounce(() =>
+          readFile({ path }).then(
+            ({ base64, file_type, is_dir, path, name, ...rest }) => {
+              const content = atob(base64);
+              setContextMenuOptions([
+                {
+                  title: "Open",
+                  icon: <BsBoxArrowInUpLeft />,
+                  mainActionLabel: "Open",
+                  description: path,
+                  onClick() {
+                    openURI(path, "xdg-open");
+                  },
+                },
+                ...(IMAGES_SUPPORTED.includes(file_type)
+                  ? [
+                      {
+                        title: "Copy image to clipboard",
+                        icon: <BsClipboard2 />,
+                        description: path,
+                        onClick() {
+                          copyImageToClipboard(
+                            path,
+                            file_type === "png"
+                              ? "png"
+                              : file_type === "svg"
+                              ? "svg+xml"
+                              : file_type === "avif"
+                              ? "avif"
+                              : "jpeg"
+                          );
+                        },
+                        mainActionLabel: "Copy image to clipboard",
+                      },
+                    ]
+                  : base64
+                  ? [
+                      {
+                        title: "Copy content to clipboard",
+                        icon: <BsClipboard2Plus />,
+                        description: content,
+                        onClick() {
+                          copyToClipboard(content);
+                        },
+                        mainActionLabel: "Copy image to clipboard",
+                      },
+
+                      {
+                        title: "Paste content to app",
+                        icon: <BsClipboard2Plus />,
+                        description: content,
+                        onClick() {
+                          pasteToCurrentWindow(content);
+                        },
+                        mainActionLabel: "Copy image to clipboard",
+                      },
+                    ]
+                  : []),
+
+                {
+                  title: "Copy path",
+                  icon: <BsClipboard />,
+                  description: path,
+                  onClick() {
+                    copyToClipboard(path);
+                  },
+                  mainActionLabel: "Copy path",
+                },
+                {
+                  title: "Copy filename",
+                  icon: <BsClipboard />,
+                  description: name,
+                  onClick() {
+                    copyToClipboard(name);
+                  },
+                  mainActionLabel: "Copy filename",
+                },
+              ]);
+
+              if (!base64)
+                return setPreview({
+                  ...rest,
+                  is_dir,
+                  name,
+                  path,
+                  base64: "",
+                  file_type: is_dir ? "dir" : "",
+                });
+              if (!file_type)
+                return setPreview({
+                  ...rest,
+                  is_dir,
+                  name,
+                  path,
+                  base64: "",
+                  file_type: is_dir ? "dir" : "",
+                });
+              if (IMAGES_SUPPORTED.some((ext) => ext === file_type)) {
+                if (file_type === "svg") {
+                  setPreview({
+                    ...rest,
+                    is_dir,
+                    name,
+                    path,
+                    base64,
+                    file_type: "svg+xml",
+                  });
+                  return;
+                }
+                setPreview({
+                  ...rest,
+                  is_dir,
+                  name,
+                  path,
+                  base64,
+                  file_type,
+                });
+                return;
+              }
+              setPreview({
+                ...rest,
+                is_dir,
+                name,
+                path,
+                base64: "",
+                file_type,
+              });
+            }
+          )
+        );
+      }
+
       return (
         <Layout>
           <SittlyCommand.List
             id="extensions"
-            items={filenames.map(({ is_dir, name, path, size, file_type }) => {
+            items={filenames.map(({ is_dir, name, path, size }) => {
               return {
                 title: name,
                 description: prettyBytes(size),
@@ -218,96 +357,7 @@ const pages: ExtensionPages = [
                 },
                 mainActionLabel: "Go to",
                 onHighlight() {
-                  setContextMenuOptions([
-                    {
-                      title: "Open",
-                      icon: <BsBoxArrowInUpLeft />,
-                      mainActionLabel: "Open",
-                      description: path,
-                      onClick() {
-                        openURI(path, "xdg-open");
-                      },
-                    },
-                    {
-                      title: "Copy image to clipboard",
-                      icon: <BsClipboard2 />,
-                      description: path,
-                      onClick() {
-                        copyImageToClipboard(
-                          path,
-                          file_type === "png"
-                            ? "png"
-                            : file_type === "svg"
-                            ? "svg+xml"
-                            : file_type === "avif"
-                            ? "avif"
-                            : "jpeg"
-                        );
-                      },
-                      mainActionLabel: "Copy image to clipboard",
-                    },
-                    {
-                      title: "Copy path",
-                      icon: <BsClipboard />,
-                      description: path,
-                      onClick() {
-                        copyToClipboard(path);
-                      },
-                      mainActionLabel: "Copy path",
-                    },
-                    {
-                      title: "Copy filename",
-                      icon: <BsClipboard />,
-                      description: name,
-                      onClick() {
-                        copyToClipboard(name);
-                      },
-                      mainActionLabel: "Copy filename",
-                    },
-                  ]);
-
-                  readFile({ path }).then(
-                    ({ base64, file_type, is_dir, ...rest }) => {
-                      if (!base64)
-                        return setPreview({
-                          ...rest,
-                          is_dir,
-                          base64: "",
-                          file_type: is_dir ? "dir" : "",
-                        });
-                      if (!file_type)
-                        return setPreview({
-                          ...rest,
-                          is_dir,
-                          base64: "",
-                          file_type: is_dir ? "dir" : "",
-                        });
-                      if (IMAGES_SUPPORTED.some((ext) => ext === file_type)) {
-                        if (file_type === "svg") {
-                          setPreview({
-                            ...rest,
-                            is_dir,
-                            base64,
-                            file_type: "svg+xml",
-                          });
-                          return;
-                        }
-                        setPreview({
-                          ...rest,
-                          is_dir,
-                          base64,
-                          file_type,
-                        });
-                        return;
-                      }
-                      setPreview({
-                        ...rest,
-                        is_dir,
-                        base64: "",
-                        file_type,
-                      });
-                    }
-                  );
+                  handleOnHighlight(path);
                 },
               };
             })}

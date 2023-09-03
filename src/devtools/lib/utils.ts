@@ -1,4 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
+import { time } from "console";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -59,3 +61,27 @@ export const urlUtils = {
     }
   },
 };
+
+export function useDebounceFunction(delay: number) {
+  const timeoutId = useRef<number | null>(null);
+  const [init, setInit] = useState(() => () => {});
+  const debounce = (callback: () => any) => {
+    setInit(() => callback);
+  };
+
+  useEffect(() => {
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
+    timeoutId.current = setTimeout(init, delay) as any;
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId.current as any);
+      }
+    };
+  }, [init]);
+
+  return {
+    debounce,
+  };
+}

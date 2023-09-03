@@ -120,17 +120,14 @@ fn read_file(path: String, skip_content: bool) -> File {
         true => String::from(""),
         false => match unwrapped_metadata.is_dir() {
             true => String::from(""),
-            false => match IMAGES_SUPPORTED.contains(&filetype.as_str()) {
-                true => match length {
-                    d if d < 10000000 => {
-                        let content = read_binary(&path).unwrap();
-                        println!("{} {}", path, content.len());
-                        let b64 = general_purpose::STANDARD.encode(content);
-                        b64
-                    }
-                    _ => String::from(""),
-                },
-                false => String::from(""),
+            false => match length {
+                d if d < 10000000 => {
+                    let content = read_binary(&path).unwrap();
+                    println!("{} {}", path, content.len());
+                    let b64 = general_purpose::STANDARD.encode(content);
+                    b64
+                }
+                _ => String::from(""),
             },
         },
     };
