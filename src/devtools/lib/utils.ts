@@ -1,6 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
-import { time } from "console";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
