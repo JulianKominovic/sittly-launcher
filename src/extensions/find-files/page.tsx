@@ -352,10 +352,14 @@ const pages: ExtensionPages = [
                 description: prettyBytes(size),
                 icon: is_dir ? <BsFolder /> : <BsFileBinary />,
                 onClick() {
-                  setCwd(path);
-                  setSearchbarText("");
+                  if (is_dir) {
+                    setCwd(path);
+                    setSearchbarText("");
+                  } else {
+                    openURI(path, "xdg-open");
+                  }
                 },
-                mainActionLabel: "Go to",
+                mainActionLabel: is_dir ? "Go to" : "Open file",
                 onHighlight() {
                   handleOnHighlight(path);
                 },
