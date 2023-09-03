@@ -83,6 +83,9 @@ dependencies:
   buffer:
     specifier: ^6.0.3
     version: 6.0.3
+  chrono-node:
+    specifier: ^2.6.5
+    version: 2.6.5
   class-variance-authority:
     specifier: ^0.6.1
     version: 0.6.1
@@ -92,6 +95,9 @@ dependencies:
   cmdk:
     specifier: ^0.2.0
     version: 0.2.0(@types/react@18.2.12)(react-dom@18.2.0)(react@18.2.0)
+  dayjs:
+    specifier: ^1.11.9
+    version: 1.11.9
   file-type:
     specifier: ^18.5.0
     version: 18.5.0
@@ -104,6 +110,9 @@ dependencies:
   postcss:
     specifier: ^8.4.24
     version: 8.4.24
+  pretty-bytes:
+    specifier: ^6.1.1
+    version: 6.1.1
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -3990,6 +3999,13 @@ packages:
     engines: {node: '>=6.0'}
     dev: false
 
+  /chrono-node@2.6.5:
+    resolution: {integrity: sha512-1B4iFd8xJ235PAprvRbs7zaEvmepOrN7dQ5UWjsXoDnlRP1vriGUwmcYw+KeQGKtz+YkgMo7bglf/q/l2VhoxQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      dayjs: 1.11.9
+    dev: false
+
   /class-variance-authority@0.6.1:
     resolution: {integrity: sha512-eurOEGc7YVx3majOrOb099PNKgO3KnKSApOprXI4BTq6bcfbqbQXPN2u+rPPmIJ2di23bMwhk0SxCCthBmszEQ==}
     dependencies:
@@ -4354,6 +4370,10 @@ packages:
     dependencies:
       es5-ext: 0.10.62
       type: 1.2.0
+    dev: false
+
+  /dayjs@1.11.9:
+    resolution: {integrity: sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==}
     dev: false
 
   /debug@2.6.9:
@@ -6094,6 +6114,11 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /pretty-bytes@6.1.1:
+    resolution: {integrity: sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+    dev: false
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

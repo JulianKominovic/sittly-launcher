@@ -11,7 +11,7 @@ import prettyBytes from "pretty-bytes";
 import { ExtensionPages } from "../../devtools/types";
 import React, { useDeferredValue, useEffect, useState } from "react";
 import sittlyDevtools from "../../devtools/index";
-import { File } from "@/types/extension";
+import { File } from "@/devtools/types/models";
 import { readDir, readFile } from "@/devtools/api/files";
 
 import Layout from "@/devtools/components/layout";

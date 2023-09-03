@@ -127,7 +127,6 @@ export async function cmd(
       description: command,
       status: "SUCCESS",
     });
-    console.log(response);
     return {
       stdout: response,
       stderr: null,

@@ -6,7 +6,8 @@ import { fileTypeFromBuffer } from "file-type";
 import { fetch, ResponseType } from "@tauri-apps/api/http";
 import { notifyAsyncOperationStatus } from "./indicators";
 import { invoke } from "@tauri-apps/api";
-import { File } from "../../types/extension";
+import { File } from "../types/models";
+
 /**
  * Saves an image from a URL to user's disk and shows a notification
  * @example

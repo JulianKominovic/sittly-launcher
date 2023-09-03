@@ -6,6 +6,7 @@ import * as files from "./api/files";
 import * as indicators from "./api/indicators";
 import * as app from "./api/app";
 import * as network from "./api/network";
+import * as path from "./api/path";
 
 import * as Badge from "./components/badge";
 import * as Button from "./components/button";
@@ -56,6 +57,7 @@ const api = {
   indicators,
   app,
   network,
+  path,
 };
 
 const hooks = {
