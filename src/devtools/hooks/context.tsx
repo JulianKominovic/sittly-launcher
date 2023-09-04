@@ -31,14 +31,16 @@ type ContextTypes = {
    * @IMPORTANT Internal use only. Do not use this.
    * @deprecated
    */
-  asyncOpTimeoutId: NodeJS.Timeout;
   /**
    * @IMPORTANT Internal use only. Do not use this function.
    * @deprecated
    */
   setAsyncOpTimeoutId: (asyncOpTimeoutId: number) => void;
+  asyncOpTimeoutId: NodeJS.Timeout;
   setMainActionLabel: (mainActionLabel: string) => void;
   mainActionLabel: string;
+  setIsGlobalSearchEnable: (isGlobalSearchEnable: boolean) => void;
+  isGlobalSearchEnable: boolean;
 };
 
 const useServices = create<ContextTypes>((set, get) => ({
@@ -71,6 +73,9 @@ const useServices = create<ContextTypes>((set, get) => ({
     }, 5000);
     set({ asyncOperation, asyncOpTimeoutId: timeoutId });
   },
+  isGlobalSearchEnable: true,
+  setIsGlobalSearchEnable: (isGlobalSearchEnable: boolean) =>
+    set({ isGlobalSearchEnable }),
   setMusic: (music: MusicServiceReturn) => set({ music }),
   contextMenuOptions: [],
   setContextMenuOptions: (contextMenuOptions: any) =>

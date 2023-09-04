@@ -103,11 +103,13 @@ const List = ({
     isContextMenuOpen,
     setContextMenuOptions,
     setMainActionLabel,
+    isGlobalSearchEnable,
   } = useServices((state) => ({
     searchbarText: state.searchbarText,
     isContextMenuOpen: state.isContextMenuOpen,
     setContextMenuOptions: state.setContextMenuOptions,
     setMainActionLabel: state.setMainActionLabel,
+    isGlobalSearchEnable: state.isGlobalSearchEnable,
   }));
 
   const search = useDeferredValue(_search);
@@ -115,11 +117,12 @@ const List = ({
     useContext(ListContext);
 
   const filteredItems = useMemo(() => {
+    if (!isGlobalSearchEnable) return items;
     const filteredItems = filterItems(items, search);
     return filteredItems.length === 0
       ? filterNoResultItems(noResultItems())
       : filteredItems;
-  }, [items.length, search]);
+  }, [items.length, search, isGlobalSearchEnable]);
 
   const keyDownCallback = (e: KeyboardEvent) => {
     if (!["ArrowUp", "ArrowDown", "Enter"].includes(e.code)) return;
@@ -205,11 +208,13 @@ const Grid = ({
     isContextMenuOpen,
     setContextMenuOptions,
     setMainActionLabel,
+    isGlobalSearchEnable,
   } = useServices((state) => ({
     searchbarText: state.searchbarText,
     isContextMenuOpen: state.isContextMenuOpen,
     setContextMenuOptions: state.setContextMenuOptions,
     setMainActionLabel: state.setMainActionLabel,
+    isGlobalSearchEnable: state.isGlobalSearchEnable,
   }));
 
   const search = useDeferredValue(_search);
@@ -218,6 +223,8 @@ const Grid = ({
   // mapExtensionsNoResultItems should be at the top level
 
   const { areFallbackItems, filteredItems } = useMemo(() => {
+    if (!isGlobalSearchEnable)
+      return { filteredItems: items, areFallbackItems: false };
     const filteredItems = filterItems(items, search);
     return {
       filteredItems:
@@ -226,7 +233,7 @@ const Grid = ({
           : filteredItems,
       areFallbackItems: filteredItems.length === 0,
     };
-  }, [items.length, search]);
+  }, [items.length, search, isGlobalSearchEnable]);
 
   const keyDownCallback = (e: KeyboardEvent) => {
     if (
@@ -290,6 +297,7 @@ const Grid = ({
       className="mx-2 my-2"
       ref={ref}
       data={filteredItems}
+      overscan={200}
       components={{
         List: forwardRef((props, ref) =>
           areFallbackItems ? (
@@ -314,7 +322,7 @@ const Grid = ({
             // @ts-expect-error Private property
             displayType={areFallbackItems ? "LIST" : "GRID"}
             className={clsx(
-              areFallbackItems ? "" : "aspect-square h-auto",
+              areFallbackItems ? "" : "aspect-square h-auto max-h-64",
               item.className
             )}
             key={(item.title as string) + index}
@@ -350,7 +358,7 @@ const Item = ({
     <button
       {...props}
       className={cn(
-        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 rounded-lg w-full border border-transparent",
+        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 rounded-lg w-full border border-transparent max-h-36 overflow-hidden object-cover transition-transform scale-100",
         currentItemIndex === index
           ? "bg-opacity-5 bg-neutral-900 border border-neutral-200"
           : "",
