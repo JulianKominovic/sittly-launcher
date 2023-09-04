@@ -1,4 +1,9 @@
-import { fetch, FetchOptions, ResponseType } from "@tauri-apps/api/http";
+import {
+  fetch,
+  FetchOptions,
+  Response,
+  ResponseType,
+} from "@tauri-apps/api/http";
 import { notifyAsyncOperationStatus } from "./indicators";
 /**
  *Perform an HTTP request using the default client.
@@ -10,7 +15,10 @@ import { notifyAsyncOperationStatus } from "./indicators";
     timeout: 30,
     });
  */
-const powerfulFetch = async <T>(url: string, options?: FetchOptions) => {
+const powerfulFetch = async <T>(
+  url: string,
+  options?: FetchOptions
+): Promise<Response<T>> => {
   notifyAsyncOperationStatus({
     title: "Fetching data",
     description: url,
