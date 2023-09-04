@@ -1,7 +1,7 @@
 {
   "name": "sittly",
   "private": true,
-  "version": "0.0.0-alpha.9",
+  "version": "0.0.0-alpha.10",
   "type": "module",
   "scripts": {
     "dev": "vite",
