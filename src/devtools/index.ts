@@ -18,6 +18,7 @@ import * as Switch from "./components/switch";
 import * as Command from "./components/own_command";
 import * as Dialog from "./components/dialog";
 import * as Fieldset from "./components/fieldset";
+import * as Skeleton from "./components/skeletons";
 
 import * as context from "./hooks/context";
 import * as localStorage from "./hooks/localStorage";
@@ -46,6 +47,10 @@ const components = {
     Root: Dialog.default.Dialog,
   },
   Fieldset: Fieldset.default,
+  Skeleton: {
+    Custom: Skeleton.Skeleton,
+    List: Skeleton.ListSkeleton,
+  },
 };
 
 const api = {
