@@ -231,16 +231,7 @@ const pages: ExtensionPages = [
                         icon: <BsClipboard2 />,
                         description: path,
                         onClick() {
-                          copyImageToClipboard(
-                            path,
-                            file_type === "png"
-                              ? "png"
-                              : file_type === "svg"
-                              ? "svg+xml"
-                              : file_type === "avif"
-                              ? "avif"
-                              : "jpeg"
-                          );
+                          copyImageToClipboard(path);
                         },
                         mainActionLabel: "Copy image to clipboard",
                       },
