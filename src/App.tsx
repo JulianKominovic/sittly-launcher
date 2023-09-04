@@ -29,6 +29,7 @@ const EventsRegister = () => {
     setContextMenuIsOpen,
     setAsyncOperation,
     searchbarText,
+    setIsGlobalSearchEnable,
   } = useServices((state) => ({
     setMusic: state.setMusic,
     setInitialContextMenuOptions: state.setInitialContextMenuOptions,
@@ -38,6 +39,7 @@ const EventsRegister = () => {
     setSearchbarText: state.setSearchbarText,
     setAsyncOperation: state.setAsyncOperation,
     searchbarText: state.searchbarText,
+    setIsGlobalSearchEnable: state.setIsGlobalSearchEnable,
   }));
   const { goBack, location } = useRouter();
   //@ts-ignore
@@ -82,6 +84,7 @@ const EventsRegister = () => {
   useLayoutEffect(() => {
     setSearchbarText("");
     setContextMenuOptions([]);
+    setIsGlobalSearchEnable(true);
   }, [location.pathname]);
   useEffect(() => {
     const unlisten = registerMusicListener(setMusic);
