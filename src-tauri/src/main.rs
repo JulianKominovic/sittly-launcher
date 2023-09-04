@@ -4,6 +4,7 @@ use base64::{engine::general_purpose, Engine as _};
 use playerctl::PlayerCtl;
 use rust_search::{FilterExt, SearchBuilder};
 use serde::{Deserialize, Serialize};
+use std::path;
 use std::result::Result;
 use std::time::SystemTime;
 use std::{
@@ -18,6 +19,13 @@ use wallpaper;
 //     writer: Arc<AsyncMutex<Box<dyn Write + Send>>>,
 // }
 
+fn get_sittly_path() -> String {
+    let home_dir = std::env::home_dir().unwrap();
+    let home_dir_str = home_dir.to_str().unwrap();
+    let sittly_path = path::Path::new(home_dir_str).join(".sittly");
+
+    sittly_path.to_str().unwrap().to_string()
+}
 #[derive(Serialize, Deserialize, Clone)]
 struct File {
     name: String,
@@ -27,6 +35,16 @@ struct File {
     size: u64,
     base64: Option<String>,
     last_modified: SystemTime,
+}
+
+fn clipboard_has_image() -> bool {
+    let args = ["-selection", "clipboard", "-t", "TARGETS", "-o"];
+    let output = Command::new("xclip")
+        .args(args)
+        .output()
+        .unwrap_or_else(|_| panic!("Failed to execute player info"));
+    let stdout = String::from_utf8(output.stdout).unwrap();
+    stdout.contains("image")
 }
 
 #[tauri::command]
@@ -175,7 +193,10 @@ async fn download_extension(github_url: String) {
 
 #[tauri::command]
 async fn paste_to_current_window() {
-    let args: [&str; 3] = ["key", "--clearmodifiers", "ctrl+shift+v"];
+    let mut args: [&str; 3] = ["key", "--clearmodifiers", "ctrl+shift+v"];
+    if clipboard_has_image() {
+        args = ["key", "--clearmodifiers", "ctrl+v"];
+    }
     Command::new("xdotool")
         .args(args)
         .output()
@@ -262,16 +283,40 @@ async fn show_app() {
 }
 
 #[tauri::command]
-async fn copy_image_to_clipboard(path: String, image_type: String) {
-    let image_type_arg = format!("{}{}", "image/", &image_type);
-    let args = [
-        "-selection",
-        "clipboard",
-        "-t",
-        image_type_arg.as_str(),
-        "-i",
-        &path,
-    ];
+async fn copy_image_to_clipboard(mut path: String) {
+    // If path is a url, download the image and copy it to clipboard
+    if path.starts_with("http") {
+        let filename = "clipboard-temp-img";
+        let args = ["-O", filename, &path];
+        let output = Command::new("wget")
+            .current_dir(get_sittly_path())
+            .args(args)
+            .output()
+            .unwrap_or_else(|_| panic!("Failed to execute player info"));
+        let status = output.status;
+        if !status.success() {
+            panic!("Failed to download image");
+        }
+        // Convert any image to png using imagemagick
+        path = path::Path::new(get_sittly_path().as_str())
+            .join(filename)
+            .to_str()
+            .unwrap()
+            .to_string();
+        let imagemagick_args = [path.as_str(), "clipboard-temp-img.png"];
+        Command::new("convert")
+            .args(imagemagick_args)
+            .current_dir(get_sittly_path())
+            .output()
+            .unwrap_or_else(|_| panic!("Failed to execute player info"));
+        path = path::Path::new(get_sittly_path().as_str())
+            .join("clipboard-temp-img.png")
+            .to_str()
+            .unwrap()
+            .to_string();
+    }
+
+    let args = ["-selection", "clipboard", "-t", "image/png", "-i", &path];
     println!("{:?}", args);
     Command::new("xclip")
         .args(args)
