@@ -1,5 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+pub mod database;
+
 use base64::{engine::general_purpose, Engine as _};
 use playerctl::PlayerCtl;
 use rust_search::{FilterExt, SearchBuilder};
@@ -15,9 +17,6 @@ use std::{
 use tauri::api::file::read_binary;
 use tauri::Manager;
 use wallpaper;
-// struct AppState {
-//     writer: Arc<AsyncMutex<Box<dyn Write + Send>>>,
-// }
 
 fn get_sittly_path() -> String {
     let home_dir = std::env::home_dir().unwrap();
@@ -323,6 +322,22 @@ async fn copy_image_to_clipboard(mut path: String) {
         .output()
         .unwrap_or_else(|_| panic!("Failed to execute player info"));
 }
+#[tauri::command]
+fn write_database(database: String, key: String, value: String) -> Result<(), String> {
+    let result = database::database::write(database, key, value);
+    match result {
+        Ok(_) => Ok(()),
+        Err(err) => Err(err.to_string()),
+    }
+}
+#[tauri::command]
+fn read_database(database: String, key: String) -> Result<String, String> {
+    let result = database::database::read(database, key);
+    match result {
+        Ok(value) => Ok(value),
+        Err(err) => Err(err.to_string()),
+    }
+}
 
 #[derive(Serialize, Deserialize, Clone)]
 struct TrackData {
@@ -426,7 +441,9 @@ fn main() {
             show_app,
             find_files,
             read_file,
-            read_dir
+            read_dir,
+            read_database,
+            write_database
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
