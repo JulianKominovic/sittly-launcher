@@ -21,7 +21,7 @@ const Checkbox = React.forwardRef<
       "Checkbox must have children. Use Fieldset.Label or/and Fieldset.Details from ui/fieldset.tsx"
     );
   return (
-    <div className="flex space-x-2 items-top">
+    <div className="flex items-top">
       <CheckboxPrimitive.Root
         ref={ref}
         className={cn(

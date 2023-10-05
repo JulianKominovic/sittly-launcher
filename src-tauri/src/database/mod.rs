@@ -24,7 +24,11 @@ pub mod database {
         let db = open_database();
         let tx = db.tx(false)?;
         let bucket = tx.get_bucket(database)?;
-        let op_result = bucket.get(key).unwrap();
+        let op_result_wrapper = bucket.get(key);
+        if op_result_wrapper.is_none() {
+            return Err(Error::BucketMissing);
+        }
+        let op_result = op_result_wrapper.unwrap();
         let op_result_string = String::from_utf8(op_result.kv().value().to_vec()).unwrap();
         Ok(op_result_string)
     }

@@ -11,7 +11,7 @@ const RadioGroup = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Root
-      className={cn("grid gap-4", className)}
+      className={cn("flex w-full justify-evenly gap-4", className)}
       {...props}
       ref={ref}
     />
@@ -24,7 +24,7 @@ const RadioGroupItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
 >(({ className, children, ...props }, ref) => {
   return (
-    <div className="flex space-x-2 items-top">
+    <div className="flex gap-2 items-top">
       <RadioGroupPrimitive.Item
         ref={ref}
         tabIndex={0}

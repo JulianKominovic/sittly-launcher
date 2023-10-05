@@ -42,7 +42,7 @@ export type ListItem = {
    * When the item is clicked or selected via keyboard
    *
    */
-  onClick: () => void;
+  onClick?: () => void;
   /**
    * If you want to use a custom component as the item
    *
@@ -77,7 +77,11 @@ export type ListItem = {
    * User can press `Enter` key to trigger the `onClick` function
    * It helps the user by letting them know that pressing `Enter` or `click` will execute an action.
    */
-  mainActionLabel: string;
+  mainActionLabel?: string;
+  /**
+   * Icon shown at the right side of the item
+   */
+  rightIcon?: React.ReactNode;
 };
 
 export type MusicServiceReturn = {
