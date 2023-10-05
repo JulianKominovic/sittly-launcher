@@ -14,33 +14,10 @@ import { ListItem } from "./devtools/types";
 import { AsyncStatusEvent, SittlyCustomEvents } from "./devtools/types/events";
 import { hideApp } from "./devtools/api/app";
 
-const { hooks, components, utils, api } = sittlyDevtools;
-const { database } = api;
+const { hooks, components, utils } = sittlyDevtools;
 const { Command: SittlyCommand } = components;
 const { useRouter, useServices } = hooks;
 const { eventIsFromContextMenu } = utils;
-
-console.log(
-  await database.write("test", "test", {
-    test: "test",
-    haha: {
-      test: "test",
-      arr: [1, 2, 3],
-      obj: {
-        test: "test",
-        fa: false,
-      },
-    },
-  })
-);
-database
-  .read("test", "test")
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((e) => {
-    console.log(e);
-  });
 
 const EventsRegister = () => {
   const {
