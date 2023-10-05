@@ -425,18 +425,15 @@ const Input = forwardRef(
   (
     {
       className,
-      onKeyDown,
       ...props
     }: { className?: string } & React.HTMLProps<HTMLInputElement>,
     ref
   ) => {
-    const { searchbarText: _search, setSearchbarText: setSearch } =
+    const { searchbarText: search, setSearchbarText: setSearch } =
       useServices();
-    const search = useDeferredValue(_search);
     const { setCurrentItemIndex } = useContext(ListContext);
     const { pathname } = useLocation();
     const navigate = useNavigate();
-
     return (
       <div className="flex items-center gap-2 border-b">
         {pathname !== "/" && (
