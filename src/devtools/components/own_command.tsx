@@ -8,6 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useDeepCompareMemo, useDeepCompareEffect } from "use-deep-compare";
 import { cn, eventIsFromContextMenu, textContent } from "../lib/utils";
 import {
   Virtuoso,
@@ -111,18 +112,19 @@ const List = ({
     setMainActionLabel: state.setMainActionLabel,
     isGlobalSearchEnable: state.isGlobalSearchEnable,
   }));
+  const location = useLocation();
 
   const search = useDeferredValue(_search);
   const { setCurrentItemIndex, currentItemIndex, noResultItems } =
     useContext(ListContext);
 
-  const filteredItems = useMemo(() => {
+  const filteredItems = useDeepCompareMemo(() => {
     if (!isGlobalSearchEnable) return items;
     const filteredItems = filterItems(items, search);
     return filteredItems.length === 0
       ? filterNoResultItems(noResultItems())
       : filteredItems;
-  }, [items.length, search, isGlobalSearchEnable]);
+  }, [items, search, isGlobalSearchEnable]);
 
   const keyDownCallback = (e: KeyboardEvent) => {
     if (!["ArrowUp", "ArrowDown", "Enter"].includes(e.code)) return;
@@ -160,7 +162,7 @@ const List = ({
     filteredItems[0]?.onHighlight?.();
     setMainActionLabel(filteredItems[0]?.mainActionLabel ?? "");
     setCurrentItemIndex(0);
-  }, [filteredItems]);
+  }, [location.pathname]);
 
   useEffect(() => {
     document.addEventListener("keydown", keyDownCallback);
@@ -216,13 +218,13 @@ const Grid = ({
     setMainActionLabel: state.setMainActionLabel,
     isGlobalSearchEnable: state.isGlobalSearchEnable,
   }));
-
+  const location = useLocation();
   const search = useDeferredValue(_search);
   const { setCurrentItemIndex, currentItemIndex, noResultItems } =
     useContext(ListContext);
   // mapExtensionsNoResultItems should be at the top level
 
-  const { areFallbackItems, filteredItems } = useMemo(() => {
+  const { areFallbackItems, filteredItems } = useDeepCompareMemo(() => {
     if (!isGlobalSearchEnable)
       return { filteredItems: items, areFallbackItems: false };
     const filteredItems = filterItems(items, search);
@@ -233,7 +235,7 @@ const Grid = ({
           : filteredItems,
       areFallbackItems: filteredItems.length === 0,
     };
-  }, [items.length, search, isGlobalSearchEnable]);
+  }, [items, search, isGlobalSearchEnable]);
 
   const keyDownCallback = (e: KeyboardEvent) => {
     if (
@@ -279,11 +281,11 @@ const Grid = ({
     setCurrentItemIndex(nextIndex);
   };
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     filteredItems[0]?.onHighlight?.();
     setMainActionLabel(filteredItems[0]?.mainActionLabel ?? "");
     setCurrentItemIndex(0);
-  }, [filteredItems]);
+  }, [location.pathname]);
 
   useEffect(() => {
     document.addEventListener("keydown", keyDownCallback);
@@ -348,6 +350,7 @@ const Item = ({
   setCurrentItem,
   customChildren,
   onHighlight,
+  rightIcon,
   ...props
 }: {
   index: number;
@@ -384,7 +387,7 @@ const Item = ({
             <div
               className={clsx(
                 "rounded-md overflow-hidden flex justify-center items-center",
-                displayType === "GRID" ? "w-auto" : "w-7 min-w-7"
+                displayType === "GRID" ? "w-auto" : "w-7"
               )}
             >
               {icon}
@@ -393,29 +396,25 @@ const Item = ({
           {title || description ? (
             <div
               className={clsx(
-                "flex flex-grow gap-2 w-5/6",
+                "flex flex-grow gap-2 w-4/5",
                 displayType === "GRID"
                   ? "flex-col items-start"
                   : "flex-row items-center"
               )}
             >
               {title && (
-                <div className="text-sm font-medium truncate text-foreground">
+                <div className="text-sm max-w-[20ch] min-w-fit text-left font-medium truncate text-foreground">
                   {title}
                 </div>
               )}
               {description && (
-                <div className="text-xs truncate text-muted-foreground">
+                <div className="flex-shrink text-xs truncate text-muted-foreground">
                   {description}
                 </div>
               )}
             </div>
           ) : null}
-          {displayType === "LIST" && (
-            <div>
-              <LightningBoltIcon />
-            </div>
-          )}
+          {displayType === "LIST" && rightIcon}
         </>
       )}
     </button>

@@ -13,6 +13,7 @@ import * as Badge from "./components/badge";
 import * as Button from "./components/button";
 import * as Checkbox from "./components/checkbox";
 import * as Input from "./components/input";
+import * as Textarea from "./components/textarea";
 import * as Radio from "./components/radio";
 import * as Slider from "./components/slider";
 import * as Switch from "./components/switch";
@@ -20,6 +21,7 @@ import * as Command from "./components/own_command";
 import * as Dialog from "./components/dialog";
 import * as Fieldset from "./components/fieldset";
 import * as Skeleton from "./components/skeletons";
+import Select from "./components/select";
 
 import * as context from "./hooks/context";
 import * as localStorage from "./hooks/localStorage";
@@ -36,6 +38,7 @@ const components = {
   Button: Button.Button,
   Checkbox: Checkbox.Checkbox,
   Input: Input.default,
+  Textarea: Textarea.default,
   Radio: {
     Group: Radio.RadioGroup,
     GroupItem: Radio.RadioGroupItem,
@@ -51,6 +54,9 @@ const components = {
   Skeleton: {
     Custom: Skeleton.Skeleton,
     List: Skeleton.ListSkeleton,
+  },
+  Select: {
+    ...Select,
   },
 };
 

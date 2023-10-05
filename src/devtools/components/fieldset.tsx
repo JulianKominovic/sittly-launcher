@@ -8,7 +8,7 @@ const Fieldset = {
     <label
       {...props}
       className={cn(
-        "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+        "text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-medium text-neutral-500 w-28 inline-block truncate",
         props.className
       )}
     />
