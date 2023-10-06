@@ -31,7 +31,7 @@ export default defineConfig(async () => ({
     sourcemap: !!process.env.TAURI_DEBUG,
     modulePreload: false,
   },
-  plugins: [million.vite({ auto: true }), react()],
+  plugins: [million.vite({ auto: { rsc: false, threshold: 0 } }), react()],
 
   resolve: {
     alias: {
