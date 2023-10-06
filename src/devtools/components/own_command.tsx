@@ -361,12 +361,14 @@ const Item = ({
     <button
       {...props}
       className={cn(
-        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 rounded-lg w-full border border-transparent max-h-36 overflow-hidden object-cover transition-transform scale-100",
+        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 rounded-lg w-full border border-transparent overflow-hidden object-cover transition-transform scale-100",
         currentItemIndex === index
           ? "bg-opacity-5 bg-neutral-900 border border-neutral-200"
           : "",
         displayType === "GRID"
-          ? "flex-col items-start h-auto"
+          ? "flex-col items-start h-auto max-h-36"
+          : customChildren
+          ? "flex-row"
           : "flex-row h-11",
         className
       )}

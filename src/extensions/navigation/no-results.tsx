@@ -1,4 +1,5 @@
 import { ExtensionNoResultItems } from "../../devtools/types";
+import ReactQR from "react-qr-code";
 import {
   BsApp,
   BsCalendar2,
@@ -291,14 +292,17 @@ const items: ExtensionNoResultItems = () => {
       show: true,
     },
 
+    // Generate QR code
     {
-      onClick() {
-        setSearchbarText("");
-      },
-      title: "Clear searchbar",
-      description: "Clear the searchbar",
-      icon: <BsTrash />,
-      mainActionLabel: "Clear",
+      customChildren: (
+        <div className="flex items-center w-full gap-4 justify-evenly">
+          <aside>
+            <p className="text-2xl font-semibold text-slate-900">QR Code</p>
+            <p className="text-sm text-slate-500">Scan with your phone</p>
+          </aside>
+          <ReactQR size={224} value={searchbarText} />
+        </div>
+      ),
     },
   ];
 };
