@@ -24,11 +24,20 @@ const pages: ExtensionPages = [
         tasks,
         tasksByStatus,
         setContextMenuOptions,
+        editingTask,
         setPage,
         updateTask,
+        editTask,
       } = useTodoist();
 
-      if (page === "CREATION_EDIT") return <CreateTask addTask={addTask} />;
+      if (page === "CREATION_EDIT")
+        return (
+          <CreateTask
+            editingTask={editingTask}
+            addTask={addTask}
+            updateTask={updateTask}
+          />
+        );
 
       if (!tasks.length)
         return (
@@ -55,7 +64,7 @@ const pages: ExtensionPages = [
             tasks &&
             todoistMapper({
               tasksGrouped: tasksByStatus,
-              setPage,
+              editTask,
               setContextMenuOptions,
               updateTask,
               removeTask,

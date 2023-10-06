@@ -10,20 +10,22 @@ import {
 
 export const todoistMapper = ({
   tasksGrouped,
-  setPage,
+  editTask,
   updateTask,
   removeTask,
   onHighlightListItemCallback,
   setContextMenuOptions,
 }: {
   tasksGrouped: Record<any, TodoistItem[]>;
-  setPage: any;
+  editTask: any;
   updateTask: any;
   removeTask: any;
   onHighlightListItemCallback: any;
   setContextMenuOptions: any;
 }) => {
+  if (!tasksGrouped) return [];
   return Object.entries(tasksGrouped).flatMap(([key, tasks]) => {
+    if (!tasks) return [];
     return [
       {
         description: `${tasks.length} tasks - ${key}`,
@@ -73,7 +75,7 @@ export const todoistMapper = ({
           icon: <div>{TASK_VISUAL_STATUSES[task.status].slice(0, 2)}</div>,
           mainActionLabel: "Edit",
           onClick() {
-            setPage("CREATION_EDIT");
+            editTask(task);
           },
           rightIcon: (
             <div className="whitespace-nowrap">

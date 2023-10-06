@@ -13,8 +13,12 @@ const { Fieldset, Input, Button, Textarea, Select } = components;
 
 export function CreateTask({
   addTask,
+  updateTask,
+  editingTask,
 }: {
   addTask: (task: TodoistItem) => void;
+  updateTask: (task: TodoistItem) => void;
+  editingTask: TodoistItem | null;
 }) {
   return (
     <form
@@ -22,32 +26,41 @@ export function CreateTask({
         e.preventDefault();
 
         const data = Object.fromEntries(new FormData(e.target as any) as any);
-        addTask({
-          id: crypto.randomUUID(),
+        const task: TodoistItem = {
+          id: editingTask?.id || crypto.randomUUID(),
           title: data.title,
           description: data.description,
           status: data.status,
           priority: data.priority,
           due_date: Date.now(),
-        });
+        };
+        if (editingTask) updateTask(task);
+        else addTask(task);
       }}
       className="flex flex-col gap-8 p-4 overflow-auto"
     >
-      <Input name="title" required>
+      <Input name="title" required defaultValue={editingTask?.title}>
         <Fieldset.Label>Title*</Fieldset.Label>
       </Input>
-      <Textarea name="description" rows={3}>
+      <Textarea
+        name="description"
+        rows={3}
+        defaultValue={editingTask?.description}
+      >
         <Fieldset.Label>Description</Fieldset.Label>
       </Textarea>
       <hgroup className="flex">
         <Fieldset.Label>Priority</Fieldset.Label>
-        <Select.Root name="priority" defaultValue="MEDIUM">
+        <Select.Root
+          name="priority"
+          defaultValue={editingTask?.priority ?? "MEDIUM"}
+        >
           <Select.Trigger>
             <Select.Value placeholder="Choose a priority" />
           </Select.Trigger>
           <Select.Content>
             {PRIORITIES.map((status) => (
-              <Select.Item value={status}>
+              <Select.Item value={status} key={status}>
                 {PRIORITY_VISUAL[status]}
               </Select.Item>
             ))}
@@ -57,7 +70,7 @@ export function CreateTask({
 
       <hgroup className="flex">
         <Fieldset.Label>Status</Fieldset.Label>
-        <Select.Root defaultValue="TODO" name="status">
+        <Select.Root defaultValue={editingTask?.status ?? "TODO"} name="status">
           <Select.Trigger>
             <Select.Value placeholder="Choose a status" />
           </Select.Trigger>
