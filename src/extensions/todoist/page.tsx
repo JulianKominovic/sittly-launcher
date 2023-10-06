@@ -28,14 +28,7 @@ const pages: ExtensionPages = [
         updateTask,
       } = useTodoist();
 
-      if (page === "CREATION_EDIT")
-        return (
-          <CreateTask
-            addTask={addTask}
-            setPage={setPage}
-            setContextMenuOptions={setContextMenuOptions}
-          />
-        );
+      if (page === "CREATION_EDIT") return <CreateTask addTask={addTask} />;
 
       if (!tasks.length)
         return (

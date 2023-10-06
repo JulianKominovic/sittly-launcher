@@ -1,4 +1,3 @@
-import sittlyDevtools from "@/devtools";
 import { ListItem } from "@/devtools/types";
 import { TodoistItem } from "@/types/extension";
 import React from "react";

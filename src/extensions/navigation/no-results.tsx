@@ -14,7 +14,6 @@ import {
   BsHash,
   BsKey,
   BsMicrosoft,
-  BsTrash,
   BsYoutube,
 } from "react-icons/bs";
 import { SiDuckduckgo } from "react-icons/si";
@@ -45,10 +44,7 @@ const SUPPORTED_HASHES = [
  * @returns Extension items
  */
 const items: ExtensionNoResultItems = () => {
-  const { setSearchbarText, searchbarText } = useServices((state) => ({
-    setSearchbarText: state.setSearchbarText,
-    searchbarText: state.searchbarText,
-  }));
+  const searchbarText = useServices((state) => state.searchbarText);
   const isEmail = utils.isEmail(searchbarText);
   const isBase64 = utils.isBase64(searchbarText);
   const isDate = utils.isDate(searchbarText);
@@ -211,7 +207,7 @@ const items: ExtensionNoResultItems = () => {
       description: "Paste " + stringifiedJWT?.payload,
       icon: <BsKey />,
       mainActionLabel: "Paste",
-      show: isJwt && stringifiedJWT,
+      show: isJwt && Boolean(stringifiedJWT.header),
     },
     // Paste decoded jwt header
     {
@@ -222,7 +218,7 @@ const items: ExtensionNoResultItems = () => {
       description: "Paste " + stringifiedJWT?.header,
       icon: <BsKey />,
       mainActionLabel: "Paste",
-      show: isJwt && stringifiedJWT,
+      show: isJwt && Boolean(stringifiedJWT.header),
     },
     // Base64 detection is very intrusive, so show at the end
     // Copy decoded base64

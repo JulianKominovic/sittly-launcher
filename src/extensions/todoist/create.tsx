@@ -1,7 +1,5 @@
-import { ListItem } from "@/devtools/types";
 import { TodoistItem } from "@/types/extension";
-import React, { useEffect } from "react";
-import { BsList } from "react-icons/bs";
+import React from "react";
 import sittlyDevtools from "../../devtools/index";
 import {
   PRIORITIES,
@@ -14,12 +12,8 @@ const { components } = sittlyDevtools;
 const { Fieldset, Input, Button, Textarea, Select } = components;
 
 export function CreateTask({
-  setPage,
-  setContextMenuOptions,
   addTask,
 }: {
-  setPage: (page: "CREATION_EDIT" | "LIST") => void;
-  setContextMenuOptions: (options: ListItem[]) => void;
   addTask: (task: TodoistItem) => void;
 }) {
   return (

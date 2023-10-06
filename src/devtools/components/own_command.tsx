@@ -4,7 +4,6 @@ import React, {
   useContext,
   useDeferredValue,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -17,7 +16,6 @@ import {
   VirtuosoHandle,
 } from "react-virtuoso";
 import { useServices } from "../hooks/context";
-import { LightningBoltIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
