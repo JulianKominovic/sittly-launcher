@@ -47,7 +47,7 @@ const CommandItemMapper = (
         e.preventDefault();
       }}
       onSelect={() => {
-        onClick();
+        onClick?.();
         setContextMenuVisibility(false);
       }}
     >
