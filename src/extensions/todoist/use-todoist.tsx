@@ -30,6 +30,8 @@ export function useTodoist() {
   const [page, setPage] = useState<"CREATION_EDIT" | "LIST">(() => "LIST");
   const [group, _setGroup] = useState<keyof TodoistItem>(() => "status");
   const [tasks, setTasks] = useState<TodoistItem[]>([]);
+  const [editingTask, setEditingTask] = useState<TodoistItem | null>(null);
+
   function setGroup(group: keyof TodoistItem) {
     _setGroup(group);
     database.write(TODOIST_DATABASE, TODOIST_DATABASE_GROUPING, { group });
@@ -114,6 +116,11 @@ export function useTodoist() {
     };
   }, [tasks, group]);
 
+  const editTask = (task: TodoistItem) => {
+    setEditingTask(task);
+    setPage("CREATION_EDIT");
+  };
+
   const addTask = (task: TodoistItem) => {
     setTasks((prev) => {
       const newTasks = [...prev, task];
@@ -139,6 +146,7 @@ export function useTodoist() {
       database.write(TODOIST_DATABASE, TODOIST_DATABASE_TASKS, newTasks);
       return newTasks;
     });
+    setPage("LIST");
   };
 
   useEffect(() => {
@@ -172,5 +180,7 @@ export function useTodoist() {
     setPage,
     setContextMenuOptions,
     updateTask,
+    editTask,
+    editingTask,
   };
 }

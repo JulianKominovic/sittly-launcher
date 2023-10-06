@@ -4,7 +4,6 @@ import React, {
   useContext,
   useDeferredValue,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -17,7 +16,6 @@ import {
   VirtuosoHandle,
 } from "react-virtuoso";
 import { useServices } from "../hooks/context";
-import { LightningBoltIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
@@ -361,12 +359,14 @@ const Item = ({
     <button
       {...props}
       className={cn(
-        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 rounded-lg w-full border border-transparent max-h-36 overflow-hidden object-cover transition-transform scale-100",
+        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 rounded-lg w-full border border-transparent overflow-hidden object-cover transition-transform scale-100",
         currentItemIndex === index
           ? "bg-opacity-5 bg-neutral-900 border border-neutral-200"
           : "",
         displayType === "GRID"
-          ? "flex-col items-start h-auto"
+          ? "flex-col items-start h-auto max-h-36"
+          : customChildren
+          ? "flex-row"
           : "flex-row h-11",
         className
       )}
@@ -425,18 +425,15 @@ const Input = forwardRef(
   (
     {
       className,
-      onKeyDown,
       ...props
     }: { className?: string } & React.HTMLProps<HTMLInputElement>,
     ref
   ) => {
-    const { searchbarText: _search, setSearchbarText: setSearch } =
+    const { searchbarText: search, setSearchbarText: setSearch } =
       useServices();
-    const search = useDeferredValue(_search);
     const { setCurrentItemIndex } = useContext(ListContext);
     const { pathname } = useLocation();
     const navigate = useNavigate();
-
     return (
       <div className="flex items-center gap-2 border-b">
         {pathname !== "/" && (

@@ -1,5 +1,6 @@
 import os from "os";
 import { defineConfig } from "vite";
+import million from "million/compiler";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { Buffer } from "buffer";
@@ -30,7 +31,7 @@ export default defineConfig(async () => ({
     sourcemap: !!process.env.TAURI_DEBUG,
     modulePreload: false,
   },
-  plugins: [react()],
+  plugins: [million.vite({ auto: { rsc: false, threshold: 0 } }), react()],
 
   resolve: {
     alias: {

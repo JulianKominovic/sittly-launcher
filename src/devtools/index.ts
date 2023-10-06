@@ -79,6 +79,18 @@ const hooks = {
   ...router,
 };
 
-const sittlyDevtools = { api, components, hooks, register, utils, types };
+const allUtils = {
+  ...utils.validator.default,
+  ...utils,
+};
+
+const sittlyDevtools = {
+  api,
+  components,
+  hooks,
+  register,
+  utils: allUtils,
+  types,
+};
 
 export default sittlyDevtools;

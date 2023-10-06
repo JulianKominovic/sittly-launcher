@@ -1,4 +1,4 @@
-import { BsListCheck, BsSearch } from "react-icons/bs";
+import { BsCheckCircle, BsSearch } from "react-icons/bs";
 import { ExtensionPages } from "../../devtools/types";
 import React from "react";
 import sittlyDevtools from "../../devtools/index";
@@ -14,7 +14,7 @@ const pages: ExtensionPages = [
     name: "Todoist",
     description: "Track your tasks",
     route: "/todoist",
-    icon: <BsListCheck />,
+    icon: <BsCheckCircle />,
     component() {
       const {
         addTask,
@@ -24,16 +24,18 @@ const pages: ExtensionPages = [
         tasks,
         tasksByStatus,
         setContextMenuOptions,
+        editingTask,
         setPage,
         updateTask,
+        editTask,
       } = useTodoist();
 
       if (page === "CREATION_EDIT")
         return (
           <CreateTask
+            editingTask={editingTask}
             addTask={addTask}
-            setPage={setPage}
-            setContextMenuOptions={setContextMenuOptions}
+            updateTask={updateTask}
           />
         );
 
@@ -62,7 +64,7 @@ const pages: ExtensionPages = [
             tasks &&
             todoistMapper({
               tasksGrouped: tasksByStatus,
-              setPage,
+              editTask,
               setContextMenuOptions,
               updateTask,
               removeTask,
