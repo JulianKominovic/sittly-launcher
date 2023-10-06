@@ -1,4 +1,4 @@
-import { BsListCheck, BsSearch } from "react-icons/bs";
+import { BsCheckCircle, BsSearch } from "react-icons/bs";
 import { ExtensionPages } from "../../devtools/types";
 import React from "react";
 import sittlyDevtools from "../../devtools/index";
@@ -14,7 +14,7 @@ const pages: ExtensionPages = [
     name: "Todoist",
     description: "Track your tasks",
     route: "/todoist",
-    icon: <BsListCheck />,
+    icon: <BsCheckCircle />,
     component() {
       const {
         addTask,

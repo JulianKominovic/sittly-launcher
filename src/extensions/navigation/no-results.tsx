@@ -8,6 +8,7 @@ import {
   BsCalendar2Month,
   BsCalendar3Fill,
   BsCalendarRange,
+  BsCheckCircle,
   BsCodeSquare,
   BsGithub,
   BsGoogle,
@@ -16,11 +17,12 @@ import {
   BsMicrosoft,
   BsYoutube,
 } from "react-icons/bs";
-import { SiDuckduckgo } from "react-icons/si";
+import { SiDuckduckgo, SiYoutubemusic } from "react-icons/si";
 import sittlyDevtools from "../../devtools/index";
 import React from "react";
+import { useTodoist } from "../todoist/use-todoist";
 const { hooks, utils, api } = sittlyDevtools;
-const { useServices } = hooks;
+const { useServices, useRouter } = hooks;
 const { clipboard, shell } = api;
 const { openURI } = shell;
 const { pasteToCurrentWindow, copyToClipboard } = clipboard;
@@ -44,6 +46,8 @@ const SUPPORTED_HASHES = [
  * @returns Extension items
  */
 const items: ExtensionNoResultItems = () => {
+  const { goTo } = useRouter();
+  const { addTask } = useTodoist();
   const searchbarText = useServices((state) => state.searchbarText);
   const isEmail = utils.isEmail(searchbarText);
   const isBase64 = utils.isBase64(searchbarText);
@@ -261,7 +265,7 @@ const items: ExtensionNoResultItems = () => {
       },
       title: "Search on duckduckgo",
       description: "Search " + searchbarText + " on duckduckgo",
-      icon: <SiDuckduckgo />,
+      icon: <SiDuckduckgo className="text-amber-500" />,
       mainActionLabel: "Search",
       show: true,
     },
@@ -272,7 +276,7 @@ const items: ExtensionNoResultItems = () => {
       },
       title: "Search in youtube",
       description: "Search " + searchbarText + " in youtube",
-      icon: <BsYoutube />,
+      icon: <BsYoutube className="text-red-500" />,
       mainActionLabel: "Search",
       show: true,
     },
@@ -286,6 +290,36 @@ const items: ExtensionNoResultItems = () => {
       icon: <BsGithub />,
       mainActionLabel: "Search",
       show: true,
+    },
+    // Search in youtube music
+    {
+      onClick() {
+        openURI("https://music.youtube.com/search?q=" + searchbarText);
+      },
+      title: "Search in Youtube Music",
+      description: "Search " + searchbarText + " in youtube music",
+      icon: <SiYoutubemusic className="text-red-500" />,
+      mainActionLabel: "Search",
+      show: true,
+    },
+
+    // Add task
+    {
+      onClick() {
+        addTask({
+          due_date: Date.now(),
+          title: searchbarText,
+          status: "TODO",
+          priority: "MEDIUM",
+          description: "",
+          id: crypto.randomUUID(),
+        });
+        goTo("/todoist");
+      },
+      title: "Create task",
+      description: "Add " + searchbarText + " to todoist",
+      icon: <BsCheckCircle />,
+      mainActionLabel: "Create task",
     },
 
     // Generate QR code
