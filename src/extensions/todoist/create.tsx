@@ -89,7 +89,7 @@ export function CreateTask({
       </hgroup>
 
       <Button type="submit" variant="default">
-        Add task
+        {editingTask ? "Update" : "Create"} task
       </Button>
     </form>
   );
