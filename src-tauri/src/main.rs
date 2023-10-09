@@ -3,6 +3,9 @@
 pub mod database;
 
 use base64::{engine::general_purpose, Engine as _};
+use gnome_dbus_api::handlers::easy_gnome::apps::Apps;
+use gnome_dbus_api::handlers::easy_gnome::nightlight;
+use gnome_dbus_api::handlers::easy_gnome::screen;
 use playerctl::PlayerCtl;
 use rust_search::{FilterExt, SearchBuilder};
 use serde::{Deserialize, Serialize};
@@ -338,7 +341,54 @@ fn read_database(database: String, key: String) -> Result<String, String> {
         Err(err) => Err(err.to_string()),
     }
 }
+#[tauri::command]
+async fn set_nightlight(status: bool) -> Result<(), String> {
+    nightlight::set_nightlight_active(status).await;
+    Ok(())
+}
+#[tauri::command]
+async fn set_temperature(temperature: u32) -> Result<(), String> {
+    nightlight::set_temperature(temperature).await;
+    Ok(())
+}
 
+#[tauri::command]
+async fn brightness_up() -> Result<(), String> {
+    screen::step_up().await;
+    Ok(())
+}
+#[tauri::command]
+async fn brightness_down() -> Result<(), String> {
+    screen::step_down().await;
+    Ok(())
+}
+#[tauri::command]
+async fn get_all_apps() -> Result<Vec<AppStruct>, String> {
+    let apps_instance = Apps::new();
+    let apps = apps_instance.get_apps();
+    let apps_struct: Vec<AppStruct> = apps
+        .iter()
+        .map(|app| {
+            let base64 = app.get_base64_icon();
+            let app_struct = AppStruct {
+                name: app.name.to_string(),
+                icon: base64,
+                description: match &app.description {
+                    Some(description) => description.to_string(),
+                    None => String::from(""),
+                },
+            };
+            app_struct
+        })
+        .collect();
+    Ok(apps_struct)
+}
+#[derive(Serialize, Deserialize, Clone)]
+struct AppStruct {
+    name: String,
+    icon: Option<String>,
+    description: String,
+}
 #[derive(Serialize, Deserialize, Clone)]
 struct TrackData {
     current_time: i32,
@@ -443,7 +493,12 @@ fn main() {
             read_file,
             read_dir,
             read_database,
-            write_database
+            write_database,
+            set_nightlight,
+            set_temperature,
+            brightness_up,
+            brightness_down,
+            get_all_apps
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
