@@ -313,8 +313,9 @@ const items: ExtensionNoResultItems = () => {
           priority: "MEDIUM",
           description: "",
           id: crypto.randomUUID(),
+        }).then(() => {
+          goTo("/todoist");
         });
-        goTo("/todoist");
       },
       title: "Create task",
       description: "Add " + searchbarText + " to todoist",

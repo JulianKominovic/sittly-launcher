@@ -12,7 +12,6 @@ import {
 import {
   PRIORITY_VISUAL,
   TASK_VISUAL_STATUSES,
-  TODOIST_DATABASE,
   TODOIST_DATABASE_GROUPING,
   TODOIST_DATABASE_TASKS,
 } from "./const";
@@ -34,7 +33,7 @@ export function useTodoist() {
 
   function setGroup(group: keyof TodoistItem) {
     _setGroup(group);
-    database.write(TODOIST_DATABASE, TODOIST_DATABASE_GROUPING, { group });
+    database.write(TODOIST_DATABASE_GROUPING, { group });
   }
   const persistantContextMenuOptions: ListItem[] = [
     {
@@ -122,18 +121,20 @@ export function useTodoist() {
   };
 
   const addTask = (task: TodoistItem) => {
-    setTasks((prev) => {
-      const newTasks = [...prev, task];
-      database.write(TODOIST_DATABASE, TODOIST_DATABASE_TASKS, newTasks);
-      return newTasks;
-    });
-    setPage("LIST");
+    return database
+      .read<TodoistItem[]>(TODOIST_DATABASE_TASKS)
+      .then((tasks: TodoistItem[]) => {
+        const newTasks = [...tasks, task];
+        database.write(TODOIST_DATABASE_TASKS, newTasks).then(() => {
+          setTasks(newTasks);
+        });
+      });
   };
   const removeTask = (task: TodoistItem) => {
-    setTasks((prev) => {
-      const newTasks = prev.filter((t) => t.id !== task.id);
-      database.write(TODOIST_DATABASE, TODOIST_DATABASE_TASKS, newTasks);
-      return newTasks;
+    const newTasks = tasks.filter((t) => t.id !== task.id);
+    database.write(TODOIST_DATABASE_TASKS, newTasks).then(() => {
+      setTasks(newTasks);
+      setPage("LIST");
     });
   };
 
@@ -143,7 +144,7 @@ export function useTodoist() {
         if (t.id === task.id) return { ...t, ...task };
         return t;
       });
-      database.write(TODOIST_DATABASE, TODOIST_DATABASE_TASKS, newTasks);
+      database.write(TODOIST_DATABASE_TASKS, newTasks);
       return newTasks;
     });
     setPage("LIST");
@@ -152,11 +153,11 @@ export function useTodoist() {
   useEffect(() => {
     async function init() {
       await database
-        .read(TODOIST_DATABASE, TODOIST_DATABASE_TASKS)
+        .read(TODOIST_DATABASE_TASKS)
         .then(setTasks as any)
         .catch(() => setTasks([]));
       await database
-        .read(TODOIST_DATABASE, TODOIST_DATABASE_GROUPING)
+        .read(TODOIST_DATABASE_GROUPING)
         .then(({ group }: any) => {
           _setGroup(group);
         })
