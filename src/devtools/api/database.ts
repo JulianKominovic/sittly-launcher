@@ -7,8 +7,6 @@ export const write = (
   return invoke<string | void>("write_database", {
     key,
     value: JSON.stringify(value),
-  }).then((value) => {
-    console.log("SAVED", key, value);
   });
 };
 

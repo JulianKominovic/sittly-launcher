@@ -46,7 +46,7 @@ const SUPPORTED_HASHES = [
  * @returns Extension items
  */
 const items: ExtensionNoResultItems = () => {
-  const { goTo } = useRouter();
+  const { goTo, location, reload } = useRouter();
   const { addTask } = useTodoist();
   const searchbarText = useServices((state) => state.searchbarText);
   const isEmail = utils.isEmail(searchbarText);
@@ -314,7 +314,8 @@ const items: ExtensionNoResultItems = () => {
           description: "",
           id: crypto.randomUUID(),
         }).then(() => {
-          goTo("/todoist");
+          if (location.pathname !== "/todoist") reload();
+          else goTo("/todoist");
         });
       },
       title: "Create task",
