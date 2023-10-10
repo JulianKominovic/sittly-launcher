@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useDeepCompareMemo, useDeepCompareEffect } from "use-deep-compare";
+import { useDeepCompareMemo } from "use-deep-compare";
 import { cn, eventIsFromContextMenu, textContent } from "../lib/utils";
 import {
   Virtuoso,
