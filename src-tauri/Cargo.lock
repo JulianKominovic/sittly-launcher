@@ -3238,7 +3238,7 @@ checksum = "38b58827f4464d87d377d175e90bf58eb00fd8716ff0a62f80356b5e61555d0d"
 
 [[package]]
 name = "sittly"
-version = "0.0.0-alpha.12"
+version = "0.0.0-alpha.13"
 dependencies = [
  "base64 0.21.4",
  "once_cell",

@@ -128,6 +128,12 @@ export function useTodoist() {
         database.write(TODOIST_DATABASE_TASKS, newTasks).then(() => {
           setTasks(newTasks);
         });
+      })
+      .catch(() => {
+        const newTasks = [...tasks, task];
+        database.write(TODOIST_DATABASE_TASKS, newTasks).then(() => {
+          setTasks(newTasks);
+        });
       });
   };
   const removeTask = (task: TodoistItem) => {

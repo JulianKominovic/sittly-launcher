@@ -316,7 +316,7 @@ const items: ExtensionNoResultItems = () => {
           description: "",
           id: crypto.randomUUID(),
         }).then(() => {
-          if (location.pathname !== "/todoist") reload();
+          if (location.pathname === "/todoist") reload();
           else goTo("/todoist");
         });
       },
