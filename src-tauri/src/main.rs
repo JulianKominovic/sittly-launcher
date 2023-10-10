@@ -2,10 +2,16 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 pub mod database;
 
+use crate::database::database::open_database;
 use base64::{engine::general_purpose, Engine as _};
+use once_cell::sync::Lazy;
+
 use playerctl::PlayerCtl;
 use rust_search::{FilterExt, SearchBuilder};
+use rustbreak::deser::Bincode;
+use rustbreak::Database;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::path;
 use std::result::Result;
 use std::time::SystemTime;
@@ -25,6 +31,8 @@ fn get_sittly_path() -> String {
 
     sittly_path.to_str().unwrap().to_string()
 }
+static DATABASE: Lazy<Database<HashMap<String, String>, rustbreak::backend::PathBackend, Bincode>> =
+    Lazy::new(|| open_database());
 #[derive(Serialize, Deserialize, Clone)]
 struct File {
     name: String,
@@ -323,16 +331,16 @@ async fn copy_image_to_clipboard(mut path: String) {
         .unwrap_or_else(|_| panic!("Failed to execute player info"));
 }
 #[tauri::command]
-fn write_database(database: String, key: String, value: String) -> Result<(), String> {
-    let result = database::database::write(database, key, value);
+fn write_database(key: String, value: String) -> Result<(), String> {
+    let result = database::database::write(&DATABASE, key, value);
     match result {
         Ok(_) => Ok(()),
         Err(err) => Err(err.to_string()),
     }
 }
 #[tauri::command]
-fn read_database(database: String, key: String) -> Result<String, String> {
-    let result = database::database::read(database, key);
+fn read_database(key: String) -> Result<String, String> {
+    let result = database::database::read(&DATABASE, key);
     match result {
         Ok(value) => Ok(value),
         Err(err) => Err(err.to_string()),

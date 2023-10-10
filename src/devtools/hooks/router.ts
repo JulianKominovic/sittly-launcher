@@ -10,6 +10,7 @@ export function useRouter() {
     return navigate(1);
   }
   function goTo(path: string) {
+    if (location.pathname === path) return;
     return navigate(path);
   }
   function goToHome() {

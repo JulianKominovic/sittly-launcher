@@ -160,7 +160,12 @@ const List = ({
     filteredItems[0]?.onHighlight?.();
     setMainActionLabel(filteredItems[0]?.mainActionLabel ?? "");
     setCurrentItemIndex(0);
-  }, [location.pathname]);
+    ref.current?.scrollToIndex({
+      index: 0,
+      behavior: "auto",
+      align: "center",
+    });
+  }, [location.pathname, filteredItems.length]);
 
   useEffect(() => {
     document.addEventListener("keydown", keyDownCallback);
@@ -249,20 +254,33 @@ const Grid = ({
 
     if (e.code === "ArrowUp") {
       e.preventDefault();
-      nextIndex = Math.max(0, currentItemIndex - columns);
+      // If areFallbackItems, it's a list not a grid
+      if (areFallbackItems) {
+        nextIndex = Math.max(0, currentItemIndex - 1);
+      } else {
+        nextIndex = Math.max(0, currentItemIndex - columns);
+      }
     }
     if (e.code === "ArrowDown") {
       e.preventDefault();
-      nextIndex = Math.min(
-        filteredItems.length - 1,
-        currentItemIndex + columns
-      );
+      // If areFallbackItems, it's a list not a grid
+      if (areFallbackItems) {
+        nextIndex = Math.min(filteredItems.length - 1, currentItemIndex + 1);
+      } else {
+        nextIndex = Math.min(
+          filteredItems.length - 1,
+          currentItemIndex + columns
+        );
+      }
     }
     if (e.code === "ArrowLeft") {
-      nextIndex = Math.max(0, currentItemIndex - 1);
+      // If areFallbackItems, it's a list not a grid
+      if (!areFallbackItems) nextIndex = Math.max(0, currentItemIndex - 1);
     }
     if (e.code === "ArrowRight") {
-      nextIndex = Math.min(filteredItems.length - 1, currentItemIndex + 1);
+      // If areFallbackItems, it's a list not a grid
+      if (!areFallbackItems)
+        nextIndex = Math.min(filteredItems.length - 1, currentItemIndex + 1);
     }
     if (e.code === "Enter") {
       filteredItems[currentItemIndex]?.onClick?.();
@@ -279,11 +297,16 @@ const Grid = ({
     setCurrentItemIndex(nextIndex);
   };
 
-  useDeepCompareEffect(() => {
+  useEffect(() => {
     filteredItems[0]?.onHighlight?.();
     setMainActionLabel(filteredItems[0]?.mainActionLabel ?? "");
     setCurrentItemIndex(0);
-  }, [location.pathname]);
+    ref.current?.scrollToIndex({
+      index: 0,
+      behavior: "auto",
+      align: "center",
+    });
+  }, [location.pathname, filteredItems.length]);
 
   useEffect(() => {
     document.addEventListener("keydown", keyDownCallback);
@@ -291,6 +314,7 @@ const Grid = ({
       document.removeEventListener("keydown", keyDownCallback);
     };
   }, [keyDownCallback]);
+
   return (
     <VirtuosoGrid
       key={id}
