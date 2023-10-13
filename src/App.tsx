@@ -103,7 +103,10 @@ const EventsRegister = () => {
       unlisten.then((unlisten) => unlisten());
     };
   }, []);
-  return null;
+  /* To prevent accidental hovers on another item */
+  return isContextMenuOpen ? (
+    <div className="fixed top-0 left-0 w-screen h-screen select-none" />
+  ) : null;
 };
 
 const App = () => {
@@ -151,8 +154,8 @@ const App = () => {
           })}
         </Routes>
       </Command>
-      <Footer commandRefInput={commandRefInput} />
       <EventsRegister />
+      <Footer commandRefInput={commandRefInput} />
     </div>
   );
 };

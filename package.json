@@ -1,7 +1,7 @@
 {
   "name": "sittly",
   "private": true,
-  "version": "0.0.0-alpha.11",
+  "version": "0.0.0-alpha.13",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -37,6 +37,7 @@
     "pretty-bytes": "^6.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.11",
     "react-icons": "^4.9.0",
     "react-qr-code": "^2.0.12",
     "react-router": "^6.14.2",

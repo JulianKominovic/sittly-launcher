@@ -1,5 +1,8 @@
 pub mod database {
-    use jammdb::{Error, DB};
+    use std::collections::HashMap;
+
+    use once_cell::sync::Lazy;
+    use rustbreak::{deser::Bincode, Database, PathDatabase};
     use tauri::api::path::home_dir;
     fn build_sittly_db_directory() -> std::path::PathBuf {
         let mut path = home_dir().unwrap();
@@ -7,29 +10,52 @@ pub mod database {
         path.push("db");
         path
     }
-    fn open_database() -> DB {
-        DB::open(build_sittly_db_directory()).unwrap()
+    pub fn open_database(
+    ) -> Database<HashMap<String, String>, rustbreak::backend::PathBackend, Bincode> {
+        let db: Database<HashMap<String, String>, rustbreak::backend::PathBackend, Bincode> =
+            PathDatabase::<HashMap<String, String>, Bincode>::load_from_path_or_default(
+                build_sittly_db_directory(),
+            )
+            .unwrap();
+        db
     }
-    pub fn write(database: String, key: String, value: String) -> Result<(), Error> {
-        let db = open_database();
-        let try_tx = db.tx(true);
-        let tx = try_tx?;
-        let bucket = tx.get_or_create_bucket(database)?;
-        let _ = bucket.put(key, value);
-
-        tx.commit()?;
+    pub fn write(
+        db: &Lazy<Database<HashMap<String, String>, rustbreak::backend::PathBackend, Bincode>>,
+        key: String,
+        value: String,
+    ) -> Result<(), String> {
+        let result = db.write(|db| db.insert(key, value));
+        if result.is_err() {
+            return Err("Error writing to database".to_string());
+        }
+        let tx = db.save();
+        if tx.is_err() {
+            return Err("Error writing to database".to_string());
+        }
         Ok(())
     }
-    pub fn read(database: String, key: String) -> Result<String, Error> {
-        let db = open_database();
-        let tx = db.tx(false)?;
-        let bucket = tx.get_bucket(database)?;
-        let op_result_wrapper = bucket.get(key);
-        if op_result_wrapper.is_none() {
-            return Err(Error::BucketMissing);
+    pub fn read(
+        db: &Lazy<Database<HashMap<String, String>, rustbreak::backend::PathBackend, Bincode>>,
+        key: String,
+    ) -> Result<String, String> {
+        let mut temp = String::from("");
+
+        let result = db.read(|db: &HashMap<String, String>| {
+            let found = match db.get(&key) {
+                Some(value) => value,
+                None => "",
+            };
+            temp = found.to_string();
+        });
+
+        if result.is_err() {
+            return Err("Key not found".to_string());
         }
-        let op_result = op_result_wrapper.unwrap();
-        let op_result_string = String::from_utf8(op_result.kv().value().to_vec()).unwrap();
-        Ok(op_result_string)
+
+        if temp.eq("") {
+            return Err("Key not found".to_string());
+        }
+
+        Ok(temp)
     }
 }
