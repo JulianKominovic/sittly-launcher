@@ -26,7 +26,7 @@ export const pages = [
   filesPage,
   todoistPage,
 ];
-export const items = [lowLevelInteractionItems, musicItems];
+export const items = [musicItems, lowLevelInteractionItems];
 export const contextMenuItems = [contextMenuNavigation];
 export const noResultItems = [noResultNavigation];
 

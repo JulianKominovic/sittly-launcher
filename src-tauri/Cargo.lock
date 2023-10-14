@@ -1443,9 +1443,9 @@ dependencies = [
 
 [[package]]
 name = "gnome-dbus-api"
-version = "1.0.2"
+version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "06bc58826b6e13bd873baa3a7a018eeb43ae6bb362f36b875131047e5d7c3f44"
+checksum = "d6bb8a222a02c763596a1a46c054125322ce2125d3ed7fdc504082554e7d24b5"
 dependencies = [
  "base64 0.21.4",
  "gdk",

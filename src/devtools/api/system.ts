@@ -35,6 +35,9 @@ export async function brightnessDown() {
 export function getSystemApps(): SystemApp[] {
   return (window as any).systemApps as SystemApp[];
 }
+export async function openApp(appExecutable: SystemApp["execute"]) {
+  return invoke<void>("open_app", { appExecutable });
+}
 
 export async function getDevicesBattery() {
   const a = await invoke<any>("get_devices_battery");

@@ -1,4 +1,4 @@
-import { ExtensionItems } from "../../devtools/types";
+import { ExtensionItems, ListItem } from "../../devtools/types";
 import {
   BsAppIndicator,
   BsBrightnessAltHighFill,
@@ -30,14 +30,18 @@ const {
   getNightlightTemperature,
   getDevicesBattery,
   getSystemApps,
+  openApp,
 } = system;
 const mappedSystemApps = getSystemApps().map((app) => {
   return {
     title: app.name,
     description: app.description,
     icon: app.icon ? <img src={app.icon} /> : <BsAppIndicator />,
-  };
+    onClick: () => openApp(app.execute),
+    mainActionLabel: "Open app",
+  } as ListItem;
 });
+
 const items: ExtensionItems = () => {
   return [
     {

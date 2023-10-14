@@ -12,5 +12,6 @@ export type File = {
 export type SystemApp = {
   name: string;
   icon?: string;
+  execute: string;
   description: string;
 };

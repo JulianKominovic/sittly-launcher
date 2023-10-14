@@ -17,6 +17,8 @@ use rustbreak::Database;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path;
+use std::path::PathBuf;
+use std::process::Stdio;
 use std::result::Result;
 use std::time::SystemTime;
 use std::{
@@ -46,6 +48,7 @@ struct SystemApp {
     name: String,
     icon: Option<String>,
     description: Option<String>,
+    execute: PathBuf,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -387,6 +390,14 @@ async fn brightness_down() -> Result<(), String> {
     screen::step_down().await;
     Ok(())
 }
+
+#[tauri::command]
+async fn open_app(app_executable: String) -> Result<(), String> {
+    Command::new(app_executable)
+        .spawn()
+        .expect("Failed to open app");
+    Ok(())
+}
 #[derive(Serialize, Deserialize, Clone)]
 struct DeviceBatery {
     full_design_battery: f64,
@@ -507,6 +518,7 @@ fn main() {
                             Some(description) => Some(description.clone().to_string()),
                             None => None,
                         },
+                        execute: app.executable.clone(),
                     })
                     .collect();
                 window
@@ -545,6 +557,7 @@ fn main() {
             get_temperature,
             brightness_up,
             brightness_down,
+            open_app,
             get_devices_battery
         ])
         .run(tauri::generate_context!())
