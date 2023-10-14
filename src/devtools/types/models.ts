@@ -9,3 +9,8 @@ export type File = {
   path: string;
   size: number;
 };
+export type SystemApp = {
+  name: string;
+  icon?: string;
+  description: string;
+};
