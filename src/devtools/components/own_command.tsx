@@ -410,7 +410,7 @@ const Item = ({
           {icon && (
             <div
               className={clsx(
-                "rounded-md overflow-hidden flex justify-center items-center",
+                "rounded-md text-[15px] overflow-hidden flex justify-center items-center",
                 displayType === "GRID" ? "w-auto" : "w-7"
               )}
             >

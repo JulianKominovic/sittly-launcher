@@ -1,15 +1,28 @@
 import { ExtensionItems, ListItem } from "../../devtools/types";
 import {
   BsAppIndicator,
+  BsBattery,
+  BsBatteryCharging,
+  BsBatteryHalf,
   BsBrightnessAltHighFill,
   BsBrightnessAltLowFill,
   BsBrightnessHigh,
   BsBrightnessLow,
+  BsCpu,
+  BsDpad,
   BsFastForward,
+  BsKeyboard,
+  BsLaptop,
   BsLightbulb,
   BsLightbulbFill,
   BsLightbulbOff,
   BsLightbulbOffFill,
+  BsLightning,
+  BsModem,
+  BsMouse,
+  BsOutlet,
+  BsPcDisplayHorizontal,
+  BsPhone,
   BsPlay,
   BsRewind,
   BsVolumeDown,
@@ -19,6 +32,7 @@ import {
 import sittlyDevtools from "../../devtools/index";
 
 import React from "react";
+import { BatteryState, BatteryType } from "@/devtools/types/models";
 
 const { api } = sittlyDevtools;
 const { system } = api;
@@ -39,6 +53,59 @@ const mappedSystemApps = getSystemApps().map((app) => {
     icon: app.icon ? <img src={app.icon} /> : <BsAppIndicator />,
     onClick: () => openApp(app.execute),
     mainActionLabel: "Open app",
+  } as ListItem;
+});
+const batteryDevices = await getDevicesBattery();
+console.log(batteryDevices);
+const mappedBatteryDevices = batteryDevices.map((device) => {
+  console.log(device);
+  const percentage = `${device.percentage}% ${
+    "■".repeat(Math.floor(device.percentage / 10)) +
+    "□".repeat(10 - Math.floor(device.percentage / 10))
+  }`;
+  const batteryHealth =
+    device.full_battery && device.full_design_battery
+      ? `Battery health ${Math.round(
+          (device.full_battery / device.full_design_battery) * 100
+        )}%`
+      : "";
+
+  return {
+    title: device.model ?? device.vendor,
+
+    description: percentage,
+    icon:
+      device.battery_type === BatteryType.Battery ? (
+        <BsLaptop />
+      ) : device.battery_type === BatteryType.LinePower ? (
+        <BsOutlet />
+      ) : device.battery_type === BatteryType.Keyboard ? (
+        <BsKeyboard />
+      ) : device.battery_type === BatteryType.Monitor ? (
+        <BsPcDisplayHorizontal />
+      ) : device.battery_type === BatteryType.Mouse ? (
+        <BsMouse />
+      ) : device.battery_type === BatteryType.Pda ? (
+        <BsDpad />
+      ) : device.battery_type === BatteryType.Phone ? (
+        <BsPhone />
+      ) : device.battery_type === BatteryType.Ups ? (
+        <BsModem />
+      ) : (
+        <BsCpu />
+      ),
+    rightIcon: (
+      <span className="inline-block whitespace-nowrap">
+        {batteryHealth}
+        {device.battery_state === BatteryState.Charging ? (
+          <BsBatteryCharging className="inline-block ml-2" />
+        ) : (
+          <BsBatteryHalf className="inline-block ml-2" />
+        )}
+      </span>
+    ),
+    onClick: () => openApp("gnome-power-statistics"),
+    mainActionLabel: "Open power statistics",
   } as ListItem;
 });
 
@@ -92,6 +159,7 @@ const items: ExtensionItems = () => {
         setNightlightActive(false);
       },
     },
+    ...mappedBatteryDevices,
     ...mappedSystemApps,
     // {
     //   title: "Previous",

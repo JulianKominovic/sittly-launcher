@@ -1,5 +1,6 @@
 import { invoke } from "@tauri-apps/api";
-import { SystemApp } from "../types/models";
+import { BatteryDevice, SystemApp } from "../types/models";
+import { hideApp } from "./app";
 
 export async function setNightlightActive(status: boolean) {
   return invoke<void>("set_nightlight", {
@@ -36,10 +37,10 @@ export function getSystemApps(): SystemApp[] {
   return (window as any).systemApps as SystemApp[];
 }
 export async function openApp(appExecutable: SystemApp["execute"]) {
-  return invoke<void>("open_app", { appExecutable });
+  invoke<void>("open_app", { appExecutable });
+  hideApp();
 }
 
-export async function getDevicesBattery() {
-  const a = await invoke<any>("get_devices_battery");
-  console.log(a);
+export function getDevicesBattery() {
+  return invoke<BatteryDevice[]>("get_devices_battery");
 }
