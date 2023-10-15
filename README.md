@@ -7,6 +7,11 @@ Launcher for Linux (gnome) similar to Raycast, Spotlight, Albert...
 ## Demo!
 https://github.com/JulianKominovic/sittly-launcher/assets/70329467/0a3e76fa-951a-4a99-b838-250df98575a2
 
+## Interact with your OS
+![image](https://github.com/JulianKominovic/sittly-launcher/assets/70329467/01520c1b-40a9-4017-a9cb-c68bb9e5f39c)
+![image](https://github.com/JulianKominovic/sittly-launcher/assets/70329467/7b743274-eecc-450a-a1c0-31dc4f7f2225)
+![image](https://github.com/JulianKominovic/sittly-launcher/assets/70329467/a97ed981-d20a-4e7d-821a-5a4e99c6355a)
+
 ## Couldn't find what you asked?
 
 Generic options & QR code generation
