@@ -1,7 +1,6 @@
 import { ExtensionItems, ListItem } from "../../devtools/types";
 import {
   BsAppIndicator,
-  BsBattery,
   BsBatteryCharging,
   BsBatteryHalf,
   BsBrightnessAltHighFill,
@@ -10,24 +9,15 @@ import {
   BsBrightnessLow,
   BsCpu,
   BsDpad,
-  BsFastForward,
   BsKeyboard,
   BsLaptop,
   BsLightbulb,
-  BsLightbulbFill,
   BsLightbulbOff,
-  BsLightbulbOffFill,
-  BsLightning,
   BsModem,
   BsMouse,
   BsOutlet,
   BsPcDisplayHorizontal,
   BsPhone,
-  BsPlay,
-  BsRewind,
-  BsVolumeDown,
-  BsVolumeMute,
-  BsVolumeUp,
 } from "react-icons/bs";
 import sittlyDevtools from "../../devtools/index";
 
@@ -161,67 +151,6 @@ const items: ExtensionItems = () => {
     },
     ...mappedBatteryDevices,
     ...mappedSystemApps,
-    // {
-    //   title: "Previous",
-    //   description: "Play previous song",
-    //   icon: <BsRewind />,
-    //   onClick: () => {
-    //     prevMedia();
-    //   },
-    //   actionName: "Previous",
-    //   mainActionLabel: "Previous",
-    // },
-    // {
-    //   title: "Play/Pause",
-    //   description: "Play/pause music",
-    //   icon: <BsPlay />,
-    //   onClick: () => {
-    //     playPause();
-    //   },
-    //   actionName: "Play/Pause",
-    //   mainActionLabel: "Play/Pause",
-    // },
-    // {
-    //   title: "Next",
-    //   description: "Play next song",
-    //   icon: <BsFastForward />,
-    //   onClick: () => {
-    //     nextMedia();
-    //   },
-    //   mainActionLabel: "Next",
-    //   actionName: "Next",
-    // },
-    // {
-    //   title: "Volume +5",
-    //   description: "Increase volume by 5%",
-    //   icon: <BsVolumeUp />,
-    //   onClick: () => {
-    //     setVolume("5%+");
-    //   },
-    //   mainActionLabel: "Volume +5",
-    //   actionName: "Volume +",
-    // },
-    // {
-    //   title: "Volume -5",
-    //   description: "Decrease volume by 5%",
-    //   icon: <BsVolumeDown />,
-
-    //   onClick: () => {
-    //     setVolume("5%-");
-    //   },
-    //   actionName: "Volume -",
-    //   mainActionLabel: "Volume -5",
-    // },
-    // {
-    //   title: "Mute",
-    //   description: "Mute volume",
-    //   icon: <BsVolumeMute />,
-    //   onClick: () => {
-    //     setVolume("0%");
-    //   },
-    //   actionName: "Mute",
-    //   mainActionLabel: "Mute",
-    // },
   ];
 };
 
