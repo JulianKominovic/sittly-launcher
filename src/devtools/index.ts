@@ -8,6 +8,7 @@ import * as app from "./api/app";
 import * as network from "./api/network";
 import * as path from "./api/path";
 import * as database from "./api/database";
+import * as system from "./api/system";
 
 import * as Badge from "./components/badge";
 import * as Button from "./components/button";
@@ -71,6 +72,7 @@ const api = {
   network,
   path,
   database,
+  system,
 };
 
 const hooks = {
