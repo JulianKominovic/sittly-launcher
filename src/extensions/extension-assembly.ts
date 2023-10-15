@@ -6,6 +6,7 @@ import noResultNavigation from "./navigation/no-results";
 import storePage from "./store/page";
 import filesPage from "./find-files/page";
 import todoistPage from "./todoist/page";
+import lowLevelInteractionItems from "./low-level-interaction/items";
 import {
   ExtensionContextMenuItems,
   ExtensionItems,
@@ -25,7 +26,7 @@ export const pages = [
   filesPage,
   todoistPage,
 ];
-export const items = [musicItems];
+export const items = [musicItems, lowLevelInteractionItems];
 export const contextMenuItems = [contextMenuNavigation];
 export const noResultItems = [noResultNavigation];
 
