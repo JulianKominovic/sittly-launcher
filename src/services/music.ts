@@ -9,7 +9,6 @@ export function registerMusicListener(
 ) {
   const unlisten = listen("player_status", (event) => {
     const payload = event.payload as string;
-    // console.log(payload);
     if (!payload) return;
     const [
       artist,

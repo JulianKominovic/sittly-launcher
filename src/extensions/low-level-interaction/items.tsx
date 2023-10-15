@@ -46,9 +46,7 @@ const mappedSystemApps = getSystemApps().map((app) => {
   } as ListItem;
 });
 const batteryDevices = await getDevicesBattery();
-console.log(batteryDevices);
 const mappedBatteryDevices = batteryDevices.map((device) => {
-  console.log(device);
   const percentage = `${device.percentage}% ${
     "■".repeat(Math.floor(device.percentage / 10)) +
     "□".repeat(10 - Math.floor(device.percentage / 10))
