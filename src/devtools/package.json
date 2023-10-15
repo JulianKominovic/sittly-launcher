@@ -2,7 +2,7 @@
   "name": "sittly-devtools",
   "description": "Devtools for Sittly.",
   "authors": "Julian Kominovic",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "typings": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -50,6 +50,7 @@
     "pretty-bytes": "^6.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.11",
     "react-icons": "^4.9.0",
     "react-qr-code": "^2.0.12",
     "react-router": "^6.14.2",
