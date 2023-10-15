@@ -1,8 +1,8 @@
-use base64::{engine::general_purpose, Engine as _};
+// use base64::{engine::general_purpose, Engine as _};
 use rust_search::{FilterExt, SearchBuilder};
 use serde::{Deserialize, Serialize};
 use std::time::SystemTime;
-use tauri::api::file::read_binary;
+// use tauri::api::file::read_binary;
 #[derive(Serialize, Deserialize, Clone)]
 pub struct File {
     name: String,
@@ -89,23 +89,29 @@ pub fn read_file(path: String, skip_content: bool) -> File {
         .to_str()
         .unwrap()
         .to_string();
-    let content = match skip_content {
-        true => String::from(""),
-        false => match unwrapped_metadata.is_dir() {
-            true => String::from(""),
-            false => match length {
-                d if d < 10000000 => {
-                    let content = read_binary(&path).unwrap();
+    // let content = match skip_content {
+    //     true => String::from(""),
+    //     false => match unwrapped_metadata.is_dir() {
+    //         true => String::from(""),
+    //         false => match length {
+    //             d if d < 10000000 => {
+    //                 let content = read_binary(&path).unwrap();
+    //                 let is_image = binary_is_image(&content);
 
-                    #[cfg(debug_assertions)]
-                    println!("File read: {} {}", path, content.len());
-                    let b64 = general_purpose::STANDARD.encode(content);
-                    b64
-                }
-                _ => String::from(""),
-            },
-        },
-    };
+    //                 if is_image {
+    //                     #[cfg(debug_assertions)]
+    //                     println!("File read: {} {}", path, content.len());
+    //                     let b64 = general_purpose::STANDARD.encode(content);
+    //                     b64
+    //                 } else {
+    //                     String::from("")
+    //                 }
+    //             }
+    //             _ => String::from(""),
+    //         },
+    //     },
+    // };
+    let content = String::from("");
     File {
         name: std::path::Path::new(&path)
             .file_name()

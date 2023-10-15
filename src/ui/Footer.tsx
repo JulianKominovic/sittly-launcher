@@ -56,7 +56,7 @@ const CommandItemMapper = (
           className: "text-sm",
         })}
       <p>{title}</p>
-      <span className="truncate max-w-[40ch] text-slate-500">
+      <span className="truncate max-w-[40ch] text-slate-500 dark:text-neutral-400">
         {description}
       </span>
     </CommandItem>
@@ -199,7 +199,7 @@ export default function ({
       className={clsx(
         calculateAsyncTasksUtils(asyncOperation).background,
         calculateAsyncTasksUtils(asyncOperation).border,
-        "flex items-center justify-between h-10 px-2 text-sm border-t text-slate-600 bg-gradient-to-r from-transparent to-transparent"
+        "flex items-center justify-between h-10 px-2 text-sm border-t text-slate-600 bg-gradient-to-r from-transparent to-transparent dark:text-neutral-300 dark:border-neutral-600 "
       )}
     >
       <RenderFooterStatus asyncOperation={asyncOperation} />
@@ -231,7 +231,7 @@ export default function ({
             alignOffset={6}
             sideOffset={6}
           >
-            <Command className="bg-white border shadow-lg bg-opacity-80 rounded-xl backdrop-blur-xl backdrop-saturate-200 max-h-72">
+            <Command className="bg-white border shadow-lg bg-opacity-80 rounded-xl backdrop-blur-xl backdrop-saturate-200 max-h-72 dark:bg-neutral-800 dark:bg-opacity-80 dark:border-neutral-700">
               <CommandList>
                 {restItems.map((props, index) =>
                   CommandItemMapper(
@@ -250,7 +250,7 @@ export default function ({
               </CommandList>
               <CommandInput
                 data-is-context-menu="true"
-                className="border-t rounded-none"
+                className="border-t rounded-none dark:border-neutral-600"
               />
             </Command>
           </Popover.Content>

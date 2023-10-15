@@ -383,9 +383,9 @@ const Item = ({
     <button
       {...props}
       className={cn(
-        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 rounded-lg w-full border border-transparent overflow-hidden object-cover transition-transform scale-100",
+        "relative flex cursor-default select-none items-center px-2 py-1.5 text-sm outline-none gap-2 rounded-lg w-full border border-transparent overflow-hidden object-cover",
         currentItemIndex === index
-          ? "bg-opacity-5 bg-neutral-900 border border-neutral-300"
+          ? "bg-opacity-5 bg-neutral-900 border border-neutral-300 dark:border-neutral-500 dark:bg-neutral-700"
           : "",
         displayType === "GRID"
           ? "flex-col items-start h-auto max-h-36"
@@ -432,7 +432,7 @@ const Item = ({
                 </div>
               )}
               {description && (
-                <div className="flex-shrink text-xs truncate text-muted-foreground">
+                <div className="flex-shrink text-xs truncate text-muted-foreground dark:text-neutral-400">
                   {description}
                 </div>
               )}
@@ -459,10 +459,10 @@ const Input = forwardRef(
     const { pathname } = useLocation();
     const navigate = useNavigate();
     return (
-      <div className="flex items-center gap-2 border-b">
+      <div className="flex items-center gap-2 border-b dark:border-neutral-600">
         {pathname !== "/" && (
           <button
-            className="flex items-center justify-center px-2 py-1 ml-2 bg-transparent rounded-lg hover:bg-neutral-200 text-neutral-foreground"
+            className="flex items-center justify-center px-2 py-1 ml-2 bg-transparent rounded-lg hover:bg-neutral-200 dark:hover:bg-neutral-600 text-neutral-foreground"
             onClick={() => {
               navigate(-1);
             }}
@@ -478,7 +478,7 @@ const Input = forwardRef(
           }}
           value={search}
           className={cn(
-            "flex h-11 w-full bg-transparent py-2 px-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 ",
+            "flex h-11 w-full bg-transparent py-2 px-4 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 dark:text-neutral-100 dark:placeholder:text-neutral-400",
             className
           )}
           {...props}

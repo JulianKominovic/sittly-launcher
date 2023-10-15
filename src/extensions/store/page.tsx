@@ -82,11 +82,10 @@ const pages: ExtensionPages = [
           id="extensions"
           items={extensions.map(
             ({ author, body, icon_url, name, url }: ExtensionDatabaseModel) => {
-              const textOverflow =
-                body.length > 30 ? `${body.slice(0, 30)}...` : body;
               return {
                 title: name,
-                description: `${textOverflow} from ${author}`,
+                description: body,
+                rightIcon: author,
                 icon: <img className="rounded-lg" src={icon_url} alt={name} />,
                 onClick() {
                   if (loading) return;

@@ -1,9 +1,10 @@
 import { ExtensionContextMenuItems } from "../../devtools/types";
-import { BsArrowLeft, BsArrowRight, BsHouse } from "react-icons/bs";
+import { BsArrowLeft, BsArrowRight, BsHouse, BsSun } from "react-icons/bs";
 import { IoMdExit, IoMdRefresh } from "react-icons/io";
 import React from "react";
 import sittlyDevtools from "../../devtools/index";
 import { appWindow } from "@tauri-apps/api/window";
+import { SunMoon } from "lucide-react";
 
 const { hooks } = sittlyDevtools;
 
@@ -50,6 +51,21 @@ const items: ExtensionContextMenuItems = () => {
       description: "Fast reload the page",
       icon: <IoMdRefresh />,
       mainActionLabel: "Reload",
+    },
+    {
+      onClick() {
+        const theme = localStorage.getItem("theme");
+        if (theme === "dark") {
+          localStorage.setItem("theme", "light");
+          document.body.classList.remove("dark");
+        } else {
+          localStorage.setItem("theme", "dark");
+          document.body.classList.add("dark");
+        }
+      },
+      title: "Toggle theme",
+      description: "Toggle the theme",
+      icon: <BsSun />,
     },
     {
       onClick() {

@@ -7,7 +7,7 @@ export default function ({ keys }: { keys: string[] }) {
       {keys.map((key) => (
         <kbd
           key={id + key}
-          className="pointer-events-none rounded-sm inline-flex h-5 select-none items-center gap-1 align-middle border bg-neutral-300 border-neutral-300 px-1.5 text-[10px]  text-neutral-900 bg-opacity-30 font-sans"
+          className="pointer-events-none rounded-sm inline-flex h-5 select-none items-center gap-1 align-middle border bg-neutral-300 border-neutral-300 px-1.5 text-[10px]  text-neutral-900 bg-opacity-30 font-sans dark:text-neutral-50 dark:bg-neutral-700 dark:border-neutral-400"
         >
           {key}
         </kbd>
